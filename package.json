@@ -1,0 +1,47 @@
+{
+  "name": "war-room",
+  "version": "1.0.0",
+  "description": "D&D Visualizer",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "build": "webpack --config webpack.config.js -w",
+    "start": "npx nodemon --watch server server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Room-Blue-Ocean/WarRoom.git"
+  },
+  "author": "The-Room",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/The-Room-Blue-Ocean/WarRoom/issues"
+  },
+  "homepage": "https://github.com/The-Room-Blue-Ocean/WarRoom#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@testing-library/react": "^12.1.4",
+    "babel-loader": "^8.2.4",
+    "babel-plugin-styled-components": "^2.0.6",
+    "compression-webpack-plugin": "^9.2.0",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.1"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-static-gzip": "^2.1.5",
+    "moment": "^2.29.2",
+    "prop-types": "^15.5.7",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-router-dom": "^6.3.0",
+    "styled-components": "^5.3.5"
+  }
+}
