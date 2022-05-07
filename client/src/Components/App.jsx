@@ -7,7 +7,7 @@ import MonsterList from './MonsterList/index';
 import Chat from './Chat/index';
 import BoardComponent from './Board/index';
 import Authentication from './Authentication/index';
-import UserContext from './UserContext.js';
+import UserContext from './UserContext';
 
 const AppContainer = styled.div`
   margin: 0px 100px 0px 100px;
@@ -46,16 +46,16 @@ function MainHome() {
   );
 }
 
-function App({  }) {
+function App() {
   const [currentUser, setCurrentUser] = useState({});
   console.log('currentUser in app', currentUser.email, currentUser.uid);
 
   return (
-    <UserContext.Provider value={{currentUser, setCurrentUser}}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
       <Router>
         <Routes>
-          <Route path='/' element={MainHome()}/>
-          <Route path='/login' element={<Authentication/>}/>
+          <Route path="/" element={MainHome()} />
+          <Route path="/login" element={<Authentication />} />
         </Routes>
       </Router>
     </UserContext.Provider>
