@@ -105,11 +105,11 @@ const sampleArray = {
   ],
 };
 
-function chanceTime(range) {
-  return Math.ceil(Math.random() * range);
-};
 
 function Battle(attacker, defender, attack) {
+  function chanceTime(range) {
+    return Math.ceil(Math.random() * range);
+  };
   const dmgVerbs = [
     'attacks', 'slices', 'strike',
     'roasts', 'clobbers', 'disses',
@@ -138,8 +138,8 @@ function Battle(attacker, defender, attack) {
     'humiliates', 'slaughters', 'impales', 'claps'
   ];
   const atkDice = attack.attack.split(' + ');
-  let numberOfRolls = Number(atkDice[0].slice(0, 1));
-  let range = Number(atkDice[0].slice(2));
+  let numberOfRolls = Number(atkDice[0].split('d')[0]);
+  let range = Number(atkDice[0].split('d')[1]);
   let modifier = Number(atkDice[1]);
   while (numberOfRolls >= 0) {
     modifier += chanceTime(range);
@@ -149,8 +149,8 @@ function Battle(attacker, defender, attack) {
     return `${attacker.name}${missVerbs[Math.floor(Math.random() * missVerbs.length)]} ${defender.name}, dealing no damage`;
   } else {
     const dmgDice = attack.damage.split(' + ');
-    numberOfRolls = Number(dmgDice[0].slice(0, 1));
-    range = Number(dmgDice[0].slice(2));
+    numberOfRolls = Number(dmgDice[0].split('d')[0]);
+    range = Number(dmgDice[0].split('d')[1]);
     modifier = Number(dmgDice[1]);
     while (numberOfRolls >= 0) {
       modifier += chanceTime(range);
@@ -164,13 +164,13 @@ function Battle(attacker, defender, attack) {
   }
 };
 
-let i = 10;
-while (i > 0) {
-  const attacker = sampleArray.Zelroth[Math.floor(Math.random() * sampleArray.Zelroth.length)];
-  const defender = sampleArray.Gene[Math.floor(Math.random() * sampleArray.Gene.length)];
-  console.log(Battle(attacker, defender, attacker.attacks[Math.floor(Math.random() * attacker.attacks.length)]));
-  i --;
-}
+// let i = 10;
+// while (i > 0) {
+//   const attacker = sampleArray.Zelroth[Math.floor(Math.random() * sampleArray.Zelroth.length)];
+//   const defender = sampleArray.Gene[Math.floor(Math.random() * sampleArray.Gene.length)];
+//   console.log(Battle(attacker, defender, attacker.attacks[Math.floor(Math.random() * attacker.attacks.length)]));
+//   i --;
+// }
 
 
 module.exports={
