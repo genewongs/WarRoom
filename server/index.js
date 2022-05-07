@@ -31,6 +31,10 @@ io.on('connection', (socket) => {
     socket.to(data.room).emit('recieve_message', data);
   });
 
+  socket.on('send_log_message', (data) => {
+    socket.to(data.board).emit('recieve_log_message', data);
+  });
+
   socket.on('disconnect', () => {
     // console.log("User Disconnected", socket.id)
   });

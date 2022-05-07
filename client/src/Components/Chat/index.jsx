@@ -12,11 +12,11 @@ const ChatContainer = styled.div`
   border: 1px solid black;
 
   .message-content {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .message-meta {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .chat-header {
@@ -32,11 +32,20 @@ const ChatContainer = styled.div`
     height: 32.5vh;
     overflow-y: auto;
     border: 1px solid yellow;
+    font-size: 12px;
   }
 
   .chat-body {
     height: 47vh;
     overflow-y: auto;
+  }
+
+  #you {
+    text-align: right;
+  }
+
+  #other {
+    text-align: left;
   }
 
 `;
@@ -56,7 +65,7 @@ function Chat() {
   return (
     <ChatContainer>
       <ChatBox socket={socket} username={username} room={room} />
-      <LogBox />
+      <LogBox socket={socket} room={room} />
     </ChatContainer>
   );
 }
