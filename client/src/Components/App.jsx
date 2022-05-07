@@ -6,6 +6,7 @@ import MonsterList from './MonsterList/index';
 import Chat from './Chat/index';
 import BoardComponent from './Board/index';
 import Authentication from './Authentication/index';
+import UserContext from './UserContext.js';
 
 const AppContainer = styled.div`
   margin: 0px 100px 80px 100px;

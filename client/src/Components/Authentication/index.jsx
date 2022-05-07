@@ -3,7 +3,7 @@ import SignIn from './SignIn.jsx';
 import SignUp from './SignUp.jsx';
 import {createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../../firebase-config.js';
-import {UserContext} from '../UserContext.js';
+import UserContext from '../UserContext.js';
 import "regenerator-runtime/runtime.js";
 import {useNavigate} from 'react-router-dom';
 
