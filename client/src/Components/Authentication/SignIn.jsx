@@ -28,7 +28,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn({setUserStatus}) {
+export default function SignIn({setUserStatus, setEmail, setPW, login}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -66,6 +66,7 @@ export default function SignIn({setUserStatus}) {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={()=>setEmail(event.target.value)}
             />
             <TextField
               margin="normal"
@@ -76,6 +77,7 @@ export default function SignIn({setUserStatus}) {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={()=>setPW(event.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -86,6 +88,7 @@ export default function SignIn({setUserStatus}) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={login}
             >
               Sign In
             </Button>
