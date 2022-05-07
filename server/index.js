@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     socket.join(data)
-    console.log(data, 'has joined the room')
+    // console.log(data, 'has joined the room')
   })
 
   socket.on("send_message", (data) => {
@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id)
+    // console.log("User Disconnected", socket.id)
   });
 });
 
