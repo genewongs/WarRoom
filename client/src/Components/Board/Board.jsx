@@ -14,6 +14,7 @@ const BoardStyled = styled.div`
 `;
 
 function Board({}) {
+  console.log('hey alex');
   const dimension = 12 || 8;
   let board = [];
   for(let i = dimension - 1; i >= 0; i--) {
