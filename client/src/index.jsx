@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './Components/App.jsx';
+import App from './Components/App';
 // import { BrowserRouter as Router , Routes, Route, useNavigate } from 'react-router-dom';
 
 // let RoutedApp = ({}) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Board from './Board.jsx';
+import Board from './Board';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -9,12 +9,12 @@ const BoardContainer = styled.div`
   width: 56%;
 `;
 
-function BoardComponent({}) {
+function BoardComponent() {
   return (
     <BoardContainer>
       <Board />
     </BoardContainer>
-  )
+  );
 }
 
 export default BoardComponent;
