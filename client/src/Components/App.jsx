@@ -5,6 +5,7 @@ import Chat from './Chat/index.jsx';
 import BoardComponent from './Board/index.jsx';
 
 const AppContainer = styled.div`
+  margin: 0px 100px 80px 100px;
   display: flex;
   flex-direction: row;
   height: 90vh;
