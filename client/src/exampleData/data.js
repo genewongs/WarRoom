@@ -49,6 +49,7 @@ const sampleArray = {
       onBoard: true,
       locationX: 3,
       locationY: 2,
+      image: 'warrior.jpg',
     },
     {
       name: 'Imp Boi',
@@ -74,6 +75,7 @@ const sampleArray = {
       onBoard: true,
       locationX: 2,
       locationY: 3,
+      image: 'impBoi.jpg',
     },
   ],
   Gene: [
@@ -101,6 +103,7 @@ const sampleArray = {
       onBoard: true,
       locationX: 2,
       locationY: 3,
+      image: 'ironMage.jpg',
     },
     {
       name: 'Imp Boi',
@@ -126,6 +129,7 @@ const sampleArray = {
       onBoard: true,
       locationX: 2,
       locationY: 3,
+      image: 'impBoi.jpg',
     },
   ],
 };
