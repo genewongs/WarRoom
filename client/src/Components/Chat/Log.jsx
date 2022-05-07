@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-function LogBox({ }) {
-
+function LogBox() {
   return (
-    <div></div>
-  )
+    <div />
+  );
 }
 
-export default LogBox
-
-
+export default LogBox;

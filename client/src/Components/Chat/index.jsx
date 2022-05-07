@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import "regenerator-runtime/runtime.js";
+import 'regenerator-runtime/runtime';
 import styled from 'styled-components';
 import io from 'socket.io-client';
 import ChatBox from './Chat';
 import LogBox from './Log';
-import 'regenerator-runtime/runtime';
 
-const socket = io.connect("http://localhost:3000");
+const socket = io.connect('http://localhost:3000');
 
 const ChatContainer = styled.div`
   width: 23%;
@@ -30,24 +29,23 @@ const ChatContainer = styled.div`
   }
 `;
 
-function Chat({ }) {
-
-  let username = 'Elliot'
-  let room = 123
+function Chat() {
+  const username = 'Elliot';
+  const room = 123;
 
   const joinRoom = () => {
-    socket.emit("join_room", room)
-  }
+    socket.emit('join_room', room);
+  };
 
   useEffect(() => {
     joinRoom();
-  }, [])
+  }, []);
 
   return (
     <ChatContainer>
-      <ChatBox socket={socket} username={username} room={room}/>
+      <ChatBox socket={socket} username={username} room={room} />
     </ChatContainer>
-  )
+  );
 }
 
 export default Chat;

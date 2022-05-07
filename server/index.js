@@ -3,7 +3,7 @@ const path = require('path');
 const expressStaticGzip = require('express-static-gzip');
 const cors = require('cors');
 const http = require('http');
-const { Server } = require ('socket.io')
+const { Server } = require('socket.io');
 // const Routers = require('./router');
 // const db = require('../database');
 
@@ -15,23 +15,23 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:3000',
-    methods: ["GET", "POST"],
-  }
+    methods: ['GET', 'POST'],
+  },
 });
 
-io.on("connection", (socket) => {
-  console.log("User Connected", socket.id);
+io.on('connection', (socket) => {
+  console.log('User Connected', socket.id);
 
-  socket.on("join_room", (data) => {
-    socket.join(data)
+  socket.on('join_room', (data) => {
+    socket.join(data);
     // console.log(data, 'has joined the room')
-  })
+  });
 
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("recieve_message", data);
-  })
+  socket.on('send_message', (data) => {
+    socket.to(data.room).emit('recieve_message', data);
+  });
 
-  socket.on("disconnect", () => {
+  socket.on('disconnect', () => {
     // console.log("User Disconnected", socket.id)
   });
 });
