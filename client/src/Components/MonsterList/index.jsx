@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
+import UserContext from '../UserContext.js';
 import List from './List';
 import Create from './Create';
 import Details from './Details';
@@ -11,6 +12,7 @@ const MonsterListContainer = styled.div`
   border: 1px solid red;
   width: 23%;
 `;
+
 const MainButtons = styled.button`
 width: 33.333333%;
 border-radius: 4px;
@@ -34,6 +36,8 @@ color: white;
 };
 `;
 function MonsterList() {
+  const {currentUser, setCurrentUser} = useContext(UserContext);
+  console.log('currentUser in MonsterList', currentUser);
   const [render, setRender] = useState('List');
   const renderComponent = function renderComponent() {
     if (render === 'List') {

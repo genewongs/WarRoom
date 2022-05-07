@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -6,6 +6,7 @@ import MonsterList from './MonsterList/index';
 import Chat from './Chat/index';
 import BoardComponent from './Board/index';
 import Authentication from './Authentication/index';
+import UserContext from './UserContext.js';
 
 const AppContainer = styled.div`
   margin: 0px 100px 80px 100px;
@@ -41,15 +42,20 @@ function MainHome() {
   );
 }
 
-function App() {
+function App({  }) {
+  const [currentUser, setCurrentUser] = useState({});
+  console.log('currentUser in app', currentUser.email, currentUser.uid);
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={MainHome()} />
-        <Route path="/login" element={<Authentication />} />
-      </Routes>
-    </Router>
-  );
+    <UserContext.Provider value={{currentUser, setCurrentUser}}>
+      <Router>
+        <Routes>
+          <Route path='/' element={MainHome()}/>
+          <Route path='/login' element={<Authentication/>}/>
+        </Routes>
+      </Router>
+    </UserContext.Provider>
+  )
 }
 
 export default App;
