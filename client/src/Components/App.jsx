@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import MonsterList from './MonsterList/index.jsx';
-import Chat from './Chat/index.jsx';
-import BoardComponent from './Board/index.jsx';
-import Authentication from './Authentication/index.jsx';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import MonsterList from './MonsterList/index';
+import Chat from './Chat/index';
+import BoardComponent from './Board/index';
+import Authentication from './Authentication/index';
 
 const AppContainer = styled.div`
   margin: 0px 100px 80px 100px;
@@ -16,32 +16,40 @@ const AppContainer = styled.div`
 const Title = styled.div`
   text-align: center;
   font-size: 2em;
-  padding: 20px;
+  padding-top: 10px;
+  img {
+    width: 25%;
+  }
 `;
 
-const MainHome = () => {
+function MainHome() {
   return (
     <>
-      <Title>WAR ROOM</Title>
+      <Title><img src="./assets/logo-sm.png" alt="yes" /></Title>
       <AppContainer>
-        <MonsterList />
-        <BoardComponent />
+        <DragDropContext>
+          <MonsterList />
+          <Droppable droppableId="board">
+            {(provided) => (
+              <BoardComponent />
+            )}
+          </Droppable>
+        </DragDropContext>
         <Chat />
       </AppContainer>
     </>
-  )
+  );
 }
 
-function App({  }) {
-
+function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={MainHome()}/>
-        <Route path='/login' element={<Authentication/>}/>
+        <Route path="/" element={MainHome()} />
+        <Route path="/login" element={<Authentication />} />
       </Routes>
     </Router>
-  )
+  );
 }
 
 export default App;
