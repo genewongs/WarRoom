@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
+import {UserContext} from '../UserContext.js';
 
 const MonsterListContainer = styled.div`
   flex-grow: 1;
@@ -8,7 +9,8 @@ const MonsterListContainer = styled.div`
 `;
 
 function MonsterList({}) {
-
+  const {currentUser, setCurrentUser} = useContext(UserContext);
+  console.log('currentUser in MonsterList', currentUser);
   return (
     <MonsterListContainer>
       MonsterList
