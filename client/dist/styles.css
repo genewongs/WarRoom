@@ -7,8 +7,19 @@ body {
   font-family: 'Koulen', cursive;
   font-family: 'Poppins', sans-serif;
   color: white;
+}
+
+.masterContainer {
   background-image: url('./assets/bg.jpg');
   background-size: contain;
   background-repeat: none;
 }
 
+.skeleton {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  color: white;
+  background-image: url('./assets/skullLogin.jpeg');
+}
