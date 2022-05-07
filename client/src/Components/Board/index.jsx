@@ -5,8 +5,8 @@ import Board from './Board.jsx';
 const BoardContainer = styled.div`
   display: flex;
   justify-content: center;
-  flex-grow: 1.5;
   border: 1px solid blue;
+  width: 56%;
 `;
 
 function BoardComponent({}) {
