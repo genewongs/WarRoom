@@ -31,7 +31,7 @@ const sampleArray = {
       maxHealth: 13,
       currentHealth: 4,
       armor: 55,
-      movment: 35,
+      movement: 35,
       attacks: [
         {
           attackName: 'X Cut',
@@ -56,7 +56,7 @@ const sampleArray = {
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
-      movment: 30,
+      movement: 30,
       attacks: [
         {
           attackName: 'quick attack',
@@ -83,7 +83,7 @@ const sampleArray = {
       maxHealth: 13,
       currentHealth: 13,
       armor: 15,
-      movment: 35,
+      movement: 35,
       attacks: [
         {
           attackName: 'Flying squirrels',
@@ -108,7 +108,7 @@ const sampleArray = {
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
-      movment: 30,
+      movement: 30,
       attacks: [
         {
           attackName: 'quick attack',
