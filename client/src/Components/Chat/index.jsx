@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ChatContainer = styled.div`
-  flex-grow: 1;
+  width: 23%;
   border: 1px solid black;
 `;
 

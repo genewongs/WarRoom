@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import List from './List';
 import Create from './Create';
@@ -6,15 +6,18 @@ import Details from './Details';
 
 const MonsterListContainer = styled.div`
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
   border: 1px solid red;
+  width: 23%;
 `;
 const MainButtons = styled.button`
 width: 33.333333%;
 border-radius: 4px;
 justify-content: center;
-padding: 18px;
+padding: 3%;
 box-shadow: 0 5px 5px rgba(17, 16, 62, 0.1);
-font-size: 20px;
+font-size: 1vw;
 font-weight: 300;
 color: black;
 background-color: #fff;
@@ -43,9 +46,11 @@ function MonsterList() {
   };
   return (
     <MonsterListContainer>
-      <MainButtons type="button" onClick={() => setRender('List')}>List</MainButtons>
-      <MainButtons type="button" onClick={() => setRender('Create')}>Create</MainButtons>
-      <MainButtons type="button" onClick={() => setRender('Details')}>Details</MainButtons>
+      <div>
+        <MainButtons type="button" onClick={() => setRender('List')}>List</MainButtons>
+        <MainButtons type="button" onClick={() => setRender('Create')}>Create</MainButtons>
+        <MainButtons type="button" onClick={() => setRender('Details')}>Details</MainButtons>
+      </div>
       {renderComponent()}
     </MonsterListContainer>
   );
