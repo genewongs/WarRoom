@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MonsterList from './MonsterList/index.jsx';
 import Chat from './Chat/index.jsx';
-import Board from './Board/index.jsx';
+import BoardComponent from './Board/index.jsx';
 
 const AppContainer = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ function App({  }) {
       <Title>WAR ROOM</Title>
       <AppContainer>
         <MonsterList />
-        <Board />
+        <BoardComponent />
         <Chat />
       </AppContainer>
     </>

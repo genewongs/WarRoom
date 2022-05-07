@@ -1,17 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import Board from './Board.jsx';
 
 const BoardContainer = styled.div`
-  flex-grow: 3;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1.5;
   border: 1px solid blue;
 `;
 
-function Board({}) {
+function BoardComponent({}) {
   return (
     <BoardContainer>
-      board
+      <Board />
     </BoardContainer>
   )
 }
 
-export default Board;
+export default BoardComponent;
