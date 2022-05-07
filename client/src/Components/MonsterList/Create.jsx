@@ -11,6 +11,7 @@ const CreateContainer = styled.div`
   flex-direction: column;
   border: 1px solid green;
   width: 95%;
+  z-index: 100;
 `;
 const Input = styled.textarea`
   height: 12px;
