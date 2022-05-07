@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import io from 'socket.io-client';
 import ChatBox from './Chat'
 import LogBox from './Log'
+import "regenerator-runtime/runtime.js";
 
 const socket = io.connect("http://localhost:3000");
 
