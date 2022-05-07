@@ -25,7 +25,8 @@ const ChatContainer = styled.div`
   }
 
   .chat-body {
-    height: 50vh
+    height: 50vh;
+    overflow-y: auto;
   }
 `;
 
