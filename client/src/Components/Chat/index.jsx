@@ -7,7 +7,7 @@ import LogBox from './Log'
 const socket = io.connect("http://localhost:3000");
 
 const ChatContainer = styled.div`
-  flex-grow: 1;
+  width: 23%;
   border: 1px solid black;
 
   .message-content {
