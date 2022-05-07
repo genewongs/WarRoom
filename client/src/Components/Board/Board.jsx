@@ -16,10 +16,10 @@ const BoardStyled = styled.div`
 function Board({}) {
   const dimension = 12 || 8;
   let board = [];
-  for(let i = dimension - 1; i >= 0; i--) {
+  for(let i = 0; i < dimension; i++) {
     for(let j = 0; j < dimension; j++) {
       board.push(
-        <Tile key={uuidv4()} className='tile' />
+        <Tile key={uuidv4()} x={i} y={j} className='tile' />
         )
       }
     }

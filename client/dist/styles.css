@@ -6,5 +6,8 @@
 body {
   font-family: 'Koulen', cursive;
   font-family: 'Poppins', sans-serif;
+  background-image: url('./assets/bg.jpg');
+  background-size: contain;
+  background-repeat: none;
 }
 

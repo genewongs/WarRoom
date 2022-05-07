@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MonsterList from './MonsterList/index.jsx';
 import Chat from './Chat/index.jsx';
 import BoardComponent from './Board/index.jsx';
 import Authentication from './Authentication/index.jsx';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 
 const AppContainer = styled.div`
@@ -16,16 +17,27 @@ const AppContainer = styled.div`
 const Title = styled.div`
   text-align: center;
   font-size: 2em;
-  padding: 20px;
+  padding-top: 10px;
+  img {
+    width: 25%;
+  }
 `;
 
 const MainHome = () => {
   return (
     <>
-      <Title>WAR ROOM</Title>
+      <Title><img src='./assets/logo-sm.png'></img></Title>
       <AppContainer>
-        <MonsterList />
-        <BoardComponent />
+        <DragDropContext>
+          <MonsterList />
+          <Droppable droppableId="board">
+            {(provided) => {
+              return (
+                  <BoardComponent />
+              )
+            }}
+          </Droppable>
+        </DragDropContext>
         <Chat />
       </AppContainer>
     </>
