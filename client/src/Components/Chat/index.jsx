@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "regenerator-runtime/runtime.js";
 import styled from 'styled-components';
 import io from 'socket.io-client';
 import ChatBox from './Chat'
