@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import 'regenerator-runtime/runtime';
 import styled from 'styled-components';
 import io from 'socket.io-client';
@@ -24,10 +24,21 @@ const ChatContainer = styled.div`
     text-align: center;
   }
 
+  .log-header {
+    border: 1px solid green;
+    text-align: center;
+  }
+  .log-body {
+    height: 32.5vh;
+    overflow-y: auto;
+    border: 1px solid yellow;
+  }
+
   .chat-body {
-    height: 50vh;
+    height: 47vh;
     overflow-y: auto;
   }
+
 `;
 
 function Chat() {
@@ -45,6 +56,7 @@ function Chat() {
   return (
     <ChatContainer>
       <ChatBox socket={socket} username={username} room={room} />
+      <LogBox />
     </ChatContainer>
   );
 }

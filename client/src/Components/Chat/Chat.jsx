@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 
@@ -13,11 +15,17 @@ function ChatBox({ socket, username, room }) {
         message: currentMessage,
         time:
           `${new Date(Date.now()).getHours()
-          }:${
-            new Date(Date.now()).getMinutes()}`,
+          }:${new Date(Date.now()).getMinutes()}`,
       };
       await socket.emit('send_message', messageData);
       setMessageList((messageList) => [...messageList, messageData]);
+    }
+  };
+
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13) {
+      sendMessage();
+      setCurrentMessage('');
     }
   };
 
@@ -56,13 +64,23 @@ function ChatBox({ socket, username, room }) {
       </div>
       <div className="chat-footer" style={{ border: '1px solid red' }}>
         <input
+          className="message-bar"
+          style={{ width: '24.8vh', height: '3vh' }}
           type="text"
           placeholder="Hey..."
+          value={currentMessage}
+          onKeyDown={(event) => handleKeypress(event)}
           onChange={(event) => {
             setCurrentMessage(event.target.value);
           }}
         />
-        <button onClick={() => sendMessage()}>&#9658;</button>
+        <button
+          type="submit"
+          style={{ height: '3.5vh' }}
+          onClick={() => { sendMessage(); setCurrentMessage(''); }}
+        >
+          &#9658;
+        </button>
       </div>
     </div>
   );
