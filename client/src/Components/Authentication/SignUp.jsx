@@ -28,7 +28,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp({setUserStatus}) {
+export default function SignUp({setUserStatus, setEmail, setPW, register}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -87,6 +87,7 @@ export default function SignUp({setUserStatus}) {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={()=>setEmail(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -98,6 +99,7 @@ export default function SignUp({setUserStatus}) {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={()=>setPW(event.target.value)}
                 />
               </Grid>
             </Grid>
@@ -106,6 +108,7 @@ export default function SignUp({setUserStatus}) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={register}
             >
               Sign Up
             </Button>
