@@ -8,7 +8,7 @@ body {
   font-family: 'Poppins', sans-serif;
   color: white;
 }
-  
+
 .skeleton {
   margin: 0;
   padding: 0;
@@ -141,3 +141,4 @@ span{
 }
 #register{
   left:50px;
+}

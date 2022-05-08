@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import SignIn from './SignIn.jsx';
 import SignUp from './SignUp.jsx';
-import {createUserWithEmailAndPassword, updateProfile,onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth';
+import {createUserWithEmailAndPassword, updateProfile,onAuthStateChanged, signOut, signInWithEmailAndPassword, useAuth} from 'firebase/auth';
 import {auth} from '../../firebase-config.js';
 import UserContext from '../UserContext.js';
 import "regenerator-runtime/runtime.js";
@@ -22,16 +22,24 @@ function index() {
   // console.log('loginPW', loginPW);
   console.log('currentUser in authentication', currentUser);
   console.log('existing user', exisitingUser);
+  console.log(userName);
 
-  const register = async ()=>{
+  onAuthStateChanged(auth, (User) => {
+    setCurrentUser(User);
+  });
+
+  const register = async () => {
     try {
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPW);
-      user.updateProfile({
-        displayName: userName
-      });
-      setCurrentUser(user);
+      console.log('authCurrentUser', auth.currentUser);
+      updateProfile(auth.currentUser, {
+        displayName: userName,
+      })
+        .then(() => setCurrentUser(user))
+        .catch((err) => console.log(`profile can't be udpated`, err))
+
     } catch (err) {
-      console.log('register err', err);
+      console.log('register err', err.message);
     }
   };
 
@@ -43,7 +51,7 @@ function index() {
       navigate('/');
 
     } catch(err) {
-      console.log('register err', err);
+      console.log('register err', err.message);
     }
   };
 
