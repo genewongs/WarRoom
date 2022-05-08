@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import MonsterList from './MonsterList/index.jsx';
-import Chat from './Chat/index.jsx';
-import BoardComponent from './Board/index.jsx';
-import Authentication from './Authentication/index.jsx';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import MonsterList from './MonsterList/index';
+import Chat from './Chat/index';
+import BoardComponent from './Board/index';
+import Authentication from './Authentication/index';
+import UserContext from './UserContext';
 
 const AppContainer = styled.div`
-  margin: 0px 100px 80px 100px;
+  margin: 0px 100px 0px 100px;
   display: flex;
   flex-direction: row;
   height: 90vh;
@@ -16,31 +18,47 @@ const AppContainer = styled.div`
 const Title = styled.div`
   text-align: center;
   font-size: 2em;
-  padding: 20px;
+  padding-top: 10px;
+  img {
+    width: 25%;
+  }
 `;
 
-const MainHome = () => {
+const MasterContainer = styled.div`
+  background-image: url('./assets/bg.jpg');
+  background-size: contain;
+  background-repeat: none;
+  padding-bottom: 80px;
+`;
+
+function MainHome() {
   return (
-    <>
-      <Title>WAR ROOM</Title>
+    <MasterContainer>
+      <Title><img src="./assets/logo-sm.png" alt="yes" /></Title>
       <AppContainer>
-        <MonsterList />
-        <BoardComponent />
+        <DndProvider backend={HTML5Backend}>
+          <MonsterList />
+          <BoardComponent />
+        </DndProvider>
         <Chat />
       </AppContainer>
-    </>
-  )
+    </MasterContainer>
+  );
 }
 
-function App({  }) {
+function App() {
+  const [currentUser, setCurrentUser] = useState({});
+  console.log('currentUser in app', currentUser.email, currentUser.uid);
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={MainHome()}/>
-        <Route path='/login' element={<Authentication/>}/>
-      </Routes>
-    </Router>
+    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={MainHome()} />
+          <Route path="/login" element={<Authentication />} />
+        </Routes>
+      </Router>
+    </UserContext.Provider>
   )
 }
 
