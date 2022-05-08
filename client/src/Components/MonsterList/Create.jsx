@@ -2,42 +2,61 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Icons from './create/Icons';
 import Attacks from './create/Attacks';
+import CSS from './create/css';
 
 const axios = require('axios');
 
-const CreateContainer = styled.div`
-  margin: 2% 1% 1%;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid green;
-  width: 95%;
-  z-index: 100;
-`;
-const Input = styled.textarea`
-  height: 12px;
-  padding: 0.5em;
-  border-width: 1px;
-  border-style: inset;
-  border-color: #a6de0b;
-  border-radius: 3px;
-  width: 50%;
-  margin-bottom: 0.5em;
-  margin-left: 2px;
-  box-shadow: 0 5px 5px rgba(17, 16, 62, 0.1);
-  ::placeholder {
-    color: #6e0d15;
-  }
-`;
-
 function Create() {
-  const [iconArr, setIconArr] = useState(['Hero', 'ninja', 'skull', 'crusader', 'villian']);
-  const [icon, setIcon] = useState('Hero');
+  const [iconArr, setIconArr] = useState(['Blob.jpg',
+    'Hunter.jpg',
+    'SkullLord.jpg',
+    'Thief.jpg',
+    'amethystDragon.jpg',
+    'boneWarrior.png',
+    'chomp.jpg',
+    'demonLord.jpg',
+    'dragonSkellie.jpg',
+    'eyeBall.jpg',
+    'fox.jpg',
+    'ghoul.png',
+    'greenDragon.jpg',
+    'iceBug.jpg',
+    'iceDragon.jpg',
+    'iceMage.jpg',
+    'iceQueen.jpg',
+    'impBoi.png',
+    'impDemon.jpg',
+    'impGnome.jpg',
+    'impGurl.jpg',
+    'ironMage.jpg',
+    'jackDragon.png',
+    'mage.jpg',
+    'minotaur.png',
+    'octoman.jpg',
+    'octopus.jpg',
+    'oldWizard.jpg',
+    'reaperOctopus.jpg',
+    'tigerWarrior.jpg',
+    'troll.jpg',
+    'turqoiseDragon.jpg',
+    'warrior.jpg',
+    'zombie.jpg']);
+  const [icon, setIcon] = useState('Hunter.jpg');
+  const [renderI, setRenderI] = useState(false);
   const [attackArr, setAttackArr] = useState([{
     attackName: 'none',
     attack: 'none',
     multiplier: 0,
     damage: 'none',
   }]);
+  const renderIcons = function renderIcons() {
+    return (
+      <div>
+        {iconArr.map((e) => (<Icons current={e} selected={icon} setIcon={setIcon} />))}
+        <CSS.MainButtons type="button" onClick={() => setRenderI(false)}>Close Icon List</CSS.MainButtons>
+      </div>
+    );
+  };
   let count = 0;
   const addAttack = function addAttack() {
     attackArr.push({
@@ -51,35 +70,43 @@ function Create() {
     attackArr.splice(index, 1);
   };
   return (
-    <CreateContainer>
+    <CSS.CreateContainer>
       <div>
         Name:&nbsp;
-        <Input type="text" id="nickname" maxLength="60" placeholder="Example: skeleton" />
+        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Example: skeleton" />
       </div>
       <div>
         Description:&nbsp;
-        <Input type="text" id="Description" maxLength="1000" placeholder="Example: Level 3 fighter" />
+        <CSS.Input type="text" id="Description" maxLength="1000" placeholder="Example: Level 3 fighter" />
       </div>
       <div>
-        Icons:
-        {iconArr.map((e) => (
-          <Icons current={e} selected={icon} setIcon={setIcon} />
-        ))}
+        Icon:
+        <CSS.SelectedIcon
+          src={`./assets/monsters/icons/${icon}`}
+          alt={icon}
+          loading="lazy"
+        />
       </div>
+      <div>
+        {renderI
+          ? renderIcons()
+          : <CSS.MainButtons type="button" onClick={() => setRenderI(true)}>Icon List</CSS.MainButtons>}
+      </div>
+
       <div>
         Stats
       </div>
       <div>
         Armor:&nbsp;
-        <Input type="number" id="Armor" maxLength="60" placeholder="Example: 12" />
+        <CSS.Input type="number" id="Armor" maxLength="60" placeholder="Example: 12" />
       </div>
       <div>
         Health:&nbsp;
-        <Input type="number" id="Health" maxLength="60" placeholder="Example: 20" />
+        <CSS.Input type="number" id="Health" maxLength="60" placeholder="Example: 20" />
       </div>
       <div>
         Movement:&nbsp;
-        <Input type="number" id="Movement" maxLength="60" placeholder="Example: 30" />
+        <CSS.Input type="number" id="Movement" maxLength="60" placeholder="Example: 30" />
       </div>
       <div>
         Attacks
@@ -93,7 +120,7 @@ function Create() {
       <div>
         <button type="button" onClick={() => addAttack()}>Add Attack</button>
       </div>
-    </CreateContainer>
+    </CSS.CreateContainer>
   );
 }
 
