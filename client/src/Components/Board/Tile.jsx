@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Draggable } from 'react-beautiful-dnd';
-import { v4 as uuidv4 } from 'uuid';
+import { useDrop } from 'react-dnd';
 import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
 import TileContent from './TileContent';
 
 const TileContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items:center;
   width: 100%;
   height: 100%;
   /* background-color: red; */
@@ -14,19 +16,21 @@ const TileContainer = styled.div`
   background-size: cover;
 `;
 
-function Tile({ x, y }) {
-  const id = uuidv4();
+
+function Tile({ x, y, index, number, move, monster }) {
+
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: 'image',
+    drop: (item) => move(item.id, index, item.monster),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    })
+  }));
+
 
   return (
-    <TileContainer number={Math.ceil(Math.random() * 4)}>
-      <Draggable key={id} draggableId={id} index={x, y}>
-        {(provided) => (
-          <div className="batman" x={x} y={y} {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}>
-            <AccessibleForwardIcon />
-          </div>
-          // <TileContent x={x} y={y} {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}/>
-          )}
-      </Draggable>
+    <TileContainer number={number} ref={drop} position={index}>
+        <TileContent x={x} y={y} index={index} monster={monster} />
     </TileContainer>
   );
 }
