@@ -32,7 +32,7 @@ export const sampleArray = {
       currentHealth: 4,
       armor: 55,
       movment: 35,
-      image: './assets'
+      image: './assets/monsters/icons/ghoul.png',
       attacks: [
         {
           attackName: 'X Cut',
@@ -85,6 +85,7 @@ export const sampleArray = {
       currentHealth: 13,
       armor: 15,
       movment: 35,
+      image: './assets/monsters/icons/warrior.jpg',
       attacks: [
         {
           attackName: 'Flying squirrels',
