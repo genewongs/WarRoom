@@ -42,19 +42,19 @@ export default function SignIn({setUserStatus, setEmail, setPW, login}) {
   }
 
   return (
-    <div class="SignForm">
-      <div class="formbox">
-        <div class="button-box">
+    <div className="SignForm">
+      <div className="formbox">
+        <div className="button-box">
           <div id="formTitle">
-            <h2 class="formTitle">War Room</h2>
+            <h2 className="formTitle">War Room</h2>
           </div>
       </div>
-      <form id="login"class="input-group">
-        <input type="text" class="input-field" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} required/>
-        <input type="password" class="input-field" placeholder="Enter Password" onChange={(e)=>setPW(e.target.value)} required/>
-        <input type="checkbox" class="check-box"/>
+      <form id="login"className="input-group">
+        <input type="text" className="input-field" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} required/>
+        <input type="password" className="input-field" placeholder="Enter Password" onChange={(e)=>setPW(e.target.value)} required/>
+        <input type="checkbox" className="check-box"/>
         <span> Remember Password</span>
-        <button onClick={handleSubmit} class="submit-btn">Log in</button>
+        <button onClick={handleSubmit} className="submit-btn">Log in</button>
         <p>Don't have account? <a href="" onClick={hadnleSignUp}>Sign up</a></p>
       </form>
       </div>
