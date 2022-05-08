@@ -43,6 +43,7 @@ function Create() {
     'zombie.jpg']);
   const [icon, setIcon] = useState('Hunter.jpg');
   const [renderI, setRenderI] = useState(false);
+  const [attackRerender, setAttackRerender] = useState(1);
   const [attackArr, setAttackArr] = useState([{
     attackName: 'none',
     attack: 'none',
@@ -65,9 +66,11 @@ function Create() {
       multiplier: 0,
       damage: 'none',
     });
+    setAttackRerender(attackRerender + 1);
   };
   const deleteAttack = function deleteAttack(index) {
     attackArr.splice(index, 1);
+    setAttackRerender(attackRerender - 1);
   };
   return (
     <CSS.CreateContainer>
