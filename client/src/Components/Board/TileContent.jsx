@@ -1,9 +1,40 @@
 import React from 'react';
+import styled from 'styled-components';
+import { useDrag } from 'react-dnd';
 import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
 
-function TileContent({ x, y }) {
+const MonsterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+function TileContent({
+  x, y, index, monster,
+}) {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'image',
+    item: { id: index, monster },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
   return (
-    <AccessibleForwardIcon />
+    monster?.image
+      ? (
+        <MonsterDiv>
+          <img
+            src={monster.image}
+            ref={drag}
+            style={{
+              opacity: isDragging ? '0' : '1',
+              width: '90%',
+              height: '90%',
+            }}
+          />
+        </MonsterDiv>
+      )
+      : null
   );
 }
 

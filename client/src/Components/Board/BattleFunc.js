@@ -84,6 +84,7 @@ const sampleArray = {
       currentHealth: 74,
       armor: 12,
       movment: 30,
+      image: './assets/monsters/icons/blob.jpg',
       attacks: [
         {
           attackName: 'quick attack',
