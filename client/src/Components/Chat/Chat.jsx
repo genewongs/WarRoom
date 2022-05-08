@@ -1,9 +1,15 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import UserContext from '../UserContext';
 
-function ChatBox({ socket, username, room }) {
+function ChatBox({ socket, room }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+  const { currentUser } = useContext(UserContext);
+
+  const username = 'Elliot';
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
@@ -13,11 +19,17 @@ function ChatBox({ socket, username, room }) {
         message: currentMessage,
         time:
           `${new Date(Date.now()).getHours()
-          }:${
-            new Date(Date.now()).getMinutes()}`,
+          }:${new Date(Date.now()).getMinutes()}`,
       };
       await socket.emit('send_message', messageData);
-      setMessageList((messageList) => [...messageList, messageData]);
+      setMessageList([...messageList, messageData]);
+    }
+  };
+
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13) {
+      sendMessage();
+      setCurrentMessage('');
     }
   };
 
@@ -34,19 +46,24 @@ function ChatBox({ socket, username, room }) {
       </div>
       <div className="chat-body">
         {messageList.map((messageContent) => (
-          <div className="message">
+          <div className="message" id={username === messageContent.author ? 'you' : 'other'}>
             <div className="message-content">
               <p>
-                {messageContent.author}
-                {' '}
-                says "
                 {messageContent.message}
-                "
               </p>
             </div>
             <div className="message-meta">
               <p>
+                {' '}
+                by
+                {' '}
+                {' '}
+                {messageContent.author}
+                {' '}
+                {' '}
                 at
+                {' '}
+                {' '}
                 {messageContent.time}
               </p>
               <p />
@@ -54,15 +71,25 @@ function ChatBox({ socket, username, room }) {
           </div>
         ))}
       </div>
-      <div className="chat-footer" style={{ border: '1px solid red' }}>
+      <div className="chat-footer">
         <input
+          className="message-bar"
+          style={{ width: '92%', height: '3vh' }}
           type="text"
           placeholder="Hey..."
+          value={currentMessage}
+          onKeyDown={(event) => handleKeypress(event)}
           onChange={(event) => {
             setCurrentMessage(event.target.value);
           }}
         />
-        <button onClick={() => sendMessage()}>&#9658;</button>
+        <button
+          type="submit"
+          style={{ height: '3.5vh', width: '5%' }}
+          onClick={() => { sendMessage(); setCurrentMessage(''); }}
+        >
+          &#9658;
+        </button>
       </div>
     </div>
   );
