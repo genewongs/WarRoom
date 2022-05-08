@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import Tile from './Tile';
@@ -14,18 +14,28 @@ const BoardStyled = styled.div`
 `;
 
 function Board() {
-  const dimension = 12 || 8;
-  const board = [];
-  for (let i = 0; i < dimension; i += 1) {
-    for (let j = 0; j < dimension; j += 1) {
-      board.push(
-        <Tile key={uuidv4()} x={i} y={j} className="tile" />,
-      );
+  const dimension = 9 || 8;
+  const [randomNumbers] = useState(
+    Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
+  );
+  const [board, setBoard] = useState(
+    Array.from({ length: dimension * dimension }, (element, index) => index),
+  );
+  const [onBoard, setOnBoard] = useState({1: {image: "./assets/monsters/icons/blob.jpg"}, 10: {image: "./assets/monsters/icons/ghoul.png"}});
+  const move = (from, to, monster) => {
+    console.log(from, to);
+    if (!onBoard[to]) {
+      setOnBoard((previous) => ({
+        ...previous,
+        [to]: monster,
+        [from]: null,
+      }));
     }
-  }
+  };
   return (
     <BoardStyled dimension={dimension}>
-      {board}
+      {board.map((tile, index) => (onBoard[index] ? <Tile move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
+        : <Tile move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
     </BoardStyled>
   );
 }
