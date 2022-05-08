@@ -32,6 +32,7 @@ export const sampleArray = {
       currentHealth: 4,
       armor: 55,
       movment: 35,
+      image: './assets'
       attacks: [
         {
           attackName: 'X Cut',
