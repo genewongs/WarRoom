@@ -23,11 +23,13 @@ function Board() {
   const [board, setBoard] = useState(
     Array.from({ length: dimension * dimension }, (element, index) => index),
   );
-  const [onBoard, setOnBoard] = useState({ 14: Zelroth[0], 15: Gene[0] });
+  const [onBoard, setOnBoard] = useState({
+    [(Zelroth[0].locationX * dimension) + Zelroth[0].locationY]: Zelroth[0],
+    [(Gene[0].locationX * dimension) + Gene[0].locationY]: Gene[0],
+  });
   const [attacker, setAttacker] = useState(null);
   const [defender, setDefender] = useState(null);
   const move = (from, to, monster) => {
-    console.log(from, to);
     if (!onBoard[to]) {
       monster.locationX = Math.floor(to / dimension);
       monster.locationY = to % dimension;
