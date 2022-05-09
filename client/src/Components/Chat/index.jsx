@@ -31,7 +31,7 @@ const ChatContainer = styled.div`
   .log-body {
     height: 32.5vh;
     overflow-y: auto;
-    border: 1px solid yellow;
+    border: 1px solid #FFFF00;
     font-size: 12px;
   }
 
