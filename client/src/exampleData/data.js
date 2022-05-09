@@ -27,6 +27,7 @@ const sampleArray = {
   Zelroth: [
     {
       userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
+      userName: 'Zelroth',
       name: 'Ogre Battler',
       description: 'level 68 paladin',
       maxHealth: 13,
@@ -54,6 +55,7 @@ const sampleArray = {
     },
     {
       userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
+      userName: 'Zelroth',
       name: 'Imp Boi',
       description: 'level 99 wizrd',
       maxHealth: 10,
@@ -83,6 +85,7 @@ const sampleArray = {
   Gene: [
     {
       userUID: 'aIHuUNU11taYBlxDgisvF5jwYhD2',
+      userName: 'Gene',
       name: 'Prest',
       description: 'level 68 paladin',
       maxHealth: 13,
@@ -110,6 +113,7 @@ const sampleArray = {
     },
     {
       userUID: 'aIHuUNU11taYBlxDgisvF5jwYhD2',
+      userName: 'Gene',
       name: 'Imp Boi',
       description: 'level 99 wizrd',
       maxHealth: 10,

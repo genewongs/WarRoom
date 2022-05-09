@@ -17,7 +17,7 @@ function Details({}) {
 
   return (
     <DetailsContainer>
-      <img src={`./../assets/monsters/icons/${monster.image}`} alt="something" />
+      <img src={monster.image} alt="something" />
       <div>Name: {monster.name}</div>
       <div>Description: {monster.desscription}</div>
       <div>Health: {monster.currentHealth}/{monster.maxHealth}</div>
