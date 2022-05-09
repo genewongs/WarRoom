@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import Tile from './Tile';
+import { sampleArray } from '../../../../data';
 
 const BoardStyled = styled.div`
   display: grid;
@@ -14,17 +15,24 @@ const BoardStyled = styled.div`
 `;
 
 function Board() {
-  const dimension = 9 || 8;
+  const dimension = 6 || 8;
+  const { Zelroth, Gene } = sampleArray;
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
   );
   const [board, setBoard] = useState(
     Array.from({ length: dimension * dimension }, (element, index) => index),
   );
-  const [onBoard, setOnBoard] = useState({1: {image: "./assets/monsters/icons/blob.jpg"}, 10: {image: "./assets/monsters/icons/ghoul.png"}});
+  const [onBoard, setOnBoard] = useState({ 14: Zelroth[0], 15: Gene[0] });
+  const [attacker, setAttacker] = useState(null);
+  const [defender, setDefender] = useState(null);
   const move = (from, to, monster) => {
     console.log(from, to);
     if (!onBoard[to]) {
+      monster.locationX = Math.floor(to / dimension);
+      monster.locationY = to % dimension;
+      setAttacker(null);
+      setDefender(null);
       setOnBoard((previous) => ({
         ...previous,
         [to]: monster,
@@ -34,8 +42,8 @@ function Board() {
   };
   return (
     <BoardStyled dimension={dimension}>
-      {board.map((tile, index) => (onBoard[index] ? <Tile move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
-        : <Tile move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
+      {board.map((tile, index) => (onBoard[index] ? <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
+        : <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
     </BoardStyled>
   );
 }

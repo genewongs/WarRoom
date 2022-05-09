@@ -49,8 +49,8 @@ function MainHome() {
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  console.log('currentUser in app', currentUser.email, currentUser.uid);
-  console.log('currentUser !== {}', currentUser !== {});
+  // console.log('currentUser in app', currentUser.email, currentUser.uid);
+  // console.log('currentUser !== {}', currentUser !== {});
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
