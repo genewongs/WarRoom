@@ -40,9 +40,9 @@ function ChatBox({ socket, room }) {
   }, [socket]);
 
   return (
-    <div style={{ border: '1px solid black' }}>
+    <div style={{ border: '0px' }}>
       <div className="chat-header">
-        <p>Live Battle Chat</p>
+        <div className="chat-header-title">Live Battle Chat</div>
       </div>
       <div className="chat-body">
         {messageList.map((messageContent) => (
@@ -58,39 +58,51 @@ function ChatBox({ socket, room }) {
                 by
                 {' '}
                 {' '}
-                {messageContent.author}
+                <span className="message-author">{messageContent.author}</span>
                 {' '}
                 {' '}
                 at
                 {' '}
                 {' '}
-                {messageContent.time}
+                <span className="message-time"><i>{messageContent.time}</i></span>
               </p>
-              <p />
             </div>
           </div>
         ))}
       </div>
       <div className="chat-footer">
+      <div className="form__group field">
         <input
-          className="message-bar"
-          style={{ width: '92%', height: '3vh' }}
-          type="text"
-          placeholder="Hey..."
+          type="input" className="form__field"
+          placeholder="Enter a message..." name="msg"
+          id='msg' required
           value={currentMessage}
           onKeyDown={(event) => handleKeypress(event)}
           onChange={(event) => {
             setCurrentMessage(event.target.value);
           }}
-        />
-        <button
+          onBlur={() => {setCurrentMessage('')}}
+          />
+        <label for="msg" class="form__label">Message</label>
+      </div>
+        {/* <input
+          className="message-bar"
+          type="text"
+          placeholder="Enter a message"
+          value={currentMessage}
+          onKeyDown={(event) => handleKeypress(event)}
+          onChange={(event) => {
+            setCurrentMessage(event.target.value);
+          }}
+        /> */}
+        {/* <button
           type="submit"
           style={{ height: '3.5vh', width: '5%' }}
           onClick={() => { sendMessage(); setCurrentMessage(''); }}
         >
-          &#9658;
-        </button>
+        </button> */}
       </div>
+      <div className="seperator"></div>
     </div>
   );
 }

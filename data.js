@@ -131,9 +131,9 @@ const sampleArray = {
         },
       ],
       onBoard: true,
-      locationX: 2,
+      locationX: 3,
       locationY: 3,
-      image: './assets/monsters/icons/impBoi.jpg',
+      image: './assets/monsters/icons/impBoi.png',
     },
   ],
 };

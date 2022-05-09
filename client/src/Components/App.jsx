@@ -21,7 +21,7 @@ const Title = styled.div`
   font-size: 2em;
   padding-top: 10px;
   img {
-    width: 25%;
+    width: 20%;
   }
 `;
 
@@ -35,7 +35,7 @@ const MasterContainer = styled.div`
 function MainHome() {
   return (
     <MasterContainer>
-      <Title><img src="./assets/logo-sm.png" alt="yes" /></Title>
+      <Title><img src="./assets/logo-sm.png" alt="logo" /></Title>
       <AppContainer>
         <DndProvider backend={HTML5Backend}>
           <MonsterList />
