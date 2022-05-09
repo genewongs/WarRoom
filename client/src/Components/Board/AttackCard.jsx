@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import io from 'socket.io-client';
 
 import { Button } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
 import { Battle } from './utils/BattleFunc';
+
+const socket = io.connect('http://localhost:3000');
 
 const AttackList = styled.div`
   width: 180px;
@@ -94,7 +97,12 @@ function AttackCard({
   function handleAttack() {
     let multiple = chosenAttack.multiplier;
     while (multiple >= 0) {
-      console.log(Battle(attacker, defender, chosenAttack));
+      // console.log(Battle(attacker, defender, chosenAttack));
+      const logMessageData = {
+        message: Battle(attacker, defender, chosenAttack),
+        board: 123,
+      };
+      socket.emit('send_log_message', logMessageData);
       multiple -= 1;
     }
     if (defender.currentHealth <= 0) {

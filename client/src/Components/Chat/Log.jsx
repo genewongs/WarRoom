@@ -1,19 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 
-function LogBox({ socket, room }) {
+function LogBox({ socket }) {
   const [logList, setLogList] = useState([]);
-
-  const message = 'Skeleton attacks Wizard for 3 damange';
-
-  // const createAttack = () => {
-  //   const logMessage = Battle(attacker, defender, attack);
-  //   const logMessageData = {
-  //     message: logMessage,
-  //     board: room,
-  //   };
-  //   socket.emit('send_log_message', logMessageData);
-  // };
 
   useEffect(() => {
     socket.on('recieve_log_message', (data) => {
@@ -30,7 +19,7 @@ function LogBox({ socket, room }) {
         {logList.map((logContent) => (
           <div className="log-message">
             <p>
-              {message}
+              {logContent.message}
             </p>
           </div>
         ))}
