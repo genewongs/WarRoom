@@ -20,10 +20,10 @@ function index() {
   // console.log('registerPW', registerPW);
   // console.log('loginEmail', loginEmail);
   // console.log('loginPW', loginPW);
-  console.log('currentUser in authentication', currentUser);
-  console.log('existing user', exisitingUser);
-  console.log(userName);
-  console.log('auth', auth);
+  // console.log('currentUser in authentication', currentUser);
+  // console.log('existing user', exisitingUser);
+  // console.log(userName);
+  // console.log('auth', auth);
 
   onAuthStateChanged(auth, (User) => {
     setCurrentUser(User);

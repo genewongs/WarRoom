@@ -43,8 +43,6 @@ function Board() {
   const dimension = 6 || 8;
   const { Zelroth, Gene } = sampleArray;
   const { currentUser } = useContext(UserContext);
-  console.log('zelroth', Zelroth);
-  console.log(currentUser);
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
   );
