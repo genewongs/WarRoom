@@ -1,10 +1,10 @@
 import {getFirestore,collection, getDocs, addDoc, deleteDoc} from 'firebase/firestore';
+// import { db } from '../client/src/firebase-config';
 
 //init db service
-export const db = getFirestore();
 
 // collection ref
-const userCol = collection(db, 'user');
+const userCol = collection(getFirestore(), 'user');
 
 // get collection data
 export const getUsers = () => {
