@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import Tile from './Tile';
-import { sampleArray } from '../../../../data';
+import sampleArray from '../../../../data';
 
 const BoardStyled = styled.div`
   display: grid;
@@ -13,6 +13,11 @@ const BoardStyled = styled.div`
   height: 800px;
   width: 800px;
 `;
+
+const ErrorMessage = styled.div`
+  display: grid;
+  text-align: center;
+`
 
 function Board() {
   const dimension = 6 || 8;
@@ -44,6 +49,7 @@ function Board() {
   };
   return (
     <BoardStyled dimension={dimension}>
+      <ErrorMessage> Opponent is too far away </ErrorMessage>
       {board.map((tile, index) => (onBoard[index] ? <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
         : <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
     </BoardStyled>
