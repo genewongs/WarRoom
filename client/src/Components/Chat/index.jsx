@@ -19,7 +19,7 @@ const ChatContainer = styled.div`
   }
 
   .message-meta {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .chat-header {
@@ -89,7 +89,7 @@ const ChatContainer = styled.div`
 
   #other {
     text-align: left;
-    background-color: #334172c3;
+    background-color: #ec00003c;
     margin: 4px 6px;
     padding: 5px 15px;
     border-radius: 5px;
@@ -97,13 +97,13 @@ const ChatContainer = styled.div`
   }
 
   .message-author {
-    font-size: 10px;
-    color: #b2b2b2;
+    font-size: 12px;
+    color: #aaadbc;
     font-weight: bold;
   }
 
   .message-time {
-    font-size: 10px;
+    font-size: 12px;
     color: #ffbb00;
   }
 

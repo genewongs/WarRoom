@@ -1,4 +1,4 @@
-function Battle(attackingUser, defendingUser, attacker, defender, attack) {
+function Battle(attacker, defender, attack) {
   function chanceTime(range) {
     return Math.ceil(Math.random() * range);
   }
