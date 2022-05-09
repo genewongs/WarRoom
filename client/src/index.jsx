@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './Components/App';
+
+import { initializeApp } from 'firebase/app';
+import {getAuth} from 'firebase/auth';
+
+const app = initializeApp(firebaseConfig);
 // import { BrowserRouter as Router , Routes, Route, useNavigate } from 'react-router-dom';
 
 // let RoutedApp = ({}) => {

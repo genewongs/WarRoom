@@ -1,4 +1,4 @@
-import {getFirestore,collection, getDocs, addDoc, deleteDoc} from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
 
 //init db service
 export const db = getFirestore();
