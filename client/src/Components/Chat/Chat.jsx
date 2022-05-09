@@ -10,7 +10,8 @@ function ChatBox({ socket, room }) {
   const [messageList, setMessageList] = useState([]);
   const { currentUser } = useContext(UserContext);
 
-  const username = 'Elliot';
+  const username = currentUser.auth !== undefined ? currentUser.user.auth.displayName : 'None';
+  console.log('username in chat', username);
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
