@@ -16,7 +16,11 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 
-const userCol = collection(getFirestore(), 'user');
+//init db service
+export const db = getFirestore();
+
+// collection ref
+const userCol = collection(db, 'user');
 
 // get collection data
 export const getUsers = () => {
@@ -38,6 +42,4 @@ export const addUsers = (obj)=>{
 export const deleteUsers = (obj)=>{
   return delete(userCol, obj);
 }
-
-
 
