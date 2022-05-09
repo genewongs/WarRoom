@@ -26,6 +26,7 @@ function index() {
   // console.log('auth', auth);
 
   onAuthStateChanged(auth, (User) => {
+    console.log('user changed in authentication', User);
     setCurrentUser(User);
   });
 

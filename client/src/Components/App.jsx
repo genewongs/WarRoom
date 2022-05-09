@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
@@ -9,7 +9,9 @@ import BoardComponent from './Board/index';
 import Authentication from './Authentication/index';
 import UserContext from './UserContext';
 import ProtectedRoute from './Authentication/ProtectedRoute';
-
+import {signOut} from 'firebase/auth';
+import {useNavigate, Link} from 'react-router-dom';
+import {auth} from '../firebase-config.js';
 
 const AppContainer = styled.div`
   margin: 0px 100px 0px 100px;
@@ -33,10 +35,16 @@ const MasterContainer = styled.div`
   padding-bottom: 80px;
 `;
 
+const logout = async ()=> {
+  await signOut(auth);
+};
+
 function MainHome() {
+
   return (
     <MasterContainer>
-      <Title><img src="./assets/logo-sm.png" alt="logo" /></Title>
+      <Link to='/login' onClick={logout} style={{float: 'right'}}>Log Out</Link>
+      <Title><img src="./assets/logo-sm.png" alt="yes" /></Title>
       <AppContainer>
         <DndProvider backend={HTML5Backend}>
           <MonsterList />
@@ -50,8 +58,16 @@ function MainHome() {
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  // console.log('currentUser in app', currentUser.email, currentUser.uid);
+  console.log('currentUser in app', currentUser);
   // console.log('currentUser !== {}', currentUser !== {});
+
+  useEffect(()=>{
+    if (currentUser.auth) {
+      setCurrentUser(currentUser)
+    } else {
+      setCurrentUser({});
+    }
+  }, []);
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
