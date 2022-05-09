@@ -9,7 +9,7 @@ const CSS = {
     width: 95%;
     z-index: 100;
   `,
-  Input: styled.textarea`
+  Input: styled.input`
     height: 12px;
     padding: 0.5em;
     border-width: 1px;
