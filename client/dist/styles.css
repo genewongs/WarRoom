@@ -18,10 +18,22 @@ body {
   background-image: url('./assets/skullLogin.jpeg');
 }
 
+.linkRR {
+  text-decoration: none;
+}
+
 .masterContainer {
   background-image: url('./assets/bg.jpg');
   background-size: contain;
   background-repeat: none;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  margin-right: 20px !important;
+  margin-top: 20px !important;
+  background-color:rgb(143, 0, 0) !important;
+  text-shadow: 2px 2px 2px black;
+  float: right;
 }
 
 .SignForm {

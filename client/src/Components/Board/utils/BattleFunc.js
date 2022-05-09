@@ -38,7 +38,7 @@ function Battle(attacker, defender, attack) {
     numberOfRolls -= 1;
   }
   if (modifier < defender.armor) {
-    return `${attacker.name}${missVerbs[Math.floor(Math.random() * missVerbs.length)]} ${defender.name}, dealing no damage`;
+    return `${attacker.userName}'s ${attacker.name}${missVerbs[Math.floor(Math.random() * missVerbs.length)]} ${defender.userName}'s ${defender.name}, dealing no damage`;
   }
   const dmgDice = attack.damage.split(' + ');
   numberOfRolls = Number(dmgDice[0].split('d')[0]);
@@ -50,10 +50,10 @@ function Battle(attacker, defender, attack) {
   }
   if (modifier >= defender.currentHealth) {
     defender.currentHealth -= modifier;
-    return `${attacker.name} ${adj[Math.floor(Math.random() * adj.length)]} ${killVerbs[Math.floor(Math.random() * killVerbs.length)]} ${defender.name}`;
+    return `${attacker.userName}'s ${attacker.name} ${adj[Math.floor(Math.random() * adj.length)]} ${killVerbs[Math.floor(Math.random() * killVerbs.length)]} ${defender.userName}'s ${defender.name}`;
   }
   defender.currentHealth -= modifier;
-  return `${attacker.name} ${dmgVerbs[Math.floor(Math.random() * dmgVerbs.length)]} ${defender.name} for ${modifier} damage. ${defender.name} has ${defender.currentHealth} HP left`;
+  return `${attacker.userName}'s ${attacker.name} ${dmgVerbs[Math.floor(Math.random() * dmgVerbs.length)]} ${defender.userName}'s ${defender.name} for ${modifier} damage. ${defender.userName}'s ${defender.name} has ${defender.currentHealth} HP left`;
 }
 
 // let i = 10;

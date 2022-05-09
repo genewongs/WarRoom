@@ -43,6 +43,7 @@ function Board() {
   const dimension = 6 || 8;
   const { Zelroth, Gene } = sampleArray;
   const { currentUser } = useContext(UserContext);
+  console.log(currentUser.uid);
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
   );
@@ -59,20 +60,28 @@ function Board() {
   const [error, setError] = useState(false);
   const move = (from, to, monster) => {
     if (!onBoard[to]) {
-      monster.locationX = Math.floor(to / dimension);
-      monster.locationY = to % dimension;
-      setAttacker(null);
-      setDefender(null);
-      setOnBoard((previous) => ({
-        ...previous,
-        [to]: monster,
-        [from]: null,
-      }));
+      if (monster.userUID !== currentUser.uid) {
+        setError('Trying to move something that is not yours?');
+        setTimeout(() => {setError(false); }, 3000);
+      } else {
+        monster.locationX = Math.floor(to / dimension);
+        monster.locationY = to % dimension;
+        setAttacker(null);
+        setDefender(null);
+        setOnBoard((previous) => ({
+          ...previous,
+          [to]: monster,
+          [from]: null,
+        }));
+      }
+    } else {
+      setError('You can not move there!');
+      setTimeout(() => {setError(false); }, 3000);
     }
   };
   return (
     <BoardContainer>
-    <ErrorMessage className={error ? 'show' : ''}> Opponent is too far away to attack </ErrorMessage>
+    <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
       <BoardStyled dimension={dimension}>
         {board.map((tile, index) => (onBoard[index] ? <Tile setError={setError} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
           : <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}

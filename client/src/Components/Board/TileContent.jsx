@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useDrag } from 'react-dnd';
 import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
@@ -11,6 +11,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
 import { Battle } from './utils/BattleFunc';
 import AttackCard from './AttackCard';
+import UserContext from '../UserContext';
 
 const MonsterDiv = styled.div`
   display: flex;
@@ -50,20 +51,32 @@ function TileContent({
   const fadeOut = (cb) => {
     setIsDying(true);
     cb();
-  }
+  };
+
+  const { currentUser } = useContext(UserContext);
 
   function handleAttack() {
     if (!attacker) {
-      setAttacker(monster);
+      if (monster.userUID !== currentUser.uid) {
+        setError('You do not own that monster');
+        setTimeout(() => {setError(false); }, 3000);
+      } else {
+        setAttacker(monster);
+      }
     } else if (attacker && attacker !== monster && !defender) {
       if (
         Math.abs(attacker.locationX - monster.locationX)
         + Math.abs(attacker.locationY - monster.locationY) === 1
       ) {
-        setDefender(monster);
+        if (monster.userUID === currentUser.uid) {
+          setError('Trying to attack your own monster?');
+          setTimeout(() => {setError(false); }, 3000);
+        } else {
+          setDefender(monster);
+        }
       } else {
-        setError(true);
-        setTimeout(() => {setError(false)}, 3000);
+        setError('Opponent is too far away');
+        setTimeout(() => {setError(false); }, 3000);
       }
     } else if (attacker === monster) {
       setAttacker(null);
@@ -86,6 +99,7 @@ function TileContent({
             onClick={() => handleAttack()}
             style={{
               opacity: isDragging ? '0' : '1',
+              cursor: (monster.userUID === currentUser.uid) ? 'grab' : 'default',
               width: '90%',
               height: '90%',
               border: attacker === monster ? '3px solid darkred' : '0px',
