@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default function SignIn({setUserStatus, setEmail, setPW, login}) {
+export default function SignIn({error, setUserStatus, setEmail, setPW, login}) {
 
   const handleSubmit = (e)=>{
     e.preventDefault();
@@ -31,6 +31,7 @@ export default function SignIn({setUserStatus, setEmail, setPW, login}) {
           Don't have account? <br></br>
           <a href="" onClick={hadnleSignUp}>Sign up</a>
         </div>
+        {error !== '' ? <span>{error}</span> : ''}
       </form>
       </div>
     </div>

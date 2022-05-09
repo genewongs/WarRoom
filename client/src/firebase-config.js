@@ -42,4 +42,3 @@ export const addUsers = (obj)=>{
 export const deleteUsers = (obj)=>{
   return delete(userCol, obj);
 }
-
