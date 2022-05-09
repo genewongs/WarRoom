@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import SignIn from './SignIn.jsx';
 import SignUp from './SignUp.jsx';
-import {createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth';
+import {createUserWithEmailAndPassword, updateProfile,onAuthStateChanged, signOut, signInWithEmailAndPassword, useAuth} from 'firebase/auth';
 import {auth} from '../../firebase-config.js';
 import UserContext from '../UserContext.js';
 import "regenerator-runtime/runtime.js";
@@ -11,6 +11,7 @@ function index() {
   let navigate = useNavigate();
   const [exisitingUser, setUserStatus] = useState(true);
   const {currentUser, setCurrentUser} = useContext(UserContext);
+  const [userName, setUserName] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPW, setRegisterPW] = useState('');
   const [loginEmail, setLoginEmail] = useState('');
@@ -20,19 +21,26 @@ function index() {
   // console.log('loginEmail', loginEmail);
   // console.log('loginPW', loginPW);
   console.log('currentUser in authentication', currentUser);
+  console.log('existing user', exisitingUser);
+  console.log(userName);
+  console.log('auth', auth);
 
+  onAuthStateChanged(auth, (User) => {
+    setCurrentUser(User);
+  });
 
-  onAuthStateChanged(auth, (user)=> {
-    console.log('curernt user', user.email)
-    setCurrentUser(user);
-  })
-
-  const register = async ()=>{
+  const register = async () => {
     try {
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPW);
-      setCurrentUser(user)
+      console.log('authCurrentUser', auth.currentUser);
+      updateProfile(auth.currentUser, {
+        displayName: userName,
+      })
+        .then(() => setCurrentUser(user))
+        .catch((err) => console.log(`profile can't be udpated`, err))
+
     } catch (err) {
-      console.log(err);
+      console.log('register err', err.message);
     }
   };
 
@@ -40,11 +48,11 @@ function index() {
     try {
       const user = await signInWithEmailAndPassword(auth, loginEmail, loginPW)
       setCurrentUser(user);
-      console.log('login Button is working')
+      // console.log('login Button is working');
       navigate('/');
 
     } catch(err) {
-      console.log(err.message);
+      console.log('register err', err.message);
     }
   };
 
@@ -52,10 +60,13 @@ function index() {
     await signOut(auth);
   };
 
+
+
   return (
     <div>
       {exisitingUser && <SignIn login={login} setEmail= {setLoginEmail} setPW={setLoginPW} setUserStatus={setUserStatus}/>}
-      {!exisitingUser && <SignUp register={register} setEmail= {setRegisterEmail} setPW={setRegisterPW} setUserStatus={setUserStatus}/>}
+      {!exisitingUser && <SignUp setUserName={setUserName} register={register} setEmail= {setRegisterEmail} setPW={setRegisterPW} setUserStatus={setUserStatus}/>}
+
     </div>
   )
 }
