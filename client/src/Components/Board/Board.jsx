@@ -15,7 +15,7 @@ const BoardStyled = styled.div`
 `;
 
 function Board() {
-  const dimension = 4 || 8;
+  const dimension = 6 || 8;
   const { Zelroth, Gene } = sampleArray;
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),

@@ -85,7 +85,7 @@ function TileContent({
               opacity: isDragging ? '0' : '1',
               width: '90%',
               height: '90%',
-              border: attacker === monster ? '2px solid red' : '0px',
+              border: attacker === monster ? '3px solid darkred' : '0px',
               transition: 'all ease-in-out 1s',
             }}
             className={isDying ? 'dying' : ''}

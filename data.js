@@ -79,7 +79,7 @@ export const sampleArray = {
   ],
   Gene: [
     {
-      name: 'GIANTBABYGOOGOOGAGA',
+      name: 'Preist',
       desscription: 'level 68 paladin',
       maxHealth: 13,
       currentHealth: 13,

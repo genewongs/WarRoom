@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Battle } from './utils/BattleFunc';
 
 import { Button } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
+import { Battle } from './utils/BattleFunc';
 
 const AttackList = styled.div`
   width: 180px;
@@ -26,53 +26,69 @@ const AttackList = styled.div`
     font-weight: bold;
     width: 100%;
     background-color: #222225;
-    padding-left: 5px;
+    padding: 1px 0px 1px 5px;
+    transition: all ease-in-out 0.2s;
+    &:hover {
+      cursor: pointer;
+    }
   }
   & .active {
-    /* border-top: 1px solid red;
-    border-bottom: 1px solid red; */
     text-shadow: 1px 1px 2px red;
+    color: #ffcc00;
+    transition: all ease-in-out 0.2s;
   }
   li {
     padding-left: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  li:last-child {
+    padding-bottom: 4px;
   }
   > .attackListStyle {
-    height: 20px;
-    background-color: #ff000085;
+    height: 25px;
+    background-color: #ff0000a6;
   }
 `;
 
 const DefenderStats = styled.div`
   width: 90px;
   height: 95%;
+  border-radius: 3px;
   font-size: 12px;
   background: #52585c;
-  border-radius: 3px;
   h4 {
     text-align: center;
     text-shadow: 2px 2px 2px #000000d8;
   }
   & .defenderList {
     list-style: none;
+    margin-bottom: 28px;
   }
   & .defenderListStyle {
     text-align: center;
     height: 20px;
-    background-color: #0037ff;
+    border-radius: 3px;
+    background-color: #0037ffdf;
   }
   & .listHeadDefender {
     font-size: 1em;
     font-weight: bold;
-    max-height: 20px;
+    max-height: 18px;
     max-width: 100%;
-    background-color: #1b7eff;
+    background-color: #388effd2;
+    border-radius: 0 0 3px 3px;
+    text-shadow: 2px 2px 2px #00000093;
     overflow-y: hidden;
     overflow-x: hidden;
     padding: 0px 5px;
+    margin-bottom: 2px;
   }
 `;
 
-function AttackCard({ attacker, defender, setAttacker, setDefender, onBoard, setOnBoard, dimension, isDying, setIsDying, fadeOut }) {
+function AttackCard({
+  attacker, defender, setAttacker, setDefender, onBoard, setOnBoard, dimension, isDying, setIsDying, fadeOut,
+}) {
   const [chosenAttack, setChosenAttack] = useState(null);
 
   function handleAttack() {
@@ -84,13 +100,13 @@ function AttackCard({ attacker, defender, setAttacker, setDefender, onBoard, set
     if (defender.currentHealth <= 0) {
       const index = (defender.locationX * dimension) + defender.locationY;
       fadeOut(setTimeout(() => {
-        setAttacker(null)
+        setAttacker(null);
         setOnBoard((previous) => ({
           ...previous,
           [index]: null,
-        }))
+        }));
       }, 1000));
-      }
+    }
     setAttacker(null);
     setDefender(null);
   }
@@ -98,23 +114,33 @@ function AttackCard({ attacker, defender, setAttacker, setDefender, onBoard, set
     (attacker && defender) ? (
       <>
         <AttackList>
-          <div className='attackListStyle' >
+          <div className="attackListStyle">
             <h4>ATTACKER</h4>
-            {attacker.attacks.map((attack) => (
-              <ul onClick={() => setChosenAttack(attack)}>
-                <div className={`listHeadAttacker ${chosenAttack === attack ? 'active' : ''}`}> {attack.attackName} </div>
+            {attacker.attacks.map((attack, index) => (
+              <ul key={index}>
+                <div
+                  className={`listHeadAttacker ${chosenAttack === attack ? 'active' : ''}`}
+                  onClick={() => setChosenAttack(attack)}
+                >
+                  {attack.attackName}
+                </div>
                 <li>
-                  Attack: {attack.attack}
+                  Attack:
+                  {' '}
+                  {attack.attack}
                 </li>
                 <li>
-                  Damage: {attack.damage}
+                  Damage:
+                  {' '}
+                  {attack.damage}
                 </li>
                 <li>
-                  Multiplier: {attack.multiplier}
+                  Multiplier:
+                  {' '}
+                  {attack.multiplier}
                 </li>
               </ul>
-            ))
-            }
+            ))}
           </div>
         </AttackList>
         <DefenderStats>
@@ -123,10 +149,14 @@ function AttackCard({ attacker, defender, setAttacker, setDefender, onBoard, set
             <ul className="defenderList">
               <div className="listHeadDefender">{defender.name}</div>
               <li>
-                Health: {defender.currentHealth}
+                Health:
+                {' '}
+                {defender.currentHealth}
               </li>
               <li>
-                Armor: {defender.armor}
+                Armor:
+                {' '}
+                {defender.armor}
               </li>
             </ul>
             <Button
@@ -134,7 +164,9 @@ function AttackCard({ attacker, defender, setAttacker, setDefender, onBoard, set
               color="secondary"
               disabled={!chosenAttack}
               style={{
-                backgroundColor: !chosenAttack ? '#35353c' : '#7c0000',
+                backgroundColor: !chosenAttack ? '#35353c' : '#b20000',
+                fontSize: '1em',
+                height: '25px',
               }}
               onClick={() => handleAttack()}
             >
