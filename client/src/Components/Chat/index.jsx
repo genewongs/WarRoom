@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import 'regenerator-runtime/runtime';
 import styled from 'styled-components';
 import io from 'socket.io-client';
+import { getUsers } from '../../firebase-config';
 import ChatBox from './Chat';
 import LogBox from './Log';
 
@@ -64,6 +65,17 @@ const ChatContainer = styled.div`
     &::-webkit-scrollbar {
       display: none;
     }
+  }
+
+  .chat-body .message-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .chat-body .message-container::-webkit-scrollbar {
+    display: none;
   }
 
   #you {
@@ -214,6 +226,8 @@ function Chat() {
   const joinRoom = () => {
     socket.emit('join_room', room);
   };
+
+  console.log(getUsers());
 
   useEffect(() => {
     joinRoom();

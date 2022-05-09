@@ -2,6 +2,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from 'react';
+import ScrollToBottom from 'react-scroll-to-bottom';
 import UserContext from '../UserContext';
 
 function ChatBox({ socket, room }) {
@@ -9,8 +10,7 @@ function ChatBox({ socket, room }) {
   const [messageList, setMessageList] = useState([]);
   const { currentUser } = useContext(UserContext);
 
-  const username = currentUser.auth !== undefined ? currentUser.user.auth.displayName : 'None';
-  console.log('username in chat', username);
+  const username = currentUser.displayName;
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
@@ -46,46 +46,52 @@ function ChatBox({ socket, room }) {
         <div className="chat-header-title">Live Battle Chat</div>
       </div>
       <div className="chat-body">
-        {messageList.map((messageContent) => (
-          <div className="message" id={username === messageContent.author ? 'you' : 'other'}>
-            <div className="message-content">
-              <p>
-                {messageContent.message}
-              </p>
+        <ScrollToBottom className="message-container">
+          {messageList.map((messageContent) => (
+            <div className="message" id={username === messageContent.author ? 'you' : 'other'}>
+              <div className="message-content">
+                <p>
+                  {messageContent.message}
+                </p>
+              </div>
+              <div className="message-meta">
+                <p>
+                  {' '}
+                  by
+                  {' '}
+                  {' '}
+                  {messageContent.author}
+                  {' '}
+                  {' '}
+                  at
+                  {' '}
+                  {' '}
+                  {messageContent.time}
+                </p>
+                <p />
+              </div>
             </div>
-            <div className="message-meta">
-              <p>
-                {' '}
-                by
-                {' '}
-                {' '}
-                <span className="message-author">{messageContent.author}</span>
-                {' '}
-                {' '}
-                at
-                {' '}
-                {' '}
-                <span className="message-time"><i>{messageContent.time}</i></span>
-              </p>
-            </div>
-          </div>
-        ))}
+          ))}
+        </ScrollToBottom>
       </div>
       <div className="chat-footer">
-      <div className="form__group field">
-        <input
-          type="input" className="form__field"
-          placeholder="Enter a message..." name="msg"
-          id='msg' required
-          value={currentMessage}
-          onKeyDown={(event) => handleKeypress(event)}
-          onChange={(event) => {
-            setCurrentMessage(event.target.value);
-          }}
-          onBlur={() => {setCurrentMessage('')}}
+        <div className="form__group field">
+          <input
+            type="input"
+            className="form__field"
+            placeholder="Enter a message..."
+            name="msg"
+            id="msg"
+            required
+            value={currentMessage}
+            onKeyDown={(event) => handleKeypress(event)}
+            onChange={(event) => {
+              setCurrentMessage(event.target.value);
+            }}
+            onBlur={() => { setCurrentMessage(''); }}
           />
-        <label for="msg" class="form__label">Message</label>
-      </div>
+          <label htmlFor="msg" className="form__label">Message</label>
+        </div>
         {/* <input
           className="message-bar"
           type="text"
@@ -103,7 +109,7 @@ function ChatBox({ socket, room }) {
         >
         </button> */}
       </div>
-      <div className="seperator"></div>
+      <div className="seperator" />
     </div>
   );
 }
