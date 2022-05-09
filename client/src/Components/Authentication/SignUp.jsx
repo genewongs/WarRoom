@@ -12,8 +12,9 @@ return (
   <div onSubmit={handleSubmit}className="SignForm">
     <div className="formbox">
       <div className="button-box">
-        <div id="formTitle">
-          <h2 className="formTitle">War Room</h2>
+        <div className="formTitle">
+          <h2>War Room</h2>
+          <img className="swordImage" src="./assets/sword.png"></img>
         </div>
       </div>
       <form id="register"className="input-group">
