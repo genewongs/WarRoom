@@ -50,7 +50,7 @@ const sampleArray = {
       onBoard: true,
       locationX: 3,
       locationY: 2,
-      image: 'warrior.jpg',
+      image: './assets/monsters/icons/warrior.jpg',
     },
     {
       userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
@@ -77,7 +77,7 @@ const sampleArray = {
       onBoard: true,
       locationX: 2,
       locationY: 3,
-      image: 'impBoi.jpg',
+      image: './assets/monsters/icons/impBoi.jpg',
     },
   ],
   Gene: [
@@ -106,7 +106,7 @@ const sampleArray = {
       onBoard: true,
       locationX: 2,
       locationY: 3,
-      image: 'ironMage.jpg',
+      image: './assets/monsters/icons/ironMage.jpg',
     },
     {
       userUID: 'aIHuUNU11taYBlxDgisvF5jwYhD2',
@@ -133,7 +133,7 @@ const sampleArray = {
       onBoard: true,
       locationX: 2,
       locationY: 3,
-      image: 'impBoi.jpg',
+      image: './assets/monsters/icons/impBoi.jpg',
     },
   ],
 };
