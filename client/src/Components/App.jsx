@@ -10,6 +10,7 @@ import Authentication from './Authentication/index';
 import UserContext from './UserContext';
 import ProtectedRoute from './Authentication/ProtectedRoute';
 
+
 const AppContainer = styled.div`
   margin: 0px 100px 0px 100px;
   display: flex;

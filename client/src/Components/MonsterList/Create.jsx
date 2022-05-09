@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Icons from './create/Icons';
 import Attacks from './create/Attacks';
+import {getUsers} from '../../../../db/index';
 import CSS from './create/css';
+
 
 const axios = require('axios');
 
