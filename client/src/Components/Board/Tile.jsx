@@ -17,7 +17,7 @@ const TileContainer = styled.div`
 `;
 
 function Tile({
-  x, y, index, number, move, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard
+  x, y, index, number, move, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError
 }) {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'image',
@@ -41,6 +41,7 @@ function Tile({
         dimension={dimension}
         onBoard={onBoard}
         setOnBoard={setOnBoard}
+        setError={setError}
       />
     </TileContainer>
   );

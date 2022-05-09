@@ -31,10 +31,12 @@ const AttackCardStyled = styled.div`
   background-color: #1f1f23;
   border-radius: 5px;
   box-shadow: 2px 2px 10px #00000076;
+  z-index: 10;
+  opacity: 1;
 `;
 
 function TileContent({
-  x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard
+  x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError
 }) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'image',
@@ -60,7 +62,8 @@ function TileContent({
       ) {
         setDefender(monster);
       } else {
-        console.log('not valid location');
+        setError(true);
+        setTimeout(() => {setError(false)}, 3000);
       }
     } else if (attacker === monster) {
       setAttacker(null);
