@@ -24,7 +24,7 @@ const Title = styled.div`
   font-size: 2em;
   padding-top: 10px;
   img {
-    width: 25%;
+    width: 20%;
   }
 `;
 
