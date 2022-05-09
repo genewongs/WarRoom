@@ -23,3 +23,30 @@ body {
   color: white;
   background-image: url('./assets/skullLogin.jpeg');
 }
+
+.dying{
+  display: flex;
+  align-items: center;
+  -webkit-animation: fadeout 1s linear forwards;
+  animation: fadeout 1s linear forwards;
+}
+
+@-webkit-keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
