@@ -20,12 +20,12 @@ export default function SignIn({setUserStatus, setEmail, setPW, login}) {
             <h2 className="formTitle">War Room</h2>
           </div>
       </div>
-      <form id="login"className="input-group">
+      <form  onSubmit={handleSubmit}  id="login"className="input-group">
         <input type="text" className="input-field" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} required/>
         <input type="password" className="input-field" placeholder="Enter Password" onChange={(e)=>setPW(e.target.value)} required/>
         <input type="checkbox" className="check-box"/>
         <span> Remember Password</span>
-        <button onClick={handleSubmit} className="submit-btn">Log in</button>
+        <button className="submit-btn">Log in</button>
         <p>Don't have account? <a href="" onClick={hadnleSignUp}>Sign up</a></p>
       </form>
       </div>

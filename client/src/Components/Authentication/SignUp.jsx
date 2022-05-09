@@ -9,7 +9,7 @@ export default function SignUp({setUserStatus, setEmail, setUserName, setPW, reg
 
 
 return (
-  <div className="SignForm">
+  <div onSubmit={handleSubmit}className="SignForm">
     <div className="formbox">
       <div className="button-box">
         <div id="formTitle">
@@ -22,7 +22,7 @@ return (
         <input type="password" className="input-field" placeholder="Enter Password" onChange={(e)=>setPW(e.target.value)} required/>
         <input type="checkbox" className="check-box"/>
         <span>I agree to the terms & conditions</span>
-        <button onClick={handleSubmit} type="submit" class="submit-btn">Register</button>
+        <button  type="submit" class="submit-btn">Register</button>
       </form>
     </div>
   </div>
