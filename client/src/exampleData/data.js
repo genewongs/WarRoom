@@ -26,8 +26,9 @@
 const sampleArray = {
   Zelroth: [
     {
+      userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
       name: 'Ogre Battler',
-      desscription: 'level 68 paladin',
+      description: 'level 68 paladin',
       maxHealth: 13,
       currentHealth: 4,
       armor: 55,
@@ -52,8 +53,9 @@ const sampleArray = {
       image: 'warrior.jpg',
     },
     {
+      userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
       name: 'Imp Boi',
-      desscription: 'level 99 wizrd',
+      description: 'level 99 wizrd',
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
@@ -80,8 +82,9 @@ const sampleArray = {
   ],
   Gene: [
     {
+      userUID: 'aIHuUNU11taYBlxDgisvF5jwYhD2',
       name: 'Prest',
-      desscription: 'level 68 paladin',
+      description: 'level 68 paladin',
       maxHealth: 13,
       currentHealth: 13,
       armor: 15,
@@ -106,8 +109,9 @@ const sampleArray = {
       image: 'ironMage.jpg',
     },
     {
+      userUID: 'aIHuUNU11taYBlxDgisvF5jwYhD2',
       name: 'Imp Boi',
-      desscription: 'level 99 wizrd',
+      description: 'level 99 wizrd',
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
