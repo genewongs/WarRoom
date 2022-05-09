@@ -41,9 +41,9 @@ function ChatBox({ socket, room }) {
   }, [socket]);
 
   return (
-    <div style={{ border: '1px solid black' }}>
+    <div style={{ border: '0px' }}>
       <div className="chat-header">
-        <p>Live Battle Chat</p>
+        <div className="chat-header-title">Live Battle Chat</div>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
@@ -75,25 +75,41 @@ function ChatBox({ socket, room }) {
         </ScrollToBottom>
       </div>
       <div className="chat-footer">
-        <input
+        <div className="form__group field">
+          <input
+            type="input"
+            className="form__field"
+            placeholder="Enter a message..."
+            name="msg"
+            id="msg"
+            required
+            value={currentMessage}
+            onKeyDown={(event) => handleKeypress(event)}
+            onChange={(event) => {
+              setCurrentMessage(event.target.value);
+            }}
+            onBlur={() => { setCurrentMessage(''); }}
+          />
+          <label htmlFor="msg" className="form__label">Message</label>
+        </div>
+        {/* <input
           className="message-bar"
-          style={{ width: '92%', height: '3vh' }}
           type="text"
-          placeholder="Hey..."
+          placeholder="Enter a message"
           value={currentMessage}
           onKeyDown={(event) => handleKeypress(event)}
           onChange={(event) => {
             setCurrentMessage(event.target.value);
           }}
-        />
-        <button
+        /> */}
+        {/* <button
           type="submit"
           style={{ height: '3.5vh', width: '5%' }}
           onClick={() => { sendMessage(); setCurrentMessage(''); }}
         >
-          &#9658;
-        </button>
+        </button> */}
       </div>
+      <div className="seperator" />
     </div>
   );
 }
