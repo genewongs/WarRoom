@@ -23,6 +23,7 @@ function index() {
   console.log('currentUser in authentication', currentUser);
   console.log('existing user', exisitingUser);
   console.log(userName);
+  console.log('auth', auth);
 
   onAuthStateChanged(auth, (User) => {
     setCurrentUser(User);
