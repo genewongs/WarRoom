@@ -2,6 +2,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from 'react';
+import ScrollToBottom from 'react-scroll-to-bottom';
 import UserContext from '../UserContext';
 
 function ChatBox({ socket, room }) {
@@ -45,31 +46,33 @@ function ChatBox({ socket, room }) {
         <p>Live Battle Chat</p>
       </div>
       <div className="chat-body">
-        {messageList.map((messageContent) => (
-          <div className="message" id={username === messageContent.author ? 'you' : 'other'}>
-            <div className="message-content">
-              <p>
-                {messageContent.message}
-              </p>
+        <ScrollToBottom className="message-container">
+          {messageList.map((messageContent) => (
+            <div className="message" id={username === messageContent.author ? 'you' : 'other'}>
+              <div className="message-content">
+                <p>
+                  {messageContent.message}
+                </p>
+              </div>
+              <div className="message-meta">
+                <p>
+                  {' '}
+                  by
+                  {' '}
+                  {' '}
+                  {messageContent.author}
+                  {' '}
+                  {' '}
+                  at
+                  {' '}
+                  {' '}
+                  {messageContent.time}
+                </p>
+                <p />
+              </div>
             </div>
-            <div className="message-meta">
-              <p>
-                {' '}
-                by
-                {' '}
-                {' '}
-                {messageContent.author}
-                {' '}
-                {' '}
-                at
-                {' '}
-                {' '}
-                {messageContent.time}
-              </p>
-              <p />
-            </div>
-          </div>
-        ))}
+          ))}
+        </ScrollToBottom>
       </div>
       <div className="chat-footer">
         <input
