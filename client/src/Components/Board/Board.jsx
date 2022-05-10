@@ -69,7 +69,7 @@ function Board({ socket, room }) {
     socket.emit('send_new_board', newBoardSend);
   };
 
-  const move = async (from, to, monster) => {
+  const move = async (from, to, monster, reRender) => {
     if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');

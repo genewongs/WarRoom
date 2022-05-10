@@ -14,7 +14,7 @@ const Header = styled.div`
   font-size: large;
   text-align: center;
 `;
-function List({ setMonster, setRender }) {
+function List({ setMonster, setRender, monsterArr }) {
   const [count, setCount] = useState(0);
 
   let onIndex = -1;
@@ -23,7 +23,7 @@ function List({ setMonster, setRender }) {
     <ListContainer>
       <Header>On Board</Header>
       <hr />
-      {sampleArray.Zelroth.map((e) => {
+      {monsterArr.map((e) => {
         onIndex += 1;
         if (e.onBoard) {
           return (<PopulateList index={onIndex} monster={e} setMonster={setMonster} setRender={setRender} />);
@@ -33,7 +33,7 @@ function List({ setMonster, setRender }) {
       <hr />
       <Header>Off Board</Header>
       <hr />
-      {sampleArray.Zelroth.map((e) => {
+      {monsterArr.map((e) => {
         offIndex += 1;
         if (!e.onBoard) {
           return (<PopulateList index={offIndex} monster={e} setMonster={setMonster} setRender={setRender} setCount={setCount} />);
