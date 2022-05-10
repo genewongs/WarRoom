@@ -3,18 +3,19 @@ import styled from 'styled-components';
 import sampleArray from './../../exampleData/data';
 
 const DetailsContainer = styled.div`
-  margin: 2% 1% 1%;
   display: flex;
   flex-direction: column;
-  border: 1px solid green;
-  width: 95%;
-  z-index: 100;
+  background-color: #131516;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  border-radius: 5px;
 `;
 
 const TopContainer = styled.div`
   display: flex;
   margin: 15px;
-
+  font-family: 'Macondo', cursive !important;
 `;
 
 const IconContainer = styled.img`
@@ -22,18 +23,22 @@ const IconContainer = styled.img`
   height: auto;
   display: flex;
   overflow: hidden;
-  // border: solid 1px;
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(to right, #1b67ff, #ffffff) 1;
 `;
+
 const MonsterName = styled.div`
   display: flex;
-  width: 66%;
+  width: 100%;
+  background-image: linear-gradient(to right, rgba(255,0,0,0), #3e497a34);
+  border-radius: 5px;
   font-size: x-large;
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
   text-align: center;
   color: #8a0303;
-  // border: solid 1px;
 `;
 
 const Description = styled.div`
@@ -49,7 +54,6 @@ const Description = styled.div`
 `;
 
 const StatsContainer = styled.div`
-  // display: flex;
   margin: 15px;
 `;
 
@@ -78,7 +82,7 @@ function Details({}) {
     <DetailsContainer>
       <TopContainer>
         <IconContainer src={`${monster.image}`} alt="something" />
-        <MonsterName>{monster.name}</MonsterName>
+        <MonsterName><h4>{monster.name}</h4></MonsterName>
       </TopContainer>
       <Description>{monster.description}</Description>
       <StatsContainer>
