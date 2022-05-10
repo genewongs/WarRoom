@@ -4,6 +4,7 @@ import UserContext from '../UserContext.js';
 import List from './List';
 import Create from './Create';
 import Details from './Details';
+import {getUsers, addUserMonster} from '../../firebase-config';
 
 const MonsterListContainer = styled.div`
   flex-grow: 1;
@@ -52,6 +53,46 @@ const MainButtons = styled.button`
 function MonsterList() {
   const {currentUser, setCurrentUser} = useContext(UserContext);
   console.log('currentUser in MonsterList', currentUser);
+  const userId = currentUser ? currentUser.uid : '';
+  const userName = currentUser.displayName;
+  // if (userName !== undefined) {
+  //   console.log('get data in monster get request', getUsers(userName));
+  // }
+
+  // let example= {
+  //   userID: '5CGsEVgEq6PxwmXrwuevlnB86Qy1',
+  //   userName: 'elliot123',
+  //   name: 'Prest',
+  //   description: 'level 68 paladin',
+  //   maxHealth: 13,
+  //   currentHealth: 13,
+  //   armor: 15,
+  //   movement: 35,
+  //   attacks: [
+  //     {
+  //       attackName: 'Flying squirrels',
+  //       attack: '2d6 + 5',
+  //       multiplier: 4,
+  //       damage: '1d20 + 0',
+  //     },
+  //     {
+  //       attackName: 'quick attack',
+  //       attack: '1d20 + 6',
+  //       multiplier: 2,
+  //       damage: '2d4 + 4',
+  //     },
+  //   ],
+  //   onBoard: true,
+  //   locationX: 2,
+  //   locationY: 3,
+  //   image: './assets/monsters/icons/ironMage.jpg',
+  // };
+  // if (userName !== undefined) {
+  //   console.log('add monster');
+  //   addUserMonster(userName, example)
+  //   .then(console.log('data has been added'));
+  // }
+
   const [render, setRender] = useState('List');
   const renderComponent = function renderComponent() {
     if (render === 'List') {
