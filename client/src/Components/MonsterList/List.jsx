@@ -4,11 +4,10 @@ import sampleArray from '../../exampleData/data';
 import PopulateList from './PopulateList';
 
 const ListContainer = styled.div`
-  margin: 2% 1% 1%;
   display: flex;
   flex-direction: column;
   border: 1px solid green;
-  width: 95%;
+  width: 100%;
   z-index: 100;
 `;
 const Header = styled.div`
@@ -16,7 +15,6 @@ const Header = styled.div`
   text-align: center;
 `;
 function List({ setMonster, setRender }) {
-
   const [count, setCount] = useState(0);
 
   let onIndex = -1;
