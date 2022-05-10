@@ -15,6 +15,10 @@ const MonsterListContainer = styled.div`
   width: 23%;
   margin-bottom: 20px;
 
+  & .activeTab {
+    background-color: #15b151;
+  }
+
   & .buttons-container {
     width: 100%;
     height: 40px;
@@ -53,6 +57,7 @@ const MainButtons = styled.button`
 function MonsterList() {
   const {currentUser, setCurrentUser} = useContext(UserContext);
   console.log('currentUser in MonsterList', currentUser);
+  const [activeTab, setActiveTab] = useState('List');
   const userId = currentUser ? currentUser.uid : '';
   const userName = currentUser.displayName;
   // if (userName !== undefined) {
@@ -106,9 +111,29 @@ function MonsterList() {
   return (
     <MonsterListContainer>
       <div className="buttons-container">
-        <MainButtons type="button" onClick={() => setRender('List')}>List</MainButtons>
-        <MainButtons type="button" onClick={() => setRender('Create')}>Create</MainButtons>
-        <MainButtons type="button" onClick={() => setRender('Details')}>Details</MainButtons>
+        <MainButtons
+          className={activeTab === 'List' ? 'activeTab' : ''} type="button"
+          name='List'
+          onClick={() => {
+            setRender('List');
+            setActiveTab('List');
+            }}>List</MainButtons>
+        <MainButtons
+          className={activeTab === 'Create' ? 'activeTab' : ''}
+          type="button"
+          name='Create'
+          onClick={() => {
+            setRender('Create')
+            setActiveTab('Create');
+            }}>Create</MainButtons>
+        <MainButtons
+          className={activeTab === 'Details' ? 'activeTab' : ''}
+          type="button"
+          name='Details'
+          onClick={() => {
+            setRender('Details')
+            setActiveTab('Details');
+          }}>Details</MainButtons>
       </div>
       {renderComponent()}
     </MonsterListContainer>

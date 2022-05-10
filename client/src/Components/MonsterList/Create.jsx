@@ -139,7 +139,7 @@ function Create() {
         <CSS.Input type="number" id="Movement" maxLength="60" placeholder="0" onChange={(e) => setMovement(e.target.value)} />
       </div>
       <div className="attribute-attack">
-      <h4>Attacks</h4>
+        <h4>Attacks</h4>
       {attackArr.map(() => {
         count += 1;
         return (

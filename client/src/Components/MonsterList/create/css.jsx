@@ -73,6 +73,17 @@ const CSS = {
       display: none;
       }
       max-height: 234px;
+      h4 {
+        font-weight: 250;
+        font-size: 1em;
+        margin-bottom: 10px;
+        background-color: #304242;
+        min-width: 100%;
+        text-align: center;
+        border-radius: 0px 0px 3px 3px;
+        box-shadow: 2px 2px 2px #2f2f384e;
+        border-bottom: 1px solid #00d35859;
+      }
     }
   `,
   Input: styled.input`
