@@ -127,17 +127,6 @@ function MonsterList() {
   return (
     <MonsterListContainer>
       <div className="buttons-container">
-<<<<<<< HEAD
-        {render === 'List'
-          ? <ClickedButtons type="button" onClick={() => setRender('List')}>List</ClickedButtons>
-          : <MainButtons type="button" onClick={() => setRender('List')}>List</MainButtons>}
-        {render === 'Create'
-          ? <ClickedButtons type="button" onClick={() => setRender('Create')}>Create</ClickedButtons>
-          : <MainButtons type="button" onClick={() => setRender('Create')}>Create</MainButtons>}
-        {render === 'Details'
-          ? <ClickedButtons type="button" onClick={() => setRender('Details')}>Details</ClickedButtons>
-          : <MainButtons type="button" onClick={() => setRender('Details')}>Details</MainButtons>}
-=======
         <MainButtons
           className={activeTab === 'List' ? 'activeTab' : ''} type="button"
           name='List'
@@ -161,7 +150,6 @@ function MonsterList() {
             setRender('Details')
             setActiveTab('Details');
           }}>Details</MainButtons>
->>>>>>> 75e43499ca4d71b3048996f4fd1dadf2fff897d7
       </div>
       {renderComponent()}
     </MonsterListContainer>
