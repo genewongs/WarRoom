@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import io from 'socket.io-client';
 import Tile from './Tile';
 import UserContext from '../UserContext';
 import sampleArray from '../../../../data';
@@ -76,6 +77,7 @@ function Board({ socket, room }) {
       } else {
         monster.locationX = Math.floor(to / dimension);
         monster.locationY = to % dimension;
+        monster.onBoard = true;
         setAttacker(null);
         setDefender(null);
         await setOnBoard((previous) => ({
@@ -87,6 +89,10 @@ function Board({ socket, room }) {
           setSend(false);
         } else {
           setSend(true);
+        }
+
+        if (reRender) {
+          reRender((previous) => previous + 1);
         }
       }
     } else {

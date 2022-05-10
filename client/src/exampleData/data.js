@@ -82,7 +82,7 @@ const sampleArray = {
       image: './assets/monsters/icons/impBoi.png',
     },
     {
-      userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
+      userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
       userName: 'Zelroth',
       name: 'Ghoul',
       description: 'thing',
@@ -110,7 +110,7 @@ const sampleArray = {
       image: './assets/monsters/icons/ghoul.png',
     },
     {
-      userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
+      userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
       userName: 'Zelroth',
       name: 'Scary fox',
       description: 'unknown',
