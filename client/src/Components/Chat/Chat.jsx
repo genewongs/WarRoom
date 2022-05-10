@@ -24,7 +24,7 @@ function ChatBox({ socket, room }) {
           moment().format('h:mm a'),
       };
       await socket.emit('send_message', messageData);
-      setMessageList([...messageList, messageData]);
+      // setMessageList([...messageList, messageData]);
     }
   };
 
@@ -38,6 +38,7 @@ function ChatBox({ socket, room }) {
   useEffect(() => {
     socket.on('recieve_message', (data) => {
       setMessageList((messageList) => [...messageList, data]);
+      // console.log('message');
     });
   }, [socket]);
 
