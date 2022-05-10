@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import 'regenerator-runtime/runtime';
 import styled from 'styled-components';
 import io from 'socket.io-client';
-import { getUsers } from '../../firebase-config';
 import ChatBox from './Chat';
 import LogBox from './Log';
 
@@ -19,7 +18,7 @@ const ChatContainer = styled.div`
   }
 
   .message-meta {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .chat-header {
@@ -58,7 +57,7 @@ const ChatContainer = styled.div`
   }
 
   .chat-body {
-    height: 45vh;
+    height: 40vh;
     overflow-y: auto;
     scrollbar-width: none;
     background-color: #2f2f39;
@@ -78,6 +77,18 @@ const ChatContainer = styled.div`
     display: none;
   }
 
+  .log-body .message-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    scrollbar-width: none;
+  }
+
+  .log-body .message-container::-webkit-scrollbar {
+    display: none;
+  }
+
   #you {
     text-align: right;
     background-color: #40465dc3;
@@ -89,7 +100,7 @@ const ChatContainer = styled.div`
 
   #other {
     text-align: left;
-    background-color: #334172c3;
+    background-color: #ec00003c;
     margin: 4px 6px;
     padding: 5px 15px;
     border-radius: 5px;
@@ -97,13 +108,13 @@ const ChatContainer = styled.div`
   }
 
   .message-author {
-    font-size: 10px;
-    color: #b2b2b2;
+    font-size: 12px;
+    color: #aaadbc;
     font-weight: bold;
   }
 
   .message-time {
-    font-size: 10px;
+    font-size: 12px;
     color: #ffbb00;
   }
 
@@ -227,7 +238,7 @@ function Chat() {
     socket.emit('join_room', room);
   };
 
-  console.log(getUsers());
+  // console.log(getUsers());
 
   useEffect(() => {
     joinRoom();

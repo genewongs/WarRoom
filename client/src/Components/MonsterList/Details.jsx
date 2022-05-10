@@ -3,18 +3,20 @@ import styled from 'styled-components';
 import sampleArray from './../../exampleData/data';
 
 const DetailsContainer = styled.div`
-  margin: 2% 1% 1%;
   display: flex;
   flex-direction: column;
-  border: 1px solid green;
-  width: 95%;
-  z-index: 100;
+  background-color: #131516;
+  width: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  z-index: 5;
+  border-radius: 5px;
 `;
 
 const TopContainer = styled.div`
   display: flex;
   margin: 15px;
-
+  font-family: 'Macondo', cursive !important;
 `;
 
 const IconContainer = styled.img`
@@ -22,45 +24,66 @@ const IconContainer = styled.img`
   height: auto;
   display: flex;
   overflow: hidden;
-  // border: solid 1px;
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(to right, #1b67ff, #ffffff) 1;
 `;
+
 const MonsterName = styled.div`
   display: flex;
-  width: 66%;
+  width: 100%;
+  background-image: linear-gradient(to right, rgba(255,0,0,0), #526e9f34);
+  border-radius: 3px;
   font-size: x-large;
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
   text-align: center;
-  color: #8a0303;
-  // border: solid 1px;
+  color: #cad9eb;
+  text-shadow: 1px 1px 1px #000000;
 `;
 
 const Description = styled.div`
   display: flex;
-  width: 99%
+  width: 100%
   font-size: large;
   justify-content: center;
   align-items: center;
   // border: solid 1px;
   text-transform: uppercase;
   font-style: italic;
-  color: #8a0303;
+  color: #97b3d2;
+  background-color: #1a1d23c5;
+  text-shadow: 1px 1px 1px #000000;
 `;
 
 const StatsContainer = styled.div`
-  // display: flex;
   margin: 15px;
 `;
 
 const AttacksContainer = styled.div`
   margin: 15px;
   text-transform: uppercase;
+
+  tr:nth-last-child() {
+      border-bottom: none !important;
+  }
+
+  & .attackContainer {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid white;
+    h4 {
+      background-image: linear-gradient(to right, rgba(255,0,0,0), #3e497a7d);
+    }
+  }
 `;
 
 const AttackTitle = styled.div`
   font-size: large;
   text-align: center;
+  background-color: #25293e;
+  border-bottom: 1px solid white;
 `;
 
 const StyledLeftTD = styled.div`
@@ -71,14 +94,13 @@ const StyledAttackTable = styled.table`
   margin-left: 1em;
 `;
 
-function Details({}) {
-  const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
-
+function Details({ monster }) {
+  // const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
   return (
     <DetailsContainer>
       <TopContainer>
         <IconContainer src={`${monster.image}`} alt="something" />
-        <MonsterName>{monster.name}</MonsterName>
+        <MonsterName><h4>{monster.name}</h4></MonsterName>
       </TopContainer>
       <Description>{monster.description}</Description>
       <StatsContainer>
@@ -103,10 +125,9 @@ function Details({}) {
       </StatsContainer>
       <AttacksContainer>
         <AttackTitle>Attacks</AttackTitle>
-        <hr />
         {monster.attacks.map((e) => (
-          <>
-            {e.attackName}
+          <div className="attackContainer">
+            <h4>{e.attackName}</h4>
             <StyledAttackTable>
               <tr>
                 <StyledLeftTD>Attack: </StyledLeftTD>
@@ -121,7 +142,6 @@ function Details({}) {
                 <td>{e.multiplier}</td>
               </tr>
             </StyledAttackTable>
-            <hr />
             {/* <div>
               Name: {e.attackName}
             </div>
@@ -131,7 +151,7 @@ function Details({}) {
             <div>
               Damage: {e.damage}
             </div> */}
-          </>
+          </div>
         )
         )}
       </AttacksContainer>

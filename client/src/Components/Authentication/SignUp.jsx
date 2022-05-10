@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default function SignUp({setUserStatus, setEmail, setUserName, setPW, register}) {
+export default function SignUp({error, setUserStatus, setEmail, setUserName, setPW, register}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     register();
@@ -24,6 +24,7 @@ return (
         <input type="checkbox" className="check-box"/>
         <span>I agree to the terms & conditions</span>
         <button  type="submit" class="submit-btn">Register</button>
+        {error !== '' ? <span>{error}</span> : ''}
       </form>
     </div>
   </div>

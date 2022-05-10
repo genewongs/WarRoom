@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import TextField from '@mui/material/TextField';
 import Icons from './create/Icons';
 import Attacks from './create/Attacks';
-import { getUsers } from '../../firebase-config';
+import { getUsers, addUserMonster } from '../../firebase-config';
+import UserContext from '../UserContext';
 import CSS from './create/css';
 
 function Create() {
+  const { currentUser } = useContext(UserContext);
   const [iconArr] = useState([
     'Blob.jpg',
     'Hunter.jpg',
@@ -39,7 +42,8 @@ function Create() {
     'troll.jpg',
     'turqoiseDragon.jpg',
     'warrior.jpg',
-    'zombie.jpg']);
+    'zombie.jpg',
+    'TargetDummy.jpg']);
   const [renderI, setRenderI] = useState(false);
   const [attackRerender, setAttackRerender] = useState(1);
   // hooks used for database
@@ -52,15 +56,24 @@ function Create() {
   const [attackArr] = useState([{
     attackName: 'none',
     attack: 'none',
-    multiplier: 0,
+    multiplier: 1,
     damage: 'none',
+    range: 5,
   }]);
-  // renders all icons for user to click from
+  const [quantity, setQuantity] = useState(1);
+  // access current user
+
+  // console.log('userName in monster list', currentUser.displayName);
+  // console.log('all users', getUsers());
+  // console.log('currentUser in monster list', currentUser.uid);
+  // // renders all icons for user to click from
   const renderIcons = function renderIcons() {
     return (
-      <div>
-        {iconArr.map((e) => (<Icons current={e} selected={icon} setIcon={setIcon} />))}
-        <CSS.MainButtons type="button" onClick={() => setRenderI(false)}>Close Icon List</CSS.MainButtons>
+      <div className="iconContainer">
+        <div className="iconSet">
+          {iconArr.map((e) => (<Icons style={{ border: '1px solid black' }} current={e} selected={icon} setIcon={setIcon} />))}
+        </div>
+        <CSS.CharIcon type="button" onClick={() => setRenderI(false)}>Close</CSS.CharIcon>
       </div>
     );
   };
@@ -72,6 +85,7 @@ function Create() {
       attack: 'none',
       multiplier: 0,
       damage: 'none',
+      range: 5,
     });
     setAttackRerender(attackRerender + 1);
   };
@@ -85,73 +99,93 @@ function Create() {
     attackArr[index - 1][key] = value;
   };
   // sends data to database
-  const Submit = function Submit() {
-    console.log({
-      name,
-      description,
-      armor,
-      health,
-      movement,
-      icon,
-      attackArr,
-    });
+  function Submit(quanity) {
+    if (name === '') {
+      alert('Name is blank');
+      console.log('log in first please');
+    } else {
+      let promises = [];
+      for (let i = 0; i < quantity; i += 1) {
+        promises.push(addUserMonster(currentUser.displayName, {
+          userUID: currentUser.uid,
+          userName: currentUser.displayName,
+          name,
+          description,
+          armor,
+          maxHealth: health,
+          currentHealth: health,
+          movement,
+          image: `./assets/monsters/icons/${icon}`,
+          attacks: attackArr,
+          onBoard: false,
+          locationX: -1,
+          locationY: -1,
+        }));
+      }
+      setQuantity(1);
+      return Promise.all().then((data) => console.log(data)).catch((err) => console.log(err));
+    }
   };
   return (
     <CSS.CreateContainer>
-      <div>
-        Name:&nbsp;
-        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Example: skeleton" onChange={(e) => setName(e.target.value)} />
+      <div className="attribute">
+        <h4>Name</h4>
+        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
       </div>
-      <div>
-        Description:&nbsp;
-        <CSS.Input type="text" id="Description" maxLength="1000" placeholder="Example: Level 3 fighter" onChange={(e) => setDescription(e.target.value)} />
+      <div className="attribute">
+        <h4>Description</h4>
+        <CSS.Input type="text" id="Description" maxLength="1000" placeholder="Ex: Level 3 Fighter" onChange={(e) => setDescription(e.target.value)} />
       </div>
-      <div>
-        Icon:
+      <div className="attribute">
+        <h4>Icon</h4>
         <CSS.SelectedIcon
           src={`./assets/monsters/icons/${icon}`}
           alt={icon}
           loading="lazy"
         />
       </div>
-      <div>
+      <div className="attribute">
         {renderI
           ? renderIcons()
-          : <CSS.MainButtons type="button" onClick={() => setRenderI(true)}>Icon List</CSS.MainButtons>}
+          : <CSS.CharIcon type="button" onClick={() => setRenderI(true)}>Icon List</CSS.CharIcon>}
       </div>
 
-      <div>
-        Stats
+      <div className="attribute">
+        <h4>Stats</h4>
       </div>
-      <div>
-        Armor:&nbsp;
+      <div className="attribute">
+        <h4>Armor</h4>
         <CSS.Input type="number" id="Armor" maxLength="60" placeholder="0" onChange={(e) => setArmor(e.target.value)} />
       </div>
-      <div>
-        Health:&nbsp;
+      <div className="attribute">
+        <h4>Health</h4>
         <CSS.Input type="number" id="Health" maxLength="60" placeholder="0" onChange={(e) => setHealth(e.target.value)} />
       </div>
-      <div>
-        Movement:&nbsp;
+      <div className="attribute">
+        <h4>Movement</h4>
         <CSS.Input type="number" id="Movement" maxLength="60" placeholder="0" onChange={(e) => setMovement(e.target.value)} />
       </div>
-      <div>
-        Attacks
+      <div className="attribute-attack">
+        <h4>Attacks</h4>
+          <CSS.AttackBox>
+            {attackArr.map(() => {
+              count += 1;
+              return (
+                <Attacks
+                  setAttack={(index, key, value) => setAttack(index, key, value)}
+                  deleteAttack={(index) => deleteAttack(index)}
+                  addAttack={addAttack}
+                  count={count}
+                />
+              );
+            })}
+          </CSS.AttackBox>
       </div>
-      {attackArr.map(() => {
-        count += 1;
-        return (
-          <Attacks
-            setAttack={(index, key, value) => setAttack(index, key, value)}
-            deleteAttack={(index) => deleteAttack(index)}
-            count={count}
-          />
-        );
-      })}
-      <div>
-        <button type="button" onClick={() => addAttack()}>Add Attack</button>
+      <div className="attribute">
+        <h4>Quantity</h4>
+        <CSS.Input type="number" id="Quantity" maxLength="60" placeholder="1" onChange={(e) => setQuantity(e.target.value)} />
       </div>
-      <button type="button" onClick={() => Submit()}>Submit</button>
+      <button className="confirm-monster" type="button" onClick={() => Submit(quantity)}>Add Monster(s)</button>
     </CSS.CreateContainer>
   );
 }
