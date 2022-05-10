@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
-import {getFirestore, collection, getDoc, updateDoc, addDoc, arrayUnion, FieldValue, firestore, setDoc, deleteDoc, doc} from 'firebase/firestore';
+import {getFirestore, collection, getDocs, updateDoc, addDoc, arrayUnion, FieldValue, firestore, setDoc, deleteDoc, doc} from 'firebase/firestore';
 import {firebase} from 'firebase/app';
 const firebaseConfig = {
   apiKey: "AIzaSyDTZTqTiz-wjzwRq8ClTCcIW9boQkkBBcE",
@@ -18,26 +18,33 @@ export const auth = getAuth(app);
 //init db service
 export const db = getFirestore();
 
-// collection ref
-const userCol = collection(db, 'user');
 
-export const getUsers = (userId) => {
-  const docRef = doc(userCol, String(userId));
-  console.log(String(userId));
-  getDoc(docRef)
-  .then((docSnap)=>console.log('doc snap', docSnap.data()))
+export const getUsers = (userName) => {
+  const colRef = collection(db, userName);
+  console.log('getuser beingh called', userName);
+  getDocs(colRef)
+  .then((snapshot)=>{
+    let books = [];
+    snapshot.docs.forEach((doc)=>{
+      console.log('doc', doc);
+      books.push({...doc.data(), id:doc.id})
+    })
+    console.log('books', books)
+  })
   .catch(()=>console.log('no such document'));
-}
+};
 
-export const addUserMonster = async (userId, obj)=>{
-  const docRef = doc(userCol, String(userId));
-  console.log(String(userId))
-  const docs = await updateDoc(docRef, {'monsters': FieldValue.arrayUnion(obj)});
-  console.log('docs', docs)}
+export const addUserMonster = async (userName, obj)=>{
+  const colRef = collection(db, userName);
+  addDoc(colRef, obj);
+};
 
-export const updateUserMonster = (userId, obj)=> {
-  return updateDoc(doc(db, 'users', userId),obj);
-}
-export const deleteUsers = (userId)=>{
-  return updateDoc(doc(db, 'users', userid), {toDelete: FieldValue.delete()});
-}
+export const updateUserMonster = (userName, monsterId, updatedArea)=> {
+  const docRef = doc(db, userName, monsterId);
+  updateDoc(docRef, updatedArea);
+};
+
+export const deleteUsers = (userName, monsterId)=>{
+  const docRef = doc(db, userName, monsterId);
+  return deleteDoc(docRef);
+};
