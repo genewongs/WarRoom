@@ -15,7 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
-
 //init db service
 export const db = getFirestore();
 
@@ -23,8 +22,8 @@ export const db = getFirestore();
 const userCol = collection(db, 'user');
 
 // get collection data
-export const getUsers = () => {
-  return getDocs(userCol)
+export const getUsers = (userId) => {
+  return db.collection('user').doc(userId)
   .then((snapshot)=>{
     let users=[];
     snapshot.docs.forEach((doc)=>{
@@ -35,11 +34,14 @@ export const getUsers = () => {
   .catch(err=>console.log(err));
 }
 
-export const addUsers = (obj)=>{
-  return addDoc(userCol, obj);
+export const addUsers = (userId, obj)=>{
+  return db.collection(users).doc(userId).set(data);
 }
 
-export const deleteUsers = (obj)=>{
-  return delete(userCol, obj);
+export const updateUsers = (userId, obj)=> {
+  return db.collection(userid).doc(obj);
+}
+export const deleteUsers = (userId)=>{
+  return db.collection('users').doc(userId).update({toDelete: fieldValue.delete()});
 }
 
