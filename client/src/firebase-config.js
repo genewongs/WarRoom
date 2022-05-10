@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
-import {getFirestore,collection, getDocs, addDoc, deleteDoc} from 'firebase/firestore';
+import {getFirestore, collection, getDoc, updateDoc, setDoc, deleteDoc, doc} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDTZTqTiz-wjzwRq8ClTCcIW9boQkkBBcE",
@@ -23,7 +23,7 @@ const userCol = collection(db, 'user');
 
 // get collection data
 export const getUsers = (userId) => {
-  return db.collection('user').doc(userId)
+  return getDoc(collection(db, 'users', userId))
   .then((snapshot)=>{
     let users=[];
     snapshot.docs.forEach((doc)=>{
@@ -35,12 +35,12 @@ export const getUsers = (userId) => {
 }
 
 export const addUsers = (userId, obj)=>{
-  return db.collection(users).doc(userId).set(data);
+  return setDoc(doc(db, 'users', userId), obj);
 }
 
 export const updateUsers = (userId, obj)=> {
-  return db.collection(userid).doc(obj);
+  return updateDoc(doc(db, 'users', userId),obj);
 }
 export const deleteUsers = (userId)=>{
-  return db.collection('users').doc(userId).update({toDelete: fieldValue.delete()});
+  return updateDoc(doc(db, 'users', userid), {toDelete: fieldValue.delete()});
 }
