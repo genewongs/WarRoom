@@ -2,9 +2,9 @@ import React, { useState, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Icons from './create/Icons';
 import Attacks from './create/Attacks';
-// import { getUsers } from '../../firebase-config';
+import { getUsers, addUserMonster } from '../../firebase-config';
 import UserContext from '../UserContext';
-import CSS from './create/css.jsx';
+import CSS from './create/css';
 
 function Create() {
   const [iconArr] = useState([
@@ -97,48 +97,31 @@ function Create() {
     attackArr[index - 1][key] = value;
   };
   // sends data to database
-  const Submit = function Submit() {
-    /*
-    addUsers({
-      userUID: currentUser.uid,
-      userName: currentUser.displayName,
-      name,
-      description,
-      armor,
-      maxHealth: health,
-      currentHealth: health,
-      movement,
-      image: `./assets/monsters/icons/${icon}`,
-      attackArr,
-      onBoard: false,
-      locationX: -1,
-      locationY: -1,
-    })
-      .then((res) => {
-        if (quantity > 1) {
-          setQuantity(quantity - 1);
-          Submit();
-        } else {
-          console.log(res);
-        }
-      })
-      .catch((err) => console.log(err));
-      */
-    console.log({
-      userUID: currentUser.uid,
-      userName: currentUser.displayName,
-      name,
-      description,
-      armor,
-      maxHealth: health,
-      currentHealth: health,
-      movement,
-      image: `./assets/monsters/icons/${icon}`,
-      attackArr,
-      onBoard: false,
-      locationX: -1,
-      locationY: -1,
-    });
+  function Submit(quanity) {
+    if (!currentUser.uid) {
+      console.log('log in first please');
+    } else {
+      let promises = [];
+      for (let i = 0; i < quantity; i += 1) {
+        promises.push(addUserMonster(currentUser.displayName, {
+          userUID: currentUser.uid,
+          userName: currentUser.displayName,
+          name,
+          description,
+          armor,
+          maxHealth: health,
+          currentHealth: health,
+          movement,
+          image: `./assets/monsters/icons/${icon}`,
+          attackArr,
+          onBoard: false,
+          locationX: -1,
+          locationY: -1,
+        }))
+      }
+      setQuantity(1);
+      return Promise.all(promises).then((data) => console.log(data)).catch((err) => console.log(err));
+    }
   };
   return (
     <CSS.CreateContainer>
@@ -181,25 +164,25 @@ function Create() {
       </div>
       <div className="attribute-attack">
         <h4>Attacks</h4>
-        <CSS.AttackBox>
-          {attackArr.map(() => {
-            count += 1;
-            return (
-              <Attacks
-                setAttack={(index, key, value) => setAttack(index, key, value)}
-                deleteAttack={(index) => deleteAttack(index)}
-                addAttack={() => addAttack()}
-                count={count}
-              />
-            );
-          })}
-        </CSS.AttackBox>
+          <CSS.AttackBox>
+            {attackArr.map(() => {
+              count += 1;
+              return (
+                <Attacks
+                  setAttack={(index, key, value) => setAttack(index, key, value)}
+                  deleteAttack={(index) => deleteAttack(index)}
+                  addAttack={addAttack}
+                  count={count}
+                />
+              );
+            })}
+          </CSS.AttackBox>
       </div>
       <div className="attribute">
         <h4>Quantity</h4>
         <CSS.Input type="number" id="Quantity" maxLength="60" placeholder="1" onChange={(e) => setQuantity(e.target.value)} />
       </div>
-      <button className="confirm-monster" type="button" onClick={() => Submit()}>Add Monster(s)</button>
+      <button className="confirm-monster" type="button" onClick={() => Submit(quantity)}>Add Monster(s)</button>
     </CSS.CreateContainer>
   );
 }

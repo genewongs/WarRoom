@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { useDrag } from 'react-dnd';
 import sampleArray from '../../exampleData/data';
 
 const Icon = styled.img`
@@ -16,7 +17,17 @@ const CenterText = styled.div`
   width: 100%;
   text-align: center;
 `;
-function PopulateList({ index, obj, setMonster, setRender }) {
+function PopulateList({ index, monster, setMonster, setRender, setCount }) {
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+
+    type: 'image',
+    item: { id: index, monster, reRender: setCount },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
   return (
     <div onClick={() => {
       setMonster(sampleArray.Zelroth[index]);
@@ -26,27 +37,28 @@ function PopulateList({ index, obj, setMonster, setRender }) {
       <MonsterContainer>
         <div>
           <h4>
-            {obj.name}
+            {monster.name}
           </h4>
           Health:
-          {obj.currentHealth}/{obj.maxHealth}
+          {monster.currentHealth}/{monster.maxHealth}
           <br />
           Armor:
-          {obj.armor}
+          {monster.armor}
           <br />
           Movement:
-          {obj.movement}
+          {monster.movement}
         </div>
         <div>
           <Icon
-            src={obj.image}
-            alt={obj.image}
+            src={monster.image}
+            alt={monster.image}
             loading="lazy"
+            ref={!monster.onBoard ? drag : null}
           />
         </div>
       </MonsterContainer>
       <CenterText>
-        {obj.description}
+        {monster.description}
       </CenterText>
     </div>
   );
