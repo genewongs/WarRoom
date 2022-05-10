@@ -1,14 +1,17 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 function LogBox({ socket }) {
   const [logList, setLogList] = useState([]);
+
+  // console.log(logList);
 
   useEffect(() => {
     socket.on('recieve_log_message', (data) => {
       setLogList([...logList, data]);
     });
-  }, [socket]);
+  });
 
   return (
     <div>
@@ -16,13 +19,15 @@ function LogBox({ socket }) {
         <p>Battle Events</p>
       </div>
       <div className="log-body">
-        {logList.map((logContent) => (
-          <div className="log-message">
-            <p>
-              {logContent.message}
-            </p>
-          </div>
-        ))}
+        <ScrollToBottom className="message-container">
+          {logList.map((logContent) => (
+            <div className="log-message">
+              <p>
+                {logContent.message}
+              </p>
+            </div>
+          ))}
+        </ScrollToBottom>
       </div>
     </div>
   );
