@@ -42,6 +42,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     // console.log("User Disconnected", socket.id)
   });
+
+  socket.on('send_new_board', (newBoardSend) => {
+    socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
+  });
 });
 
 app.use(express.json());
