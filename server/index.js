@@ -35,8 +35,16 @@ io.on('connection', (socket) => {
     socket.to(data.board).emit('recieve_log_message', data);
   });
 
+  socket.on('send_log_message_data', (data) => {
+    socket.to(data.board).emit('recieve_log_message_data', data);
+  });
+
   socket.on('disconnect', () => {
     // console.log("User Disconnected", socket.id)
+  });
+
+  socket.on('send_new_board', (newBoardSend) => {
+    socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
   });
 });
 

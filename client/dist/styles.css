@@ -3,12 +3,19 @@
   padding: 0;
 }
 
-body {
+html, body {
   font-family: 'Koulen', cursive;
+  font-family: 'Macondo', cursive;
   font-family: 'Poppins', sans-serif;
   color: white;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  background-image: url('./assets/bg.jpg');
+  background-size: auto;
+  background-repeat: none;
 }
-  
+
 .skeleton {
   margin: 0;
   padding: 0;
@@ -18,41 +25,52 @@ body {
   background-image: url('./assets/skullLogin.jpeg');
 }
 
-.masterContainer {
-  background-image: url('./assets/bg.jpg');
-  background-size: contain;
-  background-repeat: none;
+.linkRR {
+  text-decoration: none;
 }
 
-.SignForm{
-  height: 100%;
-  width: 100%;
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  /* margin-right: 20px !important;
+  margin-top: 20px !important; */
+  background-color:rgb(99, 0, 0) !important;
+  text-shadow: 2px 2px 2px black;
+  float: right;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  background-color:rgb(143, 0, 0) !important;
+}
+
+.SignForm {
+  min-height: 100vh;
+  min-width: 100%;
   background-image: url('./assets/bg.jpg');
   background-position: center;
   background-size: cover;
-  position:absolute;
+  display: flex;
+  justify-content: center;
 }
 
 /* For the white box of the form */
-.formbox{
-
+.formbox {
   width: 380px;
   height: 480px;
   position: relative;
-  margin: 6% auto;
+  margin-top: 8%;
   background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(bg.jpg);
   padding: 5px;
   overflow: hidden;
 }
-.button-box{
+
+/* .button-box {
   width: 220px;
   margin: 35px auto;
   position: relative;
   box-shadow: 0 0 20px 9px #ff61241f;
   border-radius: 30px;
-}
+} */
 
-.toggle-btn{
+.toggle-btn {
   padding: 10px 30px;
   cursor: pointer;
   background:transparent;
@@ -61,44 +79,61 @@ body {
   position: relative;
 }
 
-.formTitle{
-  top: 0;
-  left: 0;
-  position:absolute;
-  width: 400px;
+.formTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   height: 100%;
-  /* background: linear-gradient(to right, #ff105f, black); */
-  border-radius:30px;
-  color: 'red'
+}
 
+.formTitle > h2 {
+  color: rgb(242, 231, 229);
+  text-shadow: 2px 2px 2px #c50000;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.swordImage {
+  margin: 15px 0px;
+  width: 65px;
+}
+
+.signUp {
+  text-align: center;
+}
+
+.signUp > a {
+  color: rgb(255, 77, 0);
+}
+
+.signUp > a:visited {
+  color: rgb(255, 77, 0);
 }
 
 /* For three icons[Facebook, twitter, google] */
-.social-icons{
+.social-icons {
   margin: 30px auto;
   text-align: center;
 }
-.social-icons img{
 
+.social-icons img {
   width: 30px;
   margin: 0 12px;
   box-shadow: 0 0 20px 0 #7f7f7f3d;
   cursor: pointer;
   border-radius: 50%;
-
 }
 
-.input-group{
-
+.input-group {
   top: 180px;
   position:absolute;
   width: 280px;
   transition: .5s;
-
 }
 
 .input-field {
-
   width: 100%;
   padding: 10px 0;
   margin: 5px 0;
@@ -112,8 +147,7 @@ body {
 }
 
 /* For submit the button */
-.submit-btn{
-
+.submit-btn {
   width: 85%;
   padding: 10px 30px;
   cursor: pointer;
@@ -123,13 +157,14 @@ body {
   border:0;
   outline: none;
   border-radius: 30px;
-
+  margin-bottom: 25px;
 }
 /* For the check box of terms and conditions */
-.check-box{
+.check-box {
   margin: 30px 10px 30px;
 }
-span{
+
+span {
   color:#777;
   font-size: 12px;
   bottom: 68px;
@@ -141,3 +176,42 @@ span{
 }
 #register{
   left:50px;
+}
+
+.dying{
+  display: flex;
+  align-items: center;
+  -webkit-animation: fadeout 1s linear forwards;
+  animation: fadeout 1s linear forwards;
+}
+.attacks-container{
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+@-webkit-keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.attacks-data {
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(196, 223, 255, 0.261);
+}

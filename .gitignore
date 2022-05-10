@@ -102,6 +102,9 @@ typings/
 # TernJS port file
 .tern-port
 package-lock.json
-
+bundle.js
+bundle.js.gz
 client/dist/bundle.js
 client/dist/bundle.js.gz
+
+.DS_Store

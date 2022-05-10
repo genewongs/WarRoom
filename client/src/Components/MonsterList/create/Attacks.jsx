@@ -1,50 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+/* eslint-disable react/prop-types */
+import React from 'react';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CSS from './css';
 
-const Close = styled.div`
-display: flex;
-justify-content: flex-end;
-width: 17vw;
-`;
-const Input = styled.textarea`
-  height: 12px;
-  padding: 0.5em;
-  border-width: 1px;
-  border-style: inset;
-  border-color: #a6de0b;
-  border-radius: 3px;
-  width: 50%;
-  margin-bottom: 0.5em;
-  margin-left: 2px;
-  box-shadow: 0 5px 5px rgba(17, 16, 62, 0.1);
-  ::placeholder {
-    color: #6e0d15;
-  }
-`;
-const DivInputs = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-const Attacks = function Attacks({ obj, deleteAttack, index }) {
+const Attacks = function Attacks({
+  setAttack, deleteAttack, addAttack, count,
+}) {
   return (
-    <div>
-      <Close onClick={() => deleteAttack(index)}><div>X</div></Close>
-      <DivInputs>
+    <div className="attacks-data">
+      <CSS.Close>
+        <div>
+          <AddCircleIcon
+            className="icon"
+            onClick={addAttack}
+            fontSize="small"
+            style={{ color: 'limegreen' }}
+          />
+        </div>
+        <div>
+          <AddCircleIcon
+            fontSize="small"
+            className="icon"
+            onClick={() => {
+              count !== 1 ? deleteAttack(count - 1)
+                : null;
+            }}
+            style={{
+              transform: 'rotate(45deg)',
+              color: 'red',
+            }}
+          />
+        </div>
+      </CSS.Close>
+      <CSS.DivInputs>
         Name:&nbsp;
-        <Input type="text" id="nickname" maxLength="60" placeholder="Quick slash" />
-      </DivInputs>
-      <DivInputs>
+        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Ex: Stab" onChange={(e) => setAttack(count, 'attackName', e.target.value)} />
+      </CSS.DivInputs>
+      <CSS.DivInputs>
         Attack:&nbsp;
-        <Input type="text" id="Attack" maxLength="60" placeholder="1d20 + 6" />
-      </DivInputs>
-      <DivInputs>
+        <CSS.Input type="text" id="Attack" maxLength="60" placeholder="Ex: 1d20 + 6" onChange={(e) => setAttack(count, 'attack', e.target.value)} />
+      </CSS.DivInputs>
+      <CSS.DivInputs>
         Strikes:&nbsp;
-        <Input type="number" id="Strikes" maxLength="60" placeholder="2" />
-      </DivInputs>
-      <DivInputs>
+        <CSS.Input type="number" id="Strikes" maxLength="60" placeholder="1" onChange={(e) => setAttack(count, 'multiplier', e.target.value)} />
+      </CSS.DivInputs>
+      <CSS.DivInputs>
         Damage:&nbsp;
-        <Input type="text" id="Damage" maxLength="60" placeholder="Example: 2d6 + 3" />
-      </DivInputs>
+        <CSS.Input type="text" id="Damage" maxLength="60" placeholder="Ex: 2d6 + 3" onChange={(e) => setAttack(count, 'damage', e.target.value)} />
+      </CSS.DivInputs>
+      <CSS.DivInputs>
+        Range:&nbsp;
+        <CSS.Input type="number" id="Range" maxLength="60" placeholder="5 = 1 square" onChange={(e) => setAttack(count, 'range', e.target.value)} />
+      </CSS.DivInputs>
     </div>
   );
 };

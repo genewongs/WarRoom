@@ -23,15 +23,17 @@
 ]
 */
 
-export const sampleArray = {
+const sampleArray = {
   Zelroth: [
     {
+      userUID: 'wetRKQoXtgYvVyCfQyawBSqaJ7z1',
+      userName: 'Zelroth',
       name: 'Ogre Battler',
-      desscription: 'level 68 paladin',
+      description: 'level 68 paladin',
       maxHealth: 13,
       currentHealth: 4,
       armor: 55,
-      movment: 35,
+      movement: 7,
       attacks: [
         {
           attackName: 'X Cut',
@@ -49,14 +51,17 @@ export const sampleArray = {
       onBoard: true,
       locationX: 3,
       locationY: 2,
+      image: './assets/monsters/icons/warrior.jpg',
     },
     {
+      userUID: 'wetRKQoXtgYvVyCfQyawBSqaJ7z1',
+      userName: 'Zelroth',
       name: 'Imp Boi',
-      desscription: 'level 99 wizrd',
+      description: 'level 99 wizrd',
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
-      movment: 30,
+      movement: 6,
       attacks: [
         {
           attackName: 'quick attack',
@@ -74,16 +79,19 @@ export const sampleArray = {
       onBoard: true,
       locationX: 2,
       locationY: 3,
+      image: './assets/monsters/icons/impBoi.jpg',
     },
   ],
   Gene: [
     {
+      userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
+      userName: 'Gene',
       name: 'Prest',
-      desscription: 'level 68 paladin',
+      description: 'level 68 paladin',
       maxHealth: 13,
       currentHealth: 13,
       armor: 15,
-      movment: 35,
+      movement: 7,
       attacks: [
         {
           attackName: 'Flying squirrels',
@@ -101,14 +109,17 @@ export const sampleArray = {
       onBoard: true,
       locationX: 2,
       locationY: 3,
+      image: './assets/monsters/icons/ironMage.jpg',
     },
     {
+      userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
+      userName: 'Gene',
       name: 'Imp Boi',
-      desscription: 'level 99 wizrd',
+      description: 'level 99 wizrd',
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
-      movment: 30,
+      movement: 5,
       attacks: [
         {
           attackName: 'quick attack',
@@ -124,9 +135,11 @@ export const sampleArray = {
         },
       ],
       onBoard: true,
-      locationX: 2,
+      locationX: 3,
       locationY: 3,
+      image: './assets/monsters/icons/impBoi.png',
     },
   ],
 };
 
+export default sampleArray;

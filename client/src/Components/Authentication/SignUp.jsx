@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default function SignUp({setUserStatus, setEmail, setUserName, setPW, register}) {
+export default function SignUp({error, setUserStatus, setEmail, setUserName, setPW, register}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     register();
@@ -9,11 +9,12 @@ export default function SignUp({setUserStatus, setEmail, setUserName, setPW, reg
 
 
 return (
-  <div className="SignForm">
+  <div onSubmit={handleSubmit}className="SignForm">
     <div className="formbox">
       <div className="button-box">
-        <div id="formTitle">
-          <h2 className="formTitle">War Room</h2>
+        <div className="formTitle">
+          <h2>War Room</h2>
+          <img className="swordImage" src="./assets/sword.png"></img>
         </div>
       </div>
       <form id="register"className="input-group">
@@ -22,7 +23,8 @@ return (
         <input type="password" className="input-field" placeholder="Enter Password" onChange={(e)=>setPW(e.target.value)} required/>
         <input type="checkbox" className="check-box"/>
         <span>I agree to the terms & conditions</span>
-        <button onClick={handleSubmit} type="submit" class="submit-btn">Register</button>
+        <button  type="submit" class="submit-btn">Register</button>
+        {error !== '' ? <span>{error}</span> : ''}
       </form>
     </div>
   </div>
