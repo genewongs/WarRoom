@@ -58,7 +58,7 @@ const ChatContainer = styled.div`
   }
 
   .chat-body {
-    height: 45vh;
+    height: 40vh;
     overflow-y: auto;
     scrollbar-width: none;
     background-color: #2f2f39;

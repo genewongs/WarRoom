@@ -18,8 +18,9 @@ const AppContainer = styled.div`
   margin: 0px 100px 0px 100px;
   display: flex;
   flex-direction: row;
-  height: 90vh;
+  height: 80vh;
 `;
+
 const Title = styled.div`
   text-align: center;
   font-size: 2em;
@@ -31,10 +32,9 @@ const Title = styled.div`
 `;
 
 const MasterContainer = styled.div`
-  background-image: url('./assets/bg.jpg');
-  background-size: contain;
-  background-repeat: none;
-  padding-bottom: 80px;
+  min-height: 100%;
+  max-height: 100%;
+  min-width: 100%;
 `;
 
 const logout = async ()=> {
@@ -76,9 +76,9 @@ function App() {
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
       <Router>
         <Routes>
-          <Route element={<ProtectedRoute/>}>
+          {/* <Route element={<ProtectedRoute/>}> */}
             <Route exact path="/" element={MainHome()}/>
-          </Route>
+          {/* </Route> */}
           <Route exact path="/login" element={<Authentication />} />
         </Routes>
       </Router>

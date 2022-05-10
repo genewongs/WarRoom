@@ -1,18 +1,44 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CSS from './css';
 
-const Attacks = function Attacks({ setAttack, deleteAttack, count }) {
+const Attacks = function Attacks({
+  setAttack, deleteAttack, addAttack, count,
+}) {
   return (
-    <div>
-      <CSS.Close onClick={() => deleteAttack(count - 1)}><div>X</div></CSS.Close>
+    <div className="attacks-container">
+      <CSS.Close>
+        <div>
+          <AddCircleIcon
+            className="icon"
+            onClick={addAttack}
+            fontSize="small"
+            style={{ color: 'limegreen' }}
+          />
+        </div>
+        <div>
+          <AddCircleIcon
+            fontSize="small"
+            className="icon"
+            onClick={() => {
+              count !== 1 ? deleteAttack(count - 1)
+                : null;
+            }}
+            style={{
+              transform: 'rotate(45deg)',
+              color: 'red',
+            }}
+          />
+        </div>
+      </CSS.Close>
       <CSS.DivInputs>
         Name:&nbsp;
-        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Example: Stab" onChange={(e) => setAttack(count, 'attackName', e.target.value)} />
+        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Ex: Stab" onChange={(e) => setAttack(count, 'attackName', e.target.value)} />
       </CSS.DivInputs>
       <CSS.DivInputs>
         Attack:&nbsp;
-        <CSS.Input type="text" id="Attack" maxLength="60" placeholder="Example: 1d20 + 6" onChange={(e) => setAttack(count, 'attack', e.target.value)} />
+        <CSS.Input type="text" id="Attack" maxLength="60" placeholder="Ex: 1d20 + 6" onChange={(e) => setAttack(count, 'attack', e.target.value)} />
       </CSS.DivInputs>
       <CSS.DivInputs>
         Strikes:&nbsp;
@@ -20,7 +46,7 @@ const Attacks = function Attacks({ setAttack, deleteAttack, count }) {
       </CSS.DivInputs>
       <CSS.DivInputs>
         Damage:&nbsp;
-        <CSS.Input type="text" id="Damage" maxLength="60" placeholder="Example: 2d6 + 3" onChange={(e) => setAttack(count, 'damage', e.target.value)} />
+        <CSS.Input type="text" id="Damage" maxLength="60" placeholder="Ex: 2d6 + 3" onChange={(e) => setAttack(count, 'damage', e.target.value)} />
       </CSS.DivInputs>
     </div>
   );
