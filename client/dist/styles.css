@@ -3,10 +3,16 @@
   padding: 0;
 }
 
-body {
+html, body {
   font-family: 'Koulen', cursive;
   font-family: 'Poppins', sans-serif;
   color: white;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  background-image: url('./assets/bg.jpg');
+  background-size: auto;
+  background-repeat: none;
 }
 
 .skeleton {
@@ -18,10 +24,20 @@ body {
   background-image: url('./assets/skullLogin.jpeg');
 }
 
-.masterContainer {
-  background-image: url('./assets/bg.jpg');
-  background-size: contain;
-  background-repeat: none;
+.linkRR {
+  text-decoration: none;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  margin-right: 20px !important;
+  margin-top: 20px !important;
+  background-color:rgb(99, 0, 0) !important;
+  text-shadow: 2px 2px 2px black;
+  float: right;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  background-color:rgb(143, 0, 0) !important;
 }
 
 .SignForm {

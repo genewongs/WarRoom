@@ -26,13 +26,14 @@
 const sampleArray = {
   Zelroth: [
     {
-      userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
+      userUID: 'wetRKQoXtgYvVyCfQyawBSqaJ7z1',
+      userName: 'Zelroth',
       name: 'Ogre Battler',
       description: 'level 68 paladin',
       maxHealth: 13,
       currentHealth: 4,
       armor: 55,
-      movement: 35,
+      movement: 7,
       attacks: [
         {
           attackName: 'X Cut',
@@ -53,13 +54,14 @@ const sampleArray = {
       image: './assets/monsters/icons/warrior.jpg',
     },
     {
-      userUID: 'TW0eUHmoQ2ZdYKol17RRVSguKHQ2',
+      userUID: 'wetRKQoXtgYvVyCfQyawBSqaJ7z1',
+      userName: 'Zelroth',
       name: 'Imp Boi',
       description: 'level 99 wizrd',
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
-      movement: 30,
+      movement: 6,
       attacks: [
         {
           attackName: 'quick attack',
@@ -82,13 +84,14 @@ const sampleArray = {
   ],
   Gene: [
     {
-      userUID: 'aIHuUNU11taYBlxDgisvF5jwYhD2',
+      userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
+      userName: 'Gene',
       name: 'Prest',
       description: 'level 68 paladin',
       maxHealth: 13,
       currentHealth: 13,
       armor: 15,
-      movement: 35,
+      movement: 7,
       attacks: [
         {
           attackName: 'Flying squirrels',
@@ -109,13 +112,14 @@ const sampleArray = {
       image: './assets/monsters/icons/ironMage.jpg',
     },
     {
-      userUID: 'aIHuUNU11taYBlxDgisvF5jwYhD2',
+      userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
+      userName: 'Gene',
       name: 'Imp Boi',
       description: 'level 99 wizrd',
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
-      movement: 30,
+      movement: 5,
       attacks: [
         {
           attackName: 'quick attack',
