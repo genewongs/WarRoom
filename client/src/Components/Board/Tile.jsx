@@ -21,7 +21,7 @@ function Tile({
 }) {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'image',
-    drop: (item) => move(item.id, index, item.monster),
+    drop: (item) => move(item.id, index, item.monster, item.reRender),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),

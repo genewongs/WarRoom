@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import 'regenerator-runtime/runtime';
 import styled from 'styled-components';
-import io from 'socket.io-client';
 import ChatBox from './Chat';
 import LogBox from './Log';
-
-const socket = io.connect('http://localhost:3000');
+import RoomContext from '../RoomContext';
 
 const ChatContainer = styled.div`
   height: 100%;
@@ -231,14 +229,7 @@ const ChatContainer = styled.div`
 `;
 
 function Chat() {
-  const username = 'Elliot';
-  const room = 123;
-
-  const joinRoom = () => {
-    socket.emit('join_room', room);
-  };
-
-  // console.log(getUsers());
+  const { joinRoom, room, socket } = useContext(RoomContext);
 
   useEffect(() => {
     joinRoom();
@@ -246,7 +237,7 @@ function Chat() {
 
   return (
     <ChatContainer>
-      <ChatBox socket={socket} username={username} room={room} />
+      <ChatBox socket={socket} room={room} />
       <LogBox socket={socket} room={room} />
     </ChatContainer>
   );

@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import CSS from './css.jsx';
+import CSS from './css';
 
 const Attacks = function Attacks({
   setAttack, deleteAttack, addAttack, count,
 }) {
   return (
-    <div className="attacks-container">
+    <div className="attacks-data">
       <CSS.Close>
         <div>
           <AddCircleIcon

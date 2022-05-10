@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
 import {getFirestore, collection, getDocs, updateDoc, addDoc, arrayUnion, FieldValue, firestore, setDoc, deleteDoc, doc} from 'firebase/firestore';
-import {firebase} from 'firebase/app';
+import { firebase } from 'firebase/app';
+
 const firebaseConfig = {
   apiKey: "AIzaSyDTZTqTiz-wjzwRq8ClTCcIW9boQkkBBcE",
   authDomain: "war-room-7a8e6.firebaseapp.com",
@@ -34,9 +35,9 @@ export const getUsers = (userName) => {
   .catch(()=>console.log('no such document'));
 };
 
-export const addUserMonster = async (userName, obj)=>{
+export const addUserMonster = (userName, obj) => {
   const colRef = collection(db, userName);
-  addDoc(colRef, obj);
+  return addDoc(colRef, obj);
 };
 
 export const updateUserMonster = (userName, monsterId, updatedArea)=> {

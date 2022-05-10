@@ -20,7 +20,7 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log('User Connected', socket.id);
+  // console.log('User Connected', socket.id);
 
   socket.on('join_room', (data) => {
     socket.join(data);
@@ -39,8 +39,16 @@ io.on('connection', (socket) => {
     socket.to(data.board).emit('recieve_log_message_data', data);
   });
 
+  socket.on('send_new_board', (newBoardSend) => {
+    socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
+  });
+
   socket.on('disconnect', () => {
     // console.log("User Disconnected", socket.id)
+  });
+
+  socket.on('send_new_board', (newBoardSend) => {
+    socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
   });
 });
 
