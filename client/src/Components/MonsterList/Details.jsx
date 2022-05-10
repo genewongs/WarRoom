@@ -75,8 +75,8 @@ const StyledAttackTable = styled.table`
   margin-left: 1em;
 `;
 
-function Details({}) {
-  const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
+function Details({ monster }) {
+  // const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
 
   return (
     <DetailsContainer>

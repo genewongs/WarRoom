@@ -1,9 +1,11 @@
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import UserContext from '../UserContext.js';
+import UserContext from '../UserContext';
 import List from './List';
 import Create from './Create';
 import Details from './Details';
+import sampleArray from '../../exampleData/data';
+import {getUsers, addUserMonster} from '../../firebase-config';
 
 const MonsterListContainer = styled.div`
   flex-grow: 1;
@@ -52,24 +54,90 @@ const MainButtons = styled.button`
     color: #FFD4CD;
   };
 `;
-
+const ClickedButtons = styled.button`
+  width: 33.333333%;
+  height: 40px;
+  background-color: #15b151;
+  justify-content: center;
+  font-size: 1rem;
+  text-shadow: 2px 2px 2px black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition-duration: 0.2s;
+  &:active {
+    color: #FFD4CD;
+  };
+`;
 function MonsterList() {
-  const {currentUser, setCurrentUser} = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
   console.log('currentUser in MonsterList', currentUser);
   const [activeTab, setActiveTab] = useState('List');
+  const userId = currentUser ? currentUser.uid : '';
+  const userName = currentUser.displayName;
+  // if (userName !== undefined) {
+  //   console.log('get data in monster get request', getUsers(userName));
+  // }
+
+  // let example= {
+  //   userID: '5CGsEVgEq6PxwmXrwuevlnB86Qy1',
+  //   userName: 'elliot123',
+  //   name: 'Prest',
+  //   description: 'level 68 paladin',
+  //   maxHealth: 13,
+  //   currentHealth: 13,
+  //   armor: 15,
+  //   movement: 35,
+  //   attacks: [
+  //     {
+  //       attackName: 'Flying squirrels',
+  //       attack: '2d6 + 5',
+  //       multiplier: 4,
+  //       damage: '1d20 + 0',
+  //     },
+  //     {
+  //       attackName: 'quick attack',
+  //       attack: '1d20 + 6',
+  //       multiplier: 2,
+  //       damage: '2d4 + 4',
+  //     },
+  //   ],
+  //   onBoard: true,
+  //   locationX: 2,
+  //   locationY: 3,
+  //   image: './assets/monsters/icons/ironMage.jpg',
+  // };
+  // if (userName !== undefined) {
+  //   console.log('add monster');
+  //   addUserMonster(userName, example)
+  //   .then(console.log('data has been added'));
+  // }
+
   const [render, setRender] = useState('List');
   const renderComponent = function renderComponent() {
     if (render === 'List') {
-      return <List />;
+      return <List setMonster={setMonster} setRender={setRender} />;
     }
     if (render === 'Create') {
       return <Create />;
     }
-    return <Details />;
+    return <Details monster={monster} />;
   };
   return (
     <MonsterListContainer>
       <div className="buttons-container">
+<<<<<<< HEAD
+        {render === 'List'
+          ? <ClickedButtons type="button" onClick={() => setRender('List')}>List</ClickedButtons>
+          : <MainButtons type="button" onClick={() => setRender('List')}>List</MainButtons>}
+        {render === 'Create'
+          ? <ClickedButtons type="button" onClick={() => setRender('Create')}>Create</ClickedButtons>
+          : <MainButtons type="button" onClick={() => setRender('Create')}>Create</MainButtons>}
+        {render === 'Details'
+          ? <ClickedButtons type="button" onClick={() => setRender('Details')}>Details</ClickedButtons>
+          : <MainButtons type="button" onClick={() => setRender('Details')}>Details</MainButtons>}
+=======
         <MainButtons
           className={activeTab === 'List' ? 'activeTab' : ''} type="button"
           name='List'
@@ -93,6 +161,7 @@ function MonsterList() {
             setRender('Details')
             setActiveTab('Details');
           }}>Details</MainButtons>
+>>>>>>> 75e43499ca4d71b3048996f4fd1dadf2fff897d7
       </div>
       {renderComponent()}
     </MonsterListContainer>
