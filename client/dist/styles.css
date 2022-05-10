@@ -30,8 +30,8 @@ html, body {
 }
 
 .css-sghohy-MuiButtonBase-root-MuiButton-root {
-  margin-right: 20px !important;
-  margin-top: 20px !important;
+  /* margin-right: 20px !important;
+  margin-top: 20px !important; */
   background-color:rgb(99, 0, 0) !important;
   text-shadow: 2px 2px 2px black;
   float: right;
