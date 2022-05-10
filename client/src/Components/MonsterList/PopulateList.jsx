@@ -30,7 +30,7 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
 
   return (
     <div onClick={() => {
-      setMonster(sampleArray.Zelroth[index]);
+      setMonster(monster);
       setRender('Details');
     }}
     >

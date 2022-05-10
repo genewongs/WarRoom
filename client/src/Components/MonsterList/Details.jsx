@@ -96,7 +96,6 @@ const StyledAttackTable = styled.table`
 
 function Details({ monster }) {
   // const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
-
   return (
     <DetailsContainer>
       <TopContainer>
