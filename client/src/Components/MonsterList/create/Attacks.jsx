@@ -16,11 +16,15 @@ const Attacks = function Attacks({ setAttack, deleteAttack, count }) {
       </CSS.DivInputs>
       <CSS.DivInputs>
         Strikes:&nbsp;
-        <CSS.Input type="number" id="Strikes" maxLength="60" placeholder="0" onChange={(e) => setAttack(count, 'multiplier', e.target.value)} />
+        <CSS.Input type="number" id="Strikes" maxLength="60" placeholder="1" onChange={(e) => setAttack(count, 'multiplier', e.target.value)} />
       </CSS.DivInputs>
       <CSS.DivInputs>
         Damage:&nbsp;
         <CSS.Input type="text" id="Damage" maxLength="60" placeholder="Example: 2d6 + 3" onChange={(e) => setAttack(count, 'damage', e.target.value)} />
+      </CSS.DivInputs>
+      <CSS.DivInputs>
+        Range:&nbsp;
+        <CSS.Input type="number" id="Range" maxLength="60" placeholder="5 = 1 square" onChange={(e) => setAttack(count, 'range', e.target.value)} />
       </CSS.DivInputs>
     </div>
   );

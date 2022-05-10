@@ -24,6 +24,9 @@ const CSS = {
       color: #6e0d15;
     }
   `,
+  Short: styled.input`
+  width: 20%;
+  `,
   SelectedIcon: styled.img`
     width: 15%;
     bborder: 3px solid green;

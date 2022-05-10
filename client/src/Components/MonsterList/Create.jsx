@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Icons from './create/Icons';
 import Attacks from './create/Attacks';
-import { getUsers } from '../../firebase-config';
+import { addUsers, getUsers } from '../../firebase-config';
+import UserContext from '../UserContext';
 import CSS from './create/css';
 
 function Create() {
@@ -52,15 +53,22 @@ function Create() {
   const [attackArr] = useState([{
     attackName: 'none',
     attack: 'none',
-    multiplier: 0,
+    multiplier: 1,
     damage: 'none',
+    range: 5,
   }]);
-  // renders all icons for user to click from
+  const [quantity, setQuantity] = useState(1);
+  // access current user
+  const { currentUser } = useContext(UserContext);
+  // console.log('userName in monster list', currentUser.displayName);
+  console.log('all users', getUsers());
+  // console.log('currentUser in monster list', currentUser.uid);
+  // // renders all icons for user to click from
   const renderIcons = function renderIcons() {
     return (
       <div>
         {iconArr.map((e) => (<Icons current={e} selected={icon} setIcon={setIcon} />))}
-        <CSS.MainButtons type="button" onClick={() => setRenderI(false)}>Close Icon List</CSS.MainButtons>
+        <button type="button" onClick={() => setRenderI(false)}>Close Icon List</button>
       </div>
     );
   };
@@ -72,6 +80,7 @@ function Create() {
       attack: 'none',
       multiplier: 0,
       damage: 'none',
+      range: 5,
     });
     setAttackRerender(attackRerender + 1);
   };
@@ -86,15 +95,30 @@ function Create() {
   };
   // sends data to database
   const Submit = function Submit() {
-    console.log({
+    addUsers({
+      userUID: currentUser.uid,
+      userName: currentUser.displayName,
       name,
       description,
       armor,
-      health,
+      maxHealth: health,
+      currentHealth: health,
       movement,
-      icon,
+      image: `./assets/monsters/icons/${icon}`,
       attackArr,
-    });
+      onBoard: false,
+      locationX: -1,
+      locationY: -1,
+    })
+      .then((res) => {
+        if (quantity > 1) {
+          setQuantity(quantity - 1);
+          Submit();
+        } else {
+          console.log(res);
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <CSS.CreateContainer>
@@ -117,7 +141,7 @@ function Create() {
       <div>
         {renderI
           ? renderIcons()
-          : <CSS.MainButtons type="button" onClick={() => setRenderI(true)}>Icon List</CSS.MainButtons>}
+          : <button type="button" onClick={() => setRenderI(true)}>Icon List</button>}
       </div>
 
       <div>
@@ -150,6 +174,10 @@ function Create() {
       })}
       <div>
         <button type="button" onClick={() => addAttack()}>Add Attack</button>
+      </div>
+      <div>
+        Quantity: &nbsp;
+        <CSS.Short type="number" id="Health" maxLength="60" placeholder="1" onChange={(e) => setQuantity(e.target.value)} />
       </div>
       <button type="button" onClick={() => Submit()}>Submit</button>
     </CSS.CreateContainer>

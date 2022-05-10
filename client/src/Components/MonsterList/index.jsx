@@ -1,9 +1,10 @@
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import UserContext from '../UserContext.js';
+import UserContext from '../UserContext';
 import List from './List';
 import Create from './Create';
 import Details from './Details';
+import sampleArray from '../../exampleData/data';
 
 const MonsterListContainer = styled.div`
   flex-grow: 1;
@@ -36,17 +37,18 @@ color: white;
 };
 `;
 function MonsterList() {
-  const {currentUser, setCurrentUser} = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
   console.log('currentUser in MonsterList', currentUser);
   const [render, setRender] = useState('List');
   const renderComponent = function renderComponent() {
     if (render === 'List') {
-      return <List />;
+      return <List setMonster={setMonster} setRender={setRender} />;
     }
     if (render === 'Create') {
       return <Create />;
     }
-    return <Details />;
+    return <Details monster={monster} />;
   };
   return (
     <MonsterListContainer>
