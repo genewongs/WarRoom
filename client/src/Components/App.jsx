@@ -62,7 +62,7 @@ function App() {
   // console.log('currentUser !== {}', currentUser !== {});
 
   useEffect(()=>{
-    if (currentUser.auth) {
+    if (currentUser.currentUser !== undefined) {
       setCurrentUser(currentUser)
     } else {
       setCurrentUser({});

@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import Icons from './create/Icons';
 import Attacks from './create/Attacks';
-import { getUsers } from '../../../../db/index';
+import { getUsers } from '../../firebase-config';
 import CSS from './create/css';
-const axios = require('axios');
 
 function Create() {
-  const [iconArr, setIconArr] = useState([
+  const [iconArr] = useState([
     'Blob.jpg',
     'Hunter.jpg',
     'SkullLord.jpg',
@@ -42,15 +40,22 @@ function Create() {
     'turqoiseDragon.jpg',
     'warrior.jpg',
     'zombie.jpg']);
-  const [icon, setIcon] = useState('Hunter.jpg');
   const [renderI, setRenderI] = useState(false);
   const [attackRerender, setAttackRerender] = useState(1);
-  const [attackArr, setAttackArr] = useState([{
+  // hooks used for database
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [icon, setIcon] = useState('Hunter.jpg');
+  const [armor, setArmor] = useState(0);
+  const [health, setHealth] = useState(0);
+  const [movement, setMovement] = useState(0);
+  const [attackArr] = useState([{
     attackName: 'none',
     attack: 'none',
     multiplier: 0,
     damage: 'none',
   }]);
+  // renders all icons for user to click from
   const renderIcons = function renderIcons() {
     return (
       <div>
@@ -60,6 +65,7 @@ function Create() {
     );
   };
   let count = 0;
+  // triggers on click of add attack button
   const addAttack = function addAttack() {
     attackArr.push({
       attackName: 'none',
@@ -69,19 +75,36 @@ function Create() {
     });
     setAttackRerender(attackRerender + 1);
   };
+  // triggers on click of X
   const deleteAttack = function deleteAttack(index) {
     attackArr.splice(index, 1);
     setAttackRerender(attackRerender - 1);
+  };
+  // sets new values to attack
+  const setAttack = function setAttack(index, key, value) {
+    attackArr[index - 1][key] = value;
+  };
+  // sends data to database
+  const Submit = function Submit() {
+    console.log({
+      name,
+      description,
+      armor,
+      health,
+      movement,
+      icon,
+      attackArr,
+    });
   };
   return (
     <CSS.CreateContainer>
       <div>
         Name:&nbsp;
-        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Example: skeleton" />
+        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Example: skeleton" onChange={(e) => setName(e.target.value)} />
       </div>
       <div>
         Description:&nbsp;
-        <CSS.Input type="text" id="Description" maxLength="1000" placeholder="Example: Level 3 fighter" />
+        <CSS.Input type="text" id="Description" maxLength="1000" placeholder="Example: Level 3 fighter" onChange={(e) => setDescription(e.target.value)} />
       </div>
       <div>
         Icon:
@@ -102,28 +125,33 @@ function Create() {
       </div>
       <div>
         Armor:&nbsp;
-        <CSS.Input type="number" id="Armor" maxLength="60" placeholder="Example: 12" />
+        <CSS.Input type="number" id="Armor" maxLength="60" placeholder="0" onChange={(e) => setArmor(e.target.value)} />
       </div>
       <div>
         Health:&nbsp;
-        <CSS.Input type="number" id="Health" maxLength="60" placeholder="Example: 20" />
+        <CSS.Input type="number" id="Health" maxLength="60" placeholder="0" onChange={(e) => setHealth(e.target.value)} />
       </div>
       <div>
         Movement:&nbsp;
-        <CSS.Input type="number" id="Movement" maxLength="60" placeholder="Example: 30" />
+        <CSS.Input type="number" id="Movement" maxLength="60" placeholder="0" onChange={(e) => setMovement(e.target.value)} />
       </div>
       <div>
         Attacks
       </div>
-      {attackArr.map((e) => {
+      {attackArr.map(() => {
         count += 1;
         return (
-          <Attacks obj={e} deleteAttack={(index) => deleteAttack(index)} index={count} />
+          <Attacks
+            setAttack={(index, key, value) => setAttack(index, key, value)}
+            deleteAttack={(index) => deleteAttack(index)}
+            count={count}
+          />
         );
       })}
       <div>
         <button type="button" onClick={() => addAttack()}>Add Attack</button>
       </div>
+      <button type="button" onClick={() => Submit()}>Submit</button>
     </CSS.CreateContainer>
   );
 }
