@@ -8,15 +8,15 @@ const CSS = {
     z-index: 5;
 
     & .confirm-monster {
-      height: 30px;
-      border:none;
-      border-radius: 0px 0px 5px 5px;
+      height: 50px;
+      border: none;
+      border-radius: 3px;
       color: white;
       cursor: pointer;
       margin-bottom: 40px;
-      background-color: #215a4f;
+      background-color: #3042a7;
       &:hover {
-        background-color: #2fa18a;
+        background-color: #0026ff;
       }
     }
 
@@ -26,18 +26,18 @@ const CSS = {
       justify-content: center;
       align-items: center;
       padding-bottom: 20px;
-      background-color: #1c2322;
+      background-color: #131516;
 
       h4 {
         font-weight: 250;
         font-size: 1em;
         margin-bottom: 10px;
-        background-color: #304242;
+        background-color: #25293e;
         min-width: 100%;
         text-align: center;
         border-radius: 0px 0px 3px 3px;
         box-shadow: 2px 2px 2px #2f2f384e;
-        border-bottom: 1px solid #00d35859;
+        border-bottom: 1px solid #dce0ed92;
       }
 
       & .iconContainer {
@@ -66,7 +66,7 @@ const CSS = {
       justify-content: center;
       align-items: center;
       padding-bottom: 20px;
-      background-color: #1c2322;
+      background-color: #131516;
       overflow-y: auto;
       scrollbar-width: none;
       &::-webkit-scrollbar {
@@ -77,12 +77,12 @@ const CSS = {
         font-weight: 250;
         font-size: 1em;
         margin-bottom: 10px;
-        background-color: #304242;
+        background-color: #25293e;
         min-width: 100%;
         text-align: center;
         border-radius: 0px 0px 3px 3px;
         box-shadow: 2px 2px 2px #2f2f384e;
-        border-bottom: 1px solid #00d35859;
+        border-bottom: 1px solid #dce0ed92;
       }
     }
   `,
@@ -95,7 +95,7 @@ const CSS = {
     margin: 0.5em 0;
     margin-left: 2px;
     color: white;
-    background-color: #2f333a;
+    background-color: #282d3ac5;
     box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.259);
     &:focus {
       outline: none;
@@ -107,28 +107,28 @@ const CSS = {
   SelectedIcon: styled.img`
     width: 20%;
     box-shadow: 2px 2px 2px black;
-    border: 1px solid #25b146;
+    border: 1px solid #2570b1;
   `,
   NotSelected: styled.img`
     width: 15%;
     padding 5 px;
   `,
   CharIcon: styled.button`
-  width: 100px;
-  height: 30px;
-  justify-content: center;
-  font-size: 1em;
-  color: black;
-  background-color: #215a4f;
-  color: white;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  transition-duration: 0.1s;
-  &:hover {
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.262);
-  background: #23bb9c;
-  color: white;
+    width: 100px;
+    height: 30px;
+    justify-content: center;
+    font-size: 1em;
+    color: black;
+    background-color: #2e3457;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition-duration: 0.1s;
+    &:hover {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.262);
+    background: #3042a7;;
+    color: white;
   };
   `,
   MainButtons: styled.button`
@@ -170,10 +170,16 @@ const CSS = {
     }
   `,
   AttackBox: styled.div`
-    width: 100%;
+    max-width: 100%;
     height: 100%;
+    margin-left: 40px;
+    margin-right: 40px;
     overflow-y: scroll;
     overflow-x: hidden;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `,
 };
 

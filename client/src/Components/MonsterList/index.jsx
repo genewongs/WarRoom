@@ -5,7 +5,7 @@ import List from './List';
 import Create from './Create';
 import Details from './Details';
 import sampleArray from '../../exampleData/data';
-import {getUsers, addUserMonster} from '../../firebase-config';
+import { getUsers, addUserMonster } from '../../firebase-config';
 
 const MonsterListContainer = styled.div`
   flex-grow: 1;
@@ -17,7 +17,7 @@ const MonsterListContainer = styled.div`
   margin-bottom: 20px;
 
   & .activeTab {
-    background-color: #15b151;
+    background-color: #465b82c9;
   }
 
   & .buttons-container {
@@ -38,7 +38,7 @@ const MonsterListContainer = styled.div`
 const MainButtons = styled.button`
   width: 33.333333%;
   height: 40px;
-  background-color: #162626;
+  background-color: #1e242eeb;
   justify-content: center;
   font-size: 1rem;
   text-shadow: 2px 2px 2px black;
@@ -47,7 +47,7 @@ const MainButtons = styled.button`
   cursor: pointer;
   transition-duration: 0.2s;
   &:hover {
-    background: #15b151;
+    background: #465b82c9;
     color: white;
   }
   &:active {
@@ -68,12 +68,11 @@ const ClickedButtons = styled.button`
   &:active {
     color: #FFD4CD;
   };
-`;
+  `;
 function MonsterList() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
-  console.log('currentUser in MonsterList', currentUser);
-  const [activeTab, setActiveTab] = useState('List');
+  const [render, setRender] = useState('List');
   const userId = currentUser ? currentUser.uid : '';
   const userName = currentUser.displayName;
   // if (userName !== undefined) {
@@ -114,8 +113,7 @@ function MonsterList() {
   //   .then(console.log('data has been added'));
   // }
 
-  const [render, setRender] = useState('List');
-  const renderComponent = function renderComponent() {
+  function renderComponent() {
     if (render === 'List') {
       return <List setMonster={setMonster} setRender={setRender} />;
     }
@@ -127,41 +125,36 @@ function MonsterList() {
   return (
     <MonsterListContainer>
       <div className="buttons-container">
-<<<<<<< HEAD
-        {render === 'List'
-          ? <ClickedButtons type="button" onClick={() => setRender('List')}>List</ClickedButtons>
-          : <MainButtons type="button" onClick={() => setRender('List')}>List</MainButtons>}
-        {render === 'Create'
-          ? <ClickedButtons type="button" onClick={() => setRender('Create')}>Create</ClickedButtons>
-          : <MainButtons type="button" onClick={() => setRender('Create')}>Create</MainButtons>}
-        {render === 'Details'
-          ? <ClickedButtons type="button" onClick={() => setRender('Details')}>Details</ClickedButtons>
-          : <MainButtons type="button" onClick={() => setRender('Details')}>Details</MainButtons>}
-=======
         <MainButtons
-          className={activeTab === 'List' ? 'activeTab' : ''} type="button"
-          name='List'
+          className={render === 'List' ? 'activeTab' : ''}
+          type="button"
+          name="List"
           onClick={() => {
             setRender('List');
-            setActiveTab('List');
-            }}>List</MainButtons>
+          }}
+        >
+          List
+        </MainButtons>
         <MainButtons
-          className={activeTab === 'Create' ? 'activeTab' : ''}
+          className={render === 'Create' ? 'activeTab' : ''}
           type="button"
-          name='Create'
+          name="Create"
           onClick={() => {
-            setRender('Create')
-            setActiveTab('Create');
-            }}>Create</MainButtons>
+            setRender('Create');
+          }}
+        >
+          Create
+        </MainButtons>
         <MainButtons
-          className={activeTab === 'Details' ? 'activeTab' : ''}
+          className={render === 'Details' ? 'activeTab' : ''}
           type="button"
-          name='Details'
+          name="Details"
           onClick={() => {
-            setRender('Details')
-            setActiveTab('Details');
-          }}>Details</MainButtons>
->>>>>>> 75e43499ca4d71b3048996f4fd1dadf2fff897d7
+            setRender('Details');
+          }}
+        >
+          Details
+        </MainButtons>
       </div>
       {renderComponent()}
     </MonsterListContainer>
