@@ -58,7 +58,7 @@ function Board() {
   const [attacker, setAttacker] = useState(null);
   const [defender, setDefender] = useState(null);
   const [error, setError] = useState(false);
-  const move = (from, to, monster) => {
+  const move = (from, to, monster, reRender) => {
     if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');
@@ -66,6 +66,7 @@ function Board() {
       } else {
         monster.locationX = Math.floor(to / dimension);
         monster.locationY = to % dimension;
+        monster.onBoard = true;
         setAttacker(null);
         setDefender(null);
         setOnBoard((previous) => ({
@@ -73,6 +74,9 @@ function Board() {
           [to]: monster,
           [from]: null,
         }));
+        if (reRender) {
+          reRender((previous) => previous + 1);
+        }
       }
     } else {
       setError('You can not move there!');

@@ -22,12 +22,11 @@ const AppContainer = styled.div`
 `;
 
 const Title = styled.div`
-  text-align: center;
+  padding-top: 12px;
   font-size: 2em;
-  padding-top: 10px;
-  margin-left: 112px;
+  float: left;
   img {
-    width: 20%;
+    width: 19%;
   }
 `;
 
@@ -37,6 +36,19 @@ const MasterContainer = styled.div`
   min-width: 100%;
 `;
 
+const HeaderStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-height: 60px;
+  min-height: 60px;
+  margin-bottom: 20px;
+  padding-left: 10%;
+  padding-right: 5%;
+  background-color: #00000078;
+`
+
 const logout = async ()=> {
   await signOut(auth);
 };
@@ -44,10 +56,12 @@ const logout = async ()=> {
 function MainHome() {
   return (
     <MasterContainer>
-      <Link to='/login' onClick={logout}>
-        <Button variant="contained" className="logoutBtn">Log Out</Button>
-      </Link>
-      <Title><img src="./assets/logo-sm.png" alt="yes" /></Title>
+      <HeaderStyled>
+        <Title><img src="./assets/logo-sm.png" alt="yes" /></Title>
+        <Link to='/login' onClick={logout}>
+          <Button variant="contained" className="logoutBtn">Log Out</Button>
+        </Link>
+      </HeaderStyled>
       <AppContainer>
         <DndProvider backend={HTML5Backend}>
           <MonsterList />
