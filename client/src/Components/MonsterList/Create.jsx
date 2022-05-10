@@ -100,7 +100,8 @@ function Create() {
   };
   // sends data to database
   function Submit(quanity) {
-    if (!currentUser.uid) {
+    if (name === '') {
+      alert('Name is blank');
       console.log('log in first please');
     } else {
       let promises = [];
@@ -122,7 +123,7 @@ function Create() {
         }));
       }
       setQuantity(1);
-      return Promise.all(promises).then((data) => console.log(data)).catch((err) => console.log(err));
+      return Promise.all().then((data) => console.log(data)).catch((err) => console.log(err));
     }
   };
   return (
