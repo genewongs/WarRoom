@@ -44,4 +44,3 @@ export const updateUsers = (userId, obj)=> {
 export const deleteUsers = (userId)=>{
   return db.collection('users').doc(userId).update({toDelete: fieldValue.delete()});
 }
-
