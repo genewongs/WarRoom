@@ -4,11 +4,13 @@ import React, { useState, useEffect } from 'react';
 function LogBox({ socket }) {
   const [logList, setLogList] = useState([]);
 
+  // console.log(logList);
+
   useEffect(() => {
     socket.on('recieve_log_message', (data) => {
       setLogList([...logList, data]);
     });
-  }, [socket]);
+  }, []);
 
   return (
     <div>
