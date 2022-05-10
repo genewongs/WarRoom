@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
-import {getFirestore, collection, getDoc, updateDoc, setDoc, deleteDoc, doc} from 'firebase/firestore';
-
+import {getFirestore, collection, getDoc, updateDoc, addDoc, arrayUnion, FieldValue, firestore, setDoc, deleteDoc, doc} from 'firebase/firestore';
+import {firebase} from 'firebase/app';
 const firebaseConfig = {
   apiKey: "AIzaSyDTZTqTiz-wjzwRq8ClTCcIW9boQkkBBcE",
   authDomain: "war-room-7a8e6.firebaseapp.com",
@@ -21,26 +21,23 @@ export const db = getFirestore();
 // collection ref
 const userCol = collection(db, 'user');
 
-// get collection data
 export const getUsers = (userId) => {
-  return getDoc(collection(db, 'users', userId))
-  .then((snapshot)=>{
-    let users=[];
-    snapshot.docs.forEach((doc)=>{
-      users.push({...doc.data(), id: doc.id})
-    })
-    console.log('user is an object containing useremail and monsters property and userId', users);
-  })
-  .catch(err=>console.log(err));
+  const docRef = doc(userCol, String(userId));
+  console.log(String(userId));
+  getDoc(docRef)
+  .then((docSnap)=>console.log('doc snap', docSnap.data()))
+  .catch(()=>console.log('no such document'));
 }
 
-export const addUsers = (userId, obj)=>{
-  return setDoc(doc(db, 'users', userId), obj);
-}
+export const addUserMonster = async (userId, obj)=>{
+  const docRef = doc(userCol, String(userId));
+  console.log(String(userId))
+  const docs = await updateDoc(docRef, {'monsters': FieldValue.arrayUnion(obj)});
+  console.log('docs', docs)}
 
-export const updateUsers = (userId, obj)=> {
+export const updateUserMonster = (userId, obj)=> {
   return updateDoc(doc(db, 'users', userId),obj);
 }
 export const deleteUsers = (userId)=>{
-  return updateDoc(doc(db, 'users', userid), {toDelete: fieldValue.delete()});
+  return updateDoc(doc(db, 'users', userid), {toDelete: FieldValue.delete()});
 }

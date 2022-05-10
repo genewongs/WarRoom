@@ -227,7 +227,7 @@ function Chat() {
     socket.emit('join_room', room);
   };
 
-  console.log(getUsers());
+  // console.log(getUsers());
 
   useEffect(() => {
     joinRoom();
