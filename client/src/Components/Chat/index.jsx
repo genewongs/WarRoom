@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import 'regenerator-runtime/runtime';
 import styled from 'styled-components';
 import io from 'socket.io-client';
-import { getUsers } from '../../firebase-config';
 import ChatBox from './Chat';
 import LogBox from './Log';
 
@@ -75,6 +74,18 @@ const ChatContainer = styled.div`
   }
 
   .chat-body .message-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .log-body .message-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    scrollbar-width: none;
+  }
+
+  .log-body .message-container::-webkit-scrollbar {
     display: none;
   }
 

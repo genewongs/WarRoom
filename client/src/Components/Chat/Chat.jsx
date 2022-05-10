@@ -1,8 +1,10 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import moment from 'moment';
 import UserContext from '../UserContext';
 
 function ChatBox({ socket, room }) {
@@ -19,8 +21,7 @@ function ChatBox({ socket, room }) {
         room,
         message: currentMessage,
         time:
-          `${new Date(Date.now()).getHours()
-          }:${new Date(Date.now()).getMinutes()}`,
+          moment().format('h:mm a'),
       };
       await socket.emit('send_message', messageData);
       setMessageList([...messageList, messageData]);
