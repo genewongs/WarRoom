@@ -23,16 +23,17 @@ export const db = getFirestore();
 export const getUsers = (userName) => {
   const colRef = collection(db, userName);
   console.log('getuser beingh called', userName);
-  getDocs(colRef)
-  .then((snapshot)=>{
-    let books = [];
-    snapshot.docs.forEach((doc)=>{
-      console.log('doc', doc);
-      books.push({...doc.data(), id:doc.id})
-    })
-    console.log('books', books)
-  })
-  .catch(()=>console.log('no such document'));
+  return (
+    getDocs(colRef)
+      .then((snapshot) => {
+        let books = [];
+        snapshot.docs.forEach((doc) => {
+          books.push({ ...doc.data(), id: doc.id });
+        });
+        return (books);
+      })
+      .catch(()=>console.log('no such document'))
+  )
 };
 
 export const addUserMonster = (userName, obj) => {

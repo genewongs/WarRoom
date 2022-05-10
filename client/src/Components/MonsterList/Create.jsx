@@ -7,6 +7,7 @@ import UserContext from '../UserContext';
 import CSS from './create/css';
 
 function Create() {
+  const { currentUser } = useContext(UserContext);
   const [iconArr] = useState([
     'Blob.jpg',
     'Hunter.jpg',
@@ -41,7 +42,8 @@ function Create() {
     'troll.jpg',
     'turqoiseDragon.jpg',
     'warrior.jpg',
-    'zombie.jpg']);
+    'zombie.jpg',
+    'TargetDummy.jpg']);
   const [renderI, setRenderI] = useState(false);
   const [attackRerender, setAttackRerender] = useState(1);
   // hooks used for database
@@ -60,7 +62,7 @@ function Create() {
   }]);
   const [quantity, setQuantity] = useState(1);
   // access current user
-  const { currentUser } = useContext(UserContext);
+
   // console.log('userName in monster list', currentUser.displayName);
   // console.log('all users', getUsers());
   // console.log('currentUser in monster list', currentUser.uid);
@@ -98,8 +100,15 @@ function Create() {
   };
   // sends data to database
   function Submit(quanity) {
-    if (!currentUser.uid) {
+    if (name === '') {
+      alert('Name is blank');
       console.log('log in first please');
+    } else if (Number(armor) === 'NaN') {
+      alert('Armor must be a number!');
+    } else if (Number(health) === 'NaN') {
+      alert('Armor must be a number!');
+    } else if (Number(movement) === 'NaN') {
+      alert('Movement must be a number!');
     } else {
       let promises = [];
       for (let i = 0; i < quantity; i += 1) {
@@ -113,14 +122,14 @@ function Create() {
           currentHealth: health,
           movement,
           image: `./assets/monsters/icons/${icon}`,
-          attackArr,
+          attacks: attackArr,
           onBoard: false,
           locationX: -1,
           locationY: -1,
-        }))
+        }));
       }
       setQuantity(1);
-      return Promise.all(promises).then((data) => console.log(data)).catch((err) => console.log(err));
+      return Promise.all().then((data) => console.log(data)).catch((err) => console.log(err));
     }
   };
   return (
