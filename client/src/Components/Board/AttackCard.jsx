@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import io from 'socket.io-client';
 
 import { Button } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
+import RoomContext from '../RoomContext';
 import { Battle } from './utils/BattleFunc';
-
-const socket = io.connect('http://localhost:3000');
 
 const AttackList = styled.div`
   width: 180px;
@@ -93,6 +91,7 @@ function AttackCard({
   attacker, defender, setAttacker, setDefender, onBoard, setOnBoard, dimension, isDying, setIsDying, fadeOut,
 }) {
   const [chosenAttack, setChosenAttack] = useState(null);
+  const { room, socket } = useContext(RoomContext);
 
   function handleAttack() {
     let multiple = chosenAttack.multiplier;
@@ -100,7 +99,7 @@ function AttackCard({
       // console.log(Battle(attacker, defender, chosenAttack));
       const logMessageData = {
         message: Battle(attacker, defender, chosenAttack),
-        board: 123,
+        board: room,
       };
       socket.emit('send_log_message', logMessageData);
       multiple -= 1;
