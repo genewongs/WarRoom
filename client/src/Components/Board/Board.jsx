@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import io from 'socket.io-client';
 import Tile from './Tile';
 import UserContext from '../UserContext';
 import sampleArray from '../../../../data';
@@ -40,6 +41,7 @@ const ErrorMessage = styled.div`
 `;
 
 function Board() {
+  const socket = io.connect('http://localhost:3000');
   const dimension = 6 || 8;
   const { Zelroth, Gene } = sampleArray;
   const { currentUser } = useContext(UserContext);
@@ -83,6 +85,22 @@ function Board() {
       setTimeout(() => {setError(false); }, 3000);
     }
   };
+  useEffect(() => {
+    const newBoardSend = {
+      new_board: onBoard,
+      room: 123,
+    };
+    console.log('sending new board');
+    socket.emit('send_new_board', newBoardSend);
+  }, [onBoard]);
+
+  useEffect(() => {
+    console.log('recieved new board');
+    socket.on('recieve_new_board', (newBoardSend) => {
+      setOnBoard(newBoardSend.new_board);
+    });
+  }, [socket]);
+
   return (
     <BoardContainer>
     <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
