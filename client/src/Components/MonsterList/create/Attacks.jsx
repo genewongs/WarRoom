@@ -7,7 +7,7 @@ const Attacks = function Attacks({
   setAttack, deleteAttack, addAttack, count,
 }) {
   return (
-    <div className="attacks-container">
+    <div>
       <CSS.Close>
         <div>
           <AddCircleIcon
