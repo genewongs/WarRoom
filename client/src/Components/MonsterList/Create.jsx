@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import TextField from '@mui/material/TextField';
 import Icons from './create/Icons';
 import Attacks from './create/Attacks';
-import { getUsers } from '../../firebase-config';
-import CSS from './create/css';
-import TextField from '@mui/material/TextField';
+// import { getUsers } from '../../firebase-config';
+import UserContext from '../UserContext';
+import CSS from './create/css.jsx';
 
 function Create() {
   const [iconArr] = useState([
@@ -53,15 +54,22 @@ function Create() {
   const [attackArr] = useState([{
     attackName: 'none',
     attack: 'none',
-    multiplier: 0,
+    multiplier: 1,
     damage: 'none',
+    range: 5,
   }]);
-  // renders all icons for user to click from
+  const [quantity, setQuantity] = useState(1);
+  // access current user
+  const { currentUser } = useContext(UserContext);
+  // console.log('userName in monster list', currentUser.displayName);
+  // console.log('all users', getUsers());
+  // console.log('currentUser in monster list', currentUser.uid);
+  // // renders all icons for user to click from
   const renderIcons = function renderIcons() {
     return (
       <div className="iconContainer">
         <div className="iconSet">
-          {iconArr.map((e) => (<Icons style={{border: '1px solid black'}} current={e} selected={icon} setIcon={setIcon} />))}
+          {iconArr.map((e) => (<Icons style={{ border: '1px solid black' }} current={e} selected={icon} setIcon={setIcon} />))}
         </div>
         <CSS.CharIcon type="button" onClick={() => setRenderI(false)}>Close</CSS.CharIcon>
       </div>
@@ -75,6 +83,7 @@ function Create() {
       attack: 'none',
       multiplier: 0,
       damage: 'none',
+      range: 5,
     });
     setAttackRerender(attackRerender + 1);
   };
@@ -89,14 +98,46 @@ function Create() {
   };
   // sends data to database
   const Submit = function Submit() {
-    console.log({
+    /*
+    addUsers({
+      userUID: currentUser.uid,
+      userName: currentUser.displayName,
       name,
       description,
       armor,
-      health,
+      maxHealth: health,
+      currentHealth: health,
       movement,
-      icon,
+      image: `./assets/monsters/icons/${icon}`,
       attackArr,
+      onBoard: false,
+      locationX: -1,
+      locationY: -1,
+    })
+      .then((res) => {
+        if (quantity > 1) {
+          setQuantity(quantity - 1);
+          Submit();
+        } else {
+          console.log(res);
+        }
+      })
+      .catch((err) => console.log(err));
+      */
+    console.log({
+      userUID: currentUser.uid,
+      userName: currentUser.displayName,
+      name,
+      description,
+      armor,
+      maxHealth: health,
+      currentHealth: health,
+      movement,
+      image: `./assets/monsters/icons/${icon}`,
+      attackArr,
+      onBoard: false,
+      locationX: -1,
+      locationY: -1,
     });
   };
   return (
@@ -140,6 +181,25 @@ function Create() {
       </div>
       <div className="attribute-attack">
         <h4>Attacks</h4>
+<<<<<<< HEAD
+        <CSS.AttackBox>
+          {attackArr.map(() => {
+            count += 1;
+            return (
+              <Attacks
+                setAttack={(index, key, value) => setAttack(index, key, value)}
+                deleteAttack={(index) => deleteAttack(index)}
+                addAttack={() => addAttack()}
+                count={count}
+              />
+            );
+          })}
+        </CSS.AttackBox>
+      </div>
+      <div className="attribute">
+        <h4>Quantity</h4>
+        <CSS.Input type="number" id="Quantity" maxLength="60" placeholder="1" onChange={(e) => setQuantity(e.target.value)} />
+=======
       {attackArr.map(() => {
         count += 1;
         return (
@@ -151,6 +211,7 @@ function Create() {
           />
         );
       })}
+>>>>>>> 75e43499ca4d71b3048996f4fd1dadf2fff897d7
       </div>
       <button className="confirm-monster" type="button" onClick={() => Submit()}>Add Monster(s)</button>
     </CSS.CreateContainer>
