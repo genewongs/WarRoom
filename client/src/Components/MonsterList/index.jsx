@@ -16,6 +16,10 @@ const MonsterListContainer = styled.div`
   width: 23%;
   margin-bottom: 20px;
 
+  & .activeTab {
+    background-color: #15b151;
+  }
+
   & .buttons-container {
     width: 100%;
     height: 40px;
@@ -69,6 +73,7 @@ function MonsterList() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
   console.log('currentUser in MonsterList', currentUser);
+  const [activeTab, setActiveTab] = useState('List');
   const userId = currentUser ? currentUser.uid : '';
   const userName = currentUser.displayName;
   // if (userName !== undefined) {
@@ -122,6 +127,7 @@ function MonsterList() {
   return (
     <MonsterListContainer>
       <div className="buttons-container">
+<<<<<<< HEAD
         {render === 'List'
           ? <ClickedButtons type="button" onClick={() => setRender('List')}>List</ClickedButtons>
           : <MainButtons type="button" onClick={() => setRender('List')}>List</MainButtons>}
@@ -131,6 +137,31 @@ function MonsterList() {
         {render === 'Details'
           ? <ClickedButtons type="button" onClick={() => setRender('Details')}>Details</ClickedButtons>
           : <MainButtons type="button" onClick={() => setRender('Details')}>Details</MainButtons>}
+=======
+        <MainButtons
+          className={activeTab === 'List' ? 'activeTab' : ''} type="button"
+          name='List'
+          onClick={() => {
+            setRender('List');
+            setActiveTab('List');
+            }}>List</MainButtons>
+        <MainButtons
+          className={activeTab === 'Create' ? 'activeTab' : ''}
+          type="button"
+          name='Create'
+          onClick={() => {
+            setRender('Create')
+            setActiveTab('Create');
+            }}>Create</MainButtons>
+        <MainButtons
+          className={activeTab === 'Details' ? 'activeTab' : ''}
+          type="button"
+          name='Details'
+          onClick={() => {
+            setRender('Details')
+            setActiveTab('Details');
+          }}>Details</MainButtons>
+>>>>>>> 75e43499ca4d71b3048996f4fd1dadf2fff897d7
       </div>
       {renderComponent()}
     </MonsterListContainer>

@@ -181,6 +181,7 @@ function Create() {
       </div>
       <div className="attribute-attack">
         <h4>Attacks</h4>
+<<<<<<< HEAD
         <CSS.AttackBox>
           {attackArr.map(() => {
             count += 1;
@@ -198,6 +199,19 @@ function Create() {
       <div className="attribute">
         <h4>Quantity</h4>
         <CSS.Input type="number" id="Quantity" maxLength="60" placeholder="1" onChange={(e) => setQuantity(e.target.value)} />
+=======
+      {attackArr.map(() => {
+        count += 1;
+        return (
+          <Attacks
+            setAttack={(index, key, value) => setAttack(index, key, value)}
+            deleteAttack={(index) => deleteAttack(index)}
+            addAttack={addAttack}
+            count={count}
+          />
+        );
+      })}
+>>>>>>> 75e43499ca4d71b3048996f4fd1dadf2fff897d7
       </div>
       <button className="confirm-monster" type="button" onClick={() => Submit()}>Add Monster(s)</button>
     </CSS.CreateContainer>
