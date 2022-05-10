@@ -101,7 +101,9 @@ function MonsterList() {
               .then(console.log('data has been added'));
             console.log('add monster');
           }
-          setMonster(data[0]);
+          if (Object.keys(monster).length === 0) {
+            setMonster(data[0]);
+          }
           setMonsterArr(data);
         })
         .catch((err) => console.log(err));

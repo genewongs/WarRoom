@@ -103,6 +103,12 @@ function Create() {
     if (name === '') {
       alert('Name is blank');
       console.log('log in first please');
+    } else if (Number(armor) === 'NaN') {
+      alert('Armor must be a number!');
+    } else if (Number(health) === 'NaN') {
+      alert('Armor must be a number!');
+    } else if (Number(movement) === 'NaN') {
+      alert('Movement must be a number!');
     } else {
       let promises = [];
       for (let i = 0; i < quantity; i += 1) {
