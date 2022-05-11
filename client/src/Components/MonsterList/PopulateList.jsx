@@ -1,26 +1,37 @@
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useDrag } from 'react-dnd';
-import sampleArray from '../../exampleData/data';
+// import sampleArray from '../../exampleData/data';
 
 const Icon = styled.img`
-  width: 70%;
-  padding 5 px;
-  float: right;
+  min-height: 100px;
+  max-height: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1;
 `;
 const MonsterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding: 10px 10px;
+
+  h4 {
+    font-weight: 200;
+    color: #fff0cf;
+    text-shadow: 2px 2px 2px #171512;
+  }
 `;
-const CenterText = styled.div`
-  width: 100%;
-  text-align: center;
+const ListContainer = styled.div`
+  background-image: linear-gradient(to top, rgba(255,0,0,0), #526e9f34);
 `;
 function PopulateList({ index, monster, setMonster, setRender, setCount }) {
-
+  // eslint-disable-next-line no-unused-vars
   const [{ isDragging }, drag] = useDrag(() => ({
-
     type: 'image',
     item: { id: index, monster, reRender: setCount },
     collect: (monitor) => ({
@@ -29,7 +40,7 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
   }));
 
   return (
-    <div onClick={() => {
+    <ListContainer onClick={() => {
       setMonster(monster);
       setRender('Details');
     }}
@@ -40,7 +51,9 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
             {monster.name}
           </h4>
           Health:
-          {monster.currentHealth}/{monster.maxHealth}
+          {monster.currentHealth}
+          /
+          {monster.maxHealth}
           <br />
           Armor:
           {monster.armor}
@@ -57,10 +70,7 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
           />
         </div>
       </MonsterContainer>
-      <CenterText>
-        {monster.description}
-      </CenterText>
-    </div>
+    </ListContainer>
   );
 }
 

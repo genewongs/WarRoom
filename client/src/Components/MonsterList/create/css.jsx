@@ -72,7 +72,7 @@ const CSS = {
       &::-webkit-scrollbar {
       display: none;
       }
-      max-height: 234px;
+      max-height: 270px;
       h4 {
         font-weight: 250;
         font-size: 1em;
@@ -181,7 +181,7 @@ const CSS = {
       display: none;
     }
   `,
-  Fix: styled.div`
+  AttackCardStyled: styled.div`
   position: absolute;
   display: flex;
   flex-direction: row;

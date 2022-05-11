@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import 'regenerator-runtime/runtime';
 import styled from 'styled-components';
-import io from 'socket.io-client';
 import ChatBox from './Chat';
 import LogBox from './Log';
-
-const socket = io.connect('http://localhost:3000');
+import RoomContext from '../RoomContext';
 
 const ChatContainer = styled.div`
   height: 100%;
@@ -22,6 +20,8 @@ const ChatContainer = styled.div`
   }
 
   .chat-header {
+    font-family: 'Macondo', cursive !important;
+    font-size: 1.15em;
     display: flex;
     height: 4vh;
     justify-content: center;
@@ -29,11 +29,13 @@ const ChatContainer = styled.div`
     text-align: center;
     text-shadow: 2px 2px 2px black;
     background-color: #394361;
-    border-bottom: 1px solid #d8c8a6;
+    border-bottom: 1px solid #b1bcd18d;
     border-radius: 5px 5px 0px 0px;
   }
 
   .log-header {
+    font-family: 'Macondo', cursive !important;
+    font-size: 1.15em;
     display: flex;
     height: 4vh;
     justify-content: center;
@@ -231,14 +233,26 @@ const ChatContainer = styled.div`
 `;
 
 function Chat() {
-  const username = 'Elliot';
-  const room = 123;
+  const { joinRoom, room, socket } = useContext(RoomContext);
+  const [chatRooms, setChatRooms] = useState([
+    { label: 'Lobby', value: '27' },
+    { label: 'Battlefield 1', value: '11' },
+    { label: 'Battlefield 2', value: '56' },
+    { label: 'Battlefield 3', value: '78' },
+    { label: `Battlefield 4`, value: '90' },
+    { label: `Alex's Kitchen`, value: '80' },
+    { label: `Broco Lounge`, value: '64' },
+    { label: `Glassjaw Room`, value: '97' },
+    { label: `Loathing Corner`, value: '15' },
+    { label: `Zelroth's Lair`, value: '69' },
+  ]);
+  const [selection, setSelection] = useState({});
 
-  const joinRoom = () => {
-    socket.emit('join_room', room);
-  };
-
-  // console.log(getUsers());
+  useEffect(() => {
+    if (chatRooms.length && !selection.label) {
+      setSelection(chatRooms[0]);
+    }
+  }, [chatRooms]);
 
   useEffect(() => {
     joinRoom();
@@ -246,7 +260,7 @@ function Chat() {
 
   return (
     <ChatContainer>
-      <ChatBox socket={socket} username={username} room={room} />
+      <ChatBox socket={socket} room={room} chatRooms={chatRooms} setChatRooms={setChatRooms} selection={selection} setSelection={setSelection} />
       <LogBox socket={socket} room={room} />
     </ChatContainer>
   );

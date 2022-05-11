@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import Board from './Board';
+import RoomContext from '../RoomContext';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -9,9 +10,15 @@ const BoardContainer = styled.div`
 `;
 
 function BoardComponent() {
+  const { joinRoom, room, socket } = useContext(RoomContext);
+
+  useEffect(() => {
+    joinRoom();
+  }, []);
+
   return (
     <BoardContainer>
-      <Board />
+      <Board socket={socket} room={room} />
     </BoardContainer>
   );
 }
