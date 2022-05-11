@@ -54,42 +54,6 @@ function List({ setMonster, setRender, monsterArr }) {
   let offIndex = -1;
   return (
     <ListContainer>
-<<<<<<< HEAD
-      <Header>On Board</Header>
-      <hr />
-      {monsterArr.map((e) => {
-        onIndex += 1;
-        if (e.onBoard) {
-          return (
-            <PopulateList
-              index={onIndex}
-              monster={e}
-              setMonster={setMonster}
-              setRender={setRender}
-            />
-          );
-        }
-        return <div />;
-      })}
-      <hr />
-      <Header>Off Board</Header>
-      <hr />
-      {monsterArr.map((e) => {
-        offIndex += 1;
-        if (!e.onBoard) {
-          return (
-            <PopulateList
-              index={offIndex}
-              monster={e}
-              setMonster={setMonster}
-              setRender={setRender}
-              setCount={setCount}
-            />
-          );
-        }
-        return <div />;
-      })}
-=======
       <CharacterContainer>
           <Header>On Board</Header>
         <BoardCard>
@@ -112,7 +76,6 @@ function List({ setMonster, setRender, monsterArr }) {
           })}
         </BoardCard>
       </CharacterContainer>
->>>>>>> 0bd750d7ded824608c301b2d9269705c71d25113
     </ListContainer>
   );
 }

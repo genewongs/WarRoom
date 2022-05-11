@@ -39,10 +39,7 @@ const ListContainer = styled.div`
   background-image: linear-gradient(to left, rgba(255,0,0,0), #526e9f34);
 `;
 function PopulateList({ index, monster, setMonster, setRender, setCount }) {
-<<<<<<< HEAD
   // eslint-disable-next-line no-unused-vars
-=======
->>>>>>> 0bd750d7ded824608c301b2d9269705c71d25113
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'image',
     item: { id: index, monster, reRender: setCount },
@@ -82,14 +79,7 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
           />
         </div>
       </MonsterContainer>
-<<<<<<< HEAD
-      <CenterText>
-        {monster.description}
-      </CenterText>
     </ListContainer>
-=======
-    </div>
->>>>>>> 0bd750d7ded824608c301b2d9269705c71d25113
   );
 }
 
