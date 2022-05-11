@@ -141,7 +141,11 @@ function MonsterList() {
       return <List setMonster={setMonster} setRender={setRender} monsterArr={monsterArr} />;
     }
     if (render === 'Create') {
-      return <Create setRender={setRender} />;
+      return (
+        <Overflow>
+          <Create setRender={setRender} />;
+        </Overflow>
+      )
     }
     return <Details monster={monster} />;
   }
@@ -179,9 +183,7 @@ function MonsterList() {
           Details
         </MainButtons>
       </div>
-      <Overflow>
         {renderComponent()}
-      </Overflow>
     </MonsterListContainer>
   );
 }
