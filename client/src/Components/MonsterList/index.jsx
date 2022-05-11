@@ -88,7 +88,7 @@ function MonsterList() {
       //   .then((data) => console.log('get data in monster get request', data))
       //   .catch((err) => console.log('ERROR get data in monster get request', err));
       const example = {
-        userID: currentUser.uid,
+        userUID: currentUser.uid,
         userName: currentUser.displayName,
         name: 'taget dummy',
         description: 'level 1 target dummy',
