@@ -23,8 +23,15 @@ const BoardContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 800px;
-  width: 800px;
+  /* height: 800px; */
+  /* width: 800px; */
+  /* min-height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  min-width: 100%; */
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
 `;
 
 const ErrorMessage = styled.div`
@@ -39,6 +46,18 @@ const ErrorMessage = styled.div`
     color: #ca0000;
     transition: all ease-in-out 0.3s;
   }
+`;
+
+const ButtonsContainer = styled.div`
+  width: 90%;
+
+`;
+
+const AutoContainer = styled.div`
+
+`;
+const EndContainer = styled.div`
+
 `;
 
 function Board({ socket, room }) {
@@ -112,11 +131,32 @@ function Board({ socket, room }) {
 
   return (
     <BoardContainer>
-      <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
+      <ButtonsContainer>
+      <div class="section full-height">
+        <AutoContainer>
+          <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+          <label for="modal-btn">Battle List<i class="uil uil-expand-arrows"></i></label>
+          <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+          <label for="modal-btn">Auto Battle<i class="uil uil-expand-arrows"></i></label>
+        </AutoContainer>
+        <EndContainer>
+          <input className="modal-btn danger" type="checkbox" id="modal-btn" name="modal-btn"/>
+          <label for="modal-btn">End Turn<i class="uil uil-expand-arrows"></i></label>
+        </EndContainer>
+      	<div className="modal">
+	      	<div className="modal-wrap">
+	      		<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
+	      	</div>
+      	</div>
+        <a href="https://front.codes/" class="logo" target="_blank">
+        </a>
+      </div>
+      </ButtonsContainer>
       <BoardStyled dimension={dimension}>
         {board.map((tile, index) => (onBoard[index] ? <Tile setError={setError} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
           : <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
       </BoardStyled>
+      <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
     </BoardContainer>
   );
 }

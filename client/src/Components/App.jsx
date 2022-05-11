@@ -28,7 +28,7 @@ const Title = styled.div`
   font-size: 2em;
   float: left;
   img {
-    width: 19%;
+    width: 23%;
   }
 `;
 
@@ -46,9 +46,9 @@ const HeaderStyled = styled.div`
   max-height: 60px;
   min-height: 60px;
   margin-bottom: 20px;
-  padding-left: 10%;
+  padding-left: 3%;
   padding-right: 5%;
-  background-color: #00000078;
+  background-color: #000000c2;
 `
 
 
@@ -56,7 +56,7 @@ function MainHome(logout) {
   return (
     <MasterContainer>
       <HeaderStyled>
-        <Title><img src="./assets/logo-sm.png" alt="yes" /></Title>
+        <Title><img src="./assets/logoflame.png" alt="logo" /></Title>
         <Link to='/login' onClick={logout}>
           <Button variant="contained" className="logoutBtn">Log Out</Button>
         </Link>
