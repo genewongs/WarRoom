@@ -143,7 +143,7 @@ function MonsterList() {
     if (render === 'Create') {
       return (
         <Overflow>
-          <Create setRender={setRender} />;
+          <Create setRender={setRender} />
         </Overflow>
       )
     }
@@ -185,7 +185,7 @@ function MonsterList() {
       </div>
         {renderComponent()}
     </MonsterListContainer>
-  );
+  )
 }
 
 export default MonsterList;
