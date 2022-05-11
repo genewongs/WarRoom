@@ -229,7 +229,9 @@ const ChatContainer = styled.div`
 `;
 
 function Chat() {
-  const { joinRoom, room, socket } = useContext(RoomContext);
+  const {
+    joinRoom, room, socket, userList,
+  } = useContext(RoomContext);
 
   useEffect(() => {
     joinRoom();
@@ -237,7 +239,7 @@ function Chat() {
 
   return (
     <ChatContainer>
-      <ChatBox socket={socket} room={room} />
+      <ChatBox socket={socket} room={room} users={userList} />
       <LogBox socket={socket} room={room} />
     </ChatContainer>
   );

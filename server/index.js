@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const express = require('express');
 const path = require('path');
 const expressStaticGzip = require('express-static-gzip');
@@ -9,6 +10,7 @@ const { Server } = require('socket.io');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const users = [];
 
 const server = http.createServer(app);
 
@@ -23,12 +25,24 @@ io.on('connection', (socket) => {
   // console.log('User Connected', socket.id);
 
   socket.on('join_room', (data) => {
-    socket.join(data);
-    // console.log(data, 'has joined the room')
+    socket.join(data.room);
+    if (data.user.user !== undefined && users.filter((user) => user.id === data.user.user.uid).length === 0) {
+      const user = {
+        name: data.user.user.displayName,
+        id: data.user.user.uid,
+      };
+      users.push(user);
+    }
+    // socket.to(data.room).emit('users', users);
   });
 
   socket.on('send_message', (data) => {
     socket.to(data.room).emit('recieve_message', data);
+  });
+
+  socket.on('get_users', (data) => {
+    console.log(users);
+    socket.to(data.room).emit('users', users);
   });
 
   socket.on('send_log_message', (data) => {
@@ -43,12 +57,12 @@ io.on('connection', (socket) => {
     socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
   });
 
-  socket.on('disconnect', () => {
-    // console.log("User Disconnected", socket.id)
-  });
-
   socket.on('send_new_board', (newBoardSend) => {
     socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
+  });
+
+  socket.on('disconnect', () => {
+    // console.log("User Disconnected", socket.id)
   });
 });
 
@@ -56,6 +70,10 @@ app.use(express.json());
 app.use(expressStaticGzip(`${__dirname}/../client/dist`));
 app.use(cors());
 // // app.use('/', Routers);
+
+app.get('/users', (req, res) => {
+  res.send(users);
+});
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));

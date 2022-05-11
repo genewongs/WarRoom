@@ -15,6 +15,7 @@ import io from 'socket.io-client';
 import ProtectedRoute from './Authentication/ProtectedRoute';
 import { Button } from '@mui/material';
 import RoomContext from './RoomContext';
+import axios from 'axios'
 
 const AppContainer = styled.div`
   margin: 0px 100px 0px 100px;
@@ -51,7 +52,7 @@ const HeaderStyled = styled.div`
   background-color: #00000078;
 `
 
-const logout = async ()=> {
+const logout = async () => {
   await signOut(auth);
 };
 
@@ -77,14 +78,29 @@ function MainHome() {
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
+  const [userList, setUserList] = useState([]);
   console.log('currentUser in app', currentUser);
   const socket = io.connect('http://localhost:3000');
   // console.log('currentUser !== {}', currentUser !== {});
 
-  const room = 123;
+  const room = 123
 
-  const joinRoom = () => {
-    socket.emit('join_room', room);
+  const data = {
+    room,
+    user: currentUser
+  };
+
+  const getAllActiveUsers = () => {
+    return axios.get('http://localhost:3000/users')
+      .then((data) => {
+        setUserList(data.data)
+        console.log(userList)
+      })
+  }
+
+  const joinRoom = async () => {
+    await socket.emit('join_room', data);
+    getAllActiveUsers();
   };
 
   useEffect(() => {
@@ -95,9 +111,10 @@ function App() {
     }
   }, []);
 
+
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-      <RoomContext.Provider value={ {joinRoom, room, socket} }>
+    <UserContext.Provider value={{ currentUser, setCurrentUser, userList }}>
+      <RoomContext.Provider value={{ joinRoom, room, socket, data }}>
         <Router>
           <Routes>
             {/* <Route element={<ProtectedRoute/>}> */}
