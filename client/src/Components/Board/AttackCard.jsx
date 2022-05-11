@@ -93,9 +93,9 @@ function AttackCard({
   const [chosenAttack, setChosenAttack] = useState(null);
   const { room, socket } = useContext(RoomContext);
 
+  let allowedAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
   function handleAttack() {
     let multiple = chosenAttack.multiplier;
-    let allowdAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
     while (multiple >= 0) {
       // console.log(Battle(attacker, defender, chosenAttack));
       const logMessageData = {
@@ -125,7 +125,7 @@ function AttackCard({
         <AttackList>
           <div className="attackListStyle">
             <h4>ATTACKER</h4>
-            {allowdAttacks.map((attack, index) => (
+            {allowedAttacks.map((attack, index) => (
               <ul key={index}>
                 <div
                   className={`listHeadAttacker ${chosenAttack === attack ? 'active' : ''}`}
