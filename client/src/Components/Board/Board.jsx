@@ -2,9 +2,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import io from 'socket.io-client';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Tile from './Tile';
-import UserContext from '../UserContext';
+import AutoBattleList from './AutoBattleList';
 import sampleArray from '../../../../data';
+import UserContext from '../UserContext';
+import { updateUserMonster } from '../../firebase-config';
+import aStar from './utils/aStar/aStar';
 
 const BoardStyled = styled.div`
   display: grid;
@@ -22,8 +26,15 @@ const BoardContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 800px;
-  width: 800px;
+  /* height: 800px; */
+  /* width: 800px; */
+  /* min-height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  min-width: 100%; */
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
 `;
 
 const ErrorMessage = styled.div`
@@ -32,6 +43,7 @@ const ErrorMessage = styled.div`
   margin-top: 20px;
   opacity: 0;
   color: #ca0000;
+  border: 1px solid red;
   transition: all ease-in-out 0.3s;
   &.show {
     opacity: 1 !important;
@@ -40,62 +52,115 @@ const ErrorMessage = styled.div`
   }
 `;
 
-function Board() {
-  const socket = io.connect('http://localhost:3000');
-  const dimension = 6 || 8;
+const MenuContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+`;
+
+const SelectBoard = styled.div`
+  border: 1px solid red;
+  justify-content: center;
+`;
+
+const AutoContainer = styled.div`
+`;
+const EndContainer = styled.div`
+`;
+
+const BattleCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 100%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const { Zelroth, Gene } = sampleArray;
   const { currentUser } = useContext(UserContext);
-  console.log(currentUser.uid);
+
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
   );
   const [board, setBoard] = useState(
     Array.from({ length: dimension * dimension }, (element, index) => index),
   );
-  const [onBoard, setOnBoard] = useState({
-    [(Zelroth[0].locationX * dimension) + Zelroth[0].locationY]: Zelroth[0],
-    [(Gene[0].locationX * dimension) + Gene[0].locationY]: Gene[0],
-    [(Gene[1].locationX * dimension) + Gene[1].locationY]: Gene[1],
-  });
+  // const [onBoard, setOnBoard] = useState({});
   const [attacker, setAttacker] = useState(null);
   const [defender, setDefender] = useState(null);
   const [error, setError] = useState(false);
-  const move = (from, to, monster, reRender) => {
+  const [send, setSend] = useState(false);
+  const [monsterList, setMonsterList] = useState([]);
+  const [monsterListCounter, setMonsterListCounter] = useState([]);
+  const [battleList, setBattleList] = useState([]);
+
+
+  const sendNewBoard = () => {
+    const newBoardSend = {
+      new_board: onBoard,
+      room,
+    };
+    socket.emit('send_new_board', newBoardSend);
+  };
+
+  function handleAutoBattle() {
+    const attacker = Zelroth[0];
+    const defender = Gene[0];
+    const sampleBattleList = [
+      { attacker, defender, attack: attacker[0] },
+      { attacker, defender, attack: attacker[1] },
+    ];
+    console.log(sampleBattleList);
+    sampleBattleList.forEach((battle) => {
+      console.log(aStar(dimension, {1: true, 21: true}, battle.attacker, battle.defender));
+    });
+  }
+
+  const move = async (from, to, monster, reRender) => {
     if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');
-        setTimeout(() => {setError(false); }, 3000);
+        setTimeout(() => { setError(false); }, 3000);
       } else {
         monster.locationX = Math.floor(to / dimension);
         monster.locationY = to % dimension;
         monster.onBoard = true;
         setAttacker(null);
         setDefender(null);
-        setOnBoard((previous) => ({
+        await setOnBoard((previous) => ({
           ...previous,
           [to]: monster,
           [from]: null,
         }));
-        if (reRender) {
-          reRender((previous) => previous + 1);
+        if (send) {
+          setSend(false);
+        } else {
+          setSend(true);
         }
+
+        updateUserMonster(currentUser.displayName, monster.id, { onBoard: true, locationX: monster.locationX, locationY: monster.locationY })
+          .then(() => {
+            if (reRender) {
+              reRender((previous) => previous + 1);
+            }
+          });
       }
     } else {
       setError('You can not move there!');
-      setTimeout(() => {setError(false); }, 3000);
+      setTimeout(() => { setError(false); }, 3000);
     }
   };
-  useEffect(() => {
-    const newBoardSend = {
-      new_board: onBoard,
-      room: 123,
-    };
-    console.log('sending new board');
-    socket.emit('send_new_board', newBoardSend);
-  }, [onBoard]);
 
   useEffect(() => {
-    console.log('recieved new board');
+    sendNewBoard();
+  }, [send]);
+
+  useEffect(() => {
     socket.on('recieve_new_board', (newBoardSend) => {
       setOnBoard(newBoardSend.new_board);
     });
@@ -103,11 +168,52 @@ function Board() {
 
   return (
     <BoardContainer>
-    <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
+      <MenuContainer>
+        <SelectBoard>
+          Select Board Size:
+        </SelectBoard>
+        <div class="section full-height">
+
+            <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+            <label for="modal-btn">Battle List<i class="uil uil-expand-arrows"></i></label>
+
+            <input className="modal-btn" disabled="disabled" type="checkbox" id="modal-btn2" name="modal-btn"/>
+            <label onClick={() => handleAutoBattle()} for="modal-btn2">Auto Battle<i class="uil uil-expand-arrows"></i></label>
+
+            <input className="modal-btn" disabled="disabled" type="checkbox" id="modal-btn3" name="modal-btn"/>
+            <label for="modal-btn3" className="danger">End Turn<i className="uil uil-expand-arrows"></i></label>
+
+          <div className="modal">
+            <div className="modal-wrap">
+              <h4>Auto Battle List</h4>
+              <BattleCardContainer>
+                {monsterList.length > 0 ?
+                  monsterListCounter.map((el,index) => {
+                    return <AutoBattleList key={index} monsters={onBoard} />
+                  }) : null
+                }
+                <AddCircleIcon
+                  className="icon"
+                  fontSize="large"
+                  onClick={() => {
+                    setMonsterList((prv) => [...prv, onBoard]);
+                    setMonsterListCounter((prv) => [...prv, '0']);
+                  }}
+                  style={{ color: 'limegreen' }}
+                />
+              </BattleCardContainer>
+            </div>
+          </div>
+
+          <a href="https://front.codes/" class="logo" target="_blank">
+          </a>
+        </div>
+      </MenuContainer>
       <BoardStyled dimension={dimension}>
         {board.map((tile, index) => (onBoard[index] ? <Tile setError={setError} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
           : <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
       </BoardStyled>
+      <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
     </BoardContainer>
   );
 }

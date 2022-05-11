@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import io from 'socket.io-client';
-
 import { Button } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
+import RoomContext from '../RoomContext';
 import { Battle } from './utils/BattleFunc';
-
-const socket = io.connect('http://localhost:3000');
 
 const AttackList = styled.div`
   width: 180px;
@@ -93,18 +91,21 @@ function AttackCard({
   attacker, defender, setAttacker, setDefender, onBoard, setOnBoard, dimension, isDying, setIsDying, fadeOut,
 }) {
   const [chosenAttack, setChosenAttack] = useState(null);
+  const { room, socket } = useContext(RoomContext);
 
+  let allowedAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
   function handleAttack() {
     let multiple = chosenAttack.multiplier;
     while (multiple >= 0) {
       // console.log(Battle(attacker, defender, chosenAttack));
       const logMessageData = {
         message: Battle(attacker, defender, chosenAttack),
-        board: 123,
+        board: room,
       };
       socket.emit('send_log_message', logMessageData);
       multiple -= 1;
     }
+
     if (defender.currentHealth <= 0) {
       const index = (defender.locationX * dimension) + defender.locationY;
       fadeOut(setTimeout(() => {
@@ -124,7 +125,7 @@ function AttackCard({
         <AttackList>
           <div className="attackListStyle">
             <h4>ATTACKER</h4>
-            {attacker.attacks.map((attack, index) => (
+            {allowedAttacks.map((attack, index) => (
               <ul key={index}>
                 <div
                   className={`listHeadAttacker ${chosenAttack === attack ? 'active' : ''}`}

@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { signOut } from 'firebase/auth';
@@ -11,8 +11,11 @@ import Chat from './Chat/index';
 import BoardComponent from './Board/index';
 import Authentication from './Authentication/index';
 import UserContext from './UserContext';
+import io from 'socket.io-client';
 import ProtectedRoute from './Authentication/ProtectedRoute';
 import { Button } from '@mui/material';
+import RoomContext from './RoomContext';
+import axios from 'axios'
 
 const AppContainer = styled.div`
   margin: 0px 100px 0px 100px;
@@ -26,7 +29,7 @@ const Title = styled.div`
   font-size: 2em;
   float: left;
   img {
-    width: 19%;
+    width: 23%;
   }
 `;
 
@@ -44,20 +47,17 @@ const HeaderStyled = styled.div`
   max-height: 60px;
   min-height: 60px;
   margin-bottom: 20px;
-  padding-left: 10%;
+  padding-left: 3%;
   padding-right: 5%;
-  background-color: #00000078;
+  background-color: #000000c2;
 `
 
-const logout = async ()=> {
-  await signOut(auth);
-};
 
-function MainHome() {
+function MainHome(logout) {
   return (
     <MasterContainer>
       <HeaderStyled>
-        <Title><img src="./assets/logo-sm.png" alt="yes" /></Title>
+        <Title><img src="./assets/logoflame.png" alt="logo" /></Title>
         <Link to='/login' onClick={logout}>
           <Button variant="contained" className="logoutBtn">Log Out</Button>
         </Link>
@@ -75,27 +75,57 @@ function MainHome() {
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
+  const [userList, setUserList] = useState([]);
   console.log('currentUser in app', currentUser);
+  const socket = io.connect('http://localhost:3000');
   // console.log('currentUser !== {}', currentUser !== {});
 
-  useEffect(()=>{
+  const room = 123
+
+  const data = {
+    room,
+    user: currentUser
+  };
+
+  const getAllActiveUsers = () => {
+    return axios.get('http://localhost:3000/users')
+      .then((data) => {
+        setUserList(data.data)
+      })
+  }
+
+  const joinRoom = async () => {
+    await socket.emit('join_room', data);
+    getAllActiveUsers();
+  };
+
+  useEffect(() => {
     if (currentUser.currentUser !== undefined) {
       setCurrentUser(currentUser)
     } else {
       setCurrentUser({});
     }
   }, []);
+  const logout = async ()=> {
+    if (currentUser.displayName) {
+      socket.emit('logout', currentUser.displayName);
+    }
+    await signOut(auth);
+  };
+
 
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-      <Router>
-        <Routes>
-          {/* <Route element={<ProtectedRoute/>}> */}
-            <Route exact path="/" element={MainHome()}/>
-          {/* </Route> */}
-          <Route exact path="/login" element={<Authentication />} />
-        </Routes>
-      </Router>
+    <UserContext.Provider value={{ currentUser, setCurrentUser, userList }}>
+      <RoomContext.Provider value={{ joinRoom, room, socket, data }}>
+        <Router>
+          <Routes>
+            {/* <Route element={<ProtectedRoute/>}> */}
+            <Route exact path="/" element={MainHome(logout)} />
+            {/* </Route> */}
+            <Route exact path="/login" element={<Authentication />} />
+          </Routes>
+        </Router>
+      </RoomContext.Provider>
     </UserContext.Provider>
   )
 }

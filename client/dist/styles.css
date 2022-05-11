@@ -16,15 +16,6 @@ html, body {
   background-repeat: none;
 }
 
-.skeleton {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-  color: white;
-  background-image: url('./assets/skullLogin.jpeg');
-}
-
 .linkRR {
   text-decoration: none;
 }
@@ -214,4 +205,287 @@ span {
 .attacks-data {
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(196, 223, 255, 0.261);
+}
+
+
+/* CUSTOM LIVE CHAT DROPDOWN */
+.small {
+  font-size: 1em;
+}
+
+.square {
+  width: .7em;
+  height: .7em;
+  margin: .5em;
+  display: inline-block;
+}
+
+/* Custom dropdown */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width:100%;
+}
+
+.custom-dropdown select {
+  font-family: 'Poppins', sans-serif;
+  font-size: .85em;
+  background-color: #252a2f;
+  color: #fff;
+  padding: .5em;
+  border: 0;
+  margin: 0;
+  border-radius: 3px;
+  padding-right: 10px;
+  min-width: 100%;
+  text-indent: 0.01px;
+  border-bottom: 1px solid #b1bcd18d;
+  text-overflow: '';
+  -webkit-appearance: button; /* hide default arrow in chrome OSX */
+}
+
+.custom-dropdown select:focus {
+  outline: none;
+}
+
+.custom-dropdown::before,
+.custom-dropdown::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.custom-dropdown::after { /*  Custom dropdown arrow */
+  content: "\25BC";
+  height: 1em;
+  font-size: .625em;
+  line-height: 1;
+  right: 1.2em;
+  top: 50%;
+  margin-top: -.5em;
+}
+
+.custom-dropdown::before { /*  Custom dropdown arrow cover */
+  width: 2em;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.custom-dropdown select[disabled] {
+  color: rgba(0,0,0,.3);
+}
+
+.custom-dropdown select[disabled]::after {
+  color: rgba(0,0,0,.1);
+}
+
+.custom-dropdown::before {
+  background-color: rgba(0,0,0,.15);
+}
+
+.custom-dropdown::after {
+  color: rgba(0,0,0,.4);
+}
+
+
+
+/* MODAL FOR BUTTONS */
+
+.section {
+  position: relative;
+  width: 100%;
+  /* display: block; */
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-pack: center;
+  justify-content: flex-end;
+}
+
+.danger {
+  cursor: pointer;
+  background-color: #8e0000 !important;
+  float: right !important;
+}
+.danger:hover {
+  cursor: pointer;
+  background-color: #c00000 !important;
+}
+
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked){
+  position: absolute;
+  left: -9999px;
+}
+
+.modal-btn:checked + label,
+.modal-btn:not(:checked) + label{
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  font-size: .7em;
+  line-height: 2;
+  height: 4vh;
+  transition: all 200ms linear;
+  border-radius: 4px;
+  width: 7vw;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 2px #0c0c0c;
+  margin: 0px 5px;
+  display: -webkt-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  text-align: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+  border: none;
+  cursor: pointer;
+  background-color: #2a3550;
+  color: #f1f9ff;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.451);
+}
+.modal-btn:not(:checked) + label:hover{
+  background-color: #395679;
+  color: #f1f9ff;
+}
+/* .modal-btn:checked + label .uil,
+.modal-btn:not(:checked) + label .uil{
+	margin-left: 10px;
+	font-size: 18px;
+} */
+.modal-btn:checked + label:after,
+.modal-btn:not(:checked) + label:after{
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  z-index: 110;
+  width: 40px;
+  border-radius: 3px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 18px;
+  background-color: #f1f9ff;
+  color: #102770;
+  font-family: 'unicons';
+  content: '\eac6';
+  box-shadow: 0 12px 25px 0 rgba(16,39,112,.25);
+  transition: all 200ms linear;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+}
+.modal-btn:checked + label:hover:after,
+.modal-btn:not(:checked) + label:hover:after{
+  background-color: #102770;
+  color: #ffeba7;
+}
+.modal-btn:checked + label:after{
+  transition: opacity 300ms 300ms ease, transform 300ms 300ms ease, background-color 250ms linear, color 250ms linear;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.modal {
+  position: fixed;
+  display: block;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  overflow-x: hidden;
+  background-color: rgba(31,32,41,.75);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms 200ms ease;
+  z-index: 20;
+}
+.modal-btn:checked ~ .modal{
+  pointer-events: auto;
+  opacity: 1;
+  transition: all 300ms ease-in-out;
+}
+.modal-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 20px 0px;
+  background-color: rgb(35, 37, 42);
+    -ms-flex-item-align: center;
+    align-self: center;
+    box-shadow: 0 12px 25px 0 rgba(76, 70, 73, 0.25);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 250ms 250ms ease, transform 300ms 250ms ease;
+  z-index: 50;
+}
+/* .modal-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+} */
+.modal-btn:checked ~ .modal .modal-wrap{
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 250ms 500ms ease, transform 350ms 500ms ease;
+}
+
+
+.logo {
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	display: block;
+	z-index: 1000;
+	transition: all 250ms linear;
+}
+.logo img {
+	height: 26px;
+	width: auto;
+	display: block;
+  	filter: brightness(10%);
+	transition: filter 250ms 700ms linear;
+}
+.modal-btn:checked ~ .logo img {
+  	filter: brightness(100%);
+	transition: all 250ms linear;
+}
+
+
+@media screen and (max-width: 500px) {
+	.modal-wrap {
+		width: calc(100% - 40px);
+		padding-bottom: 15px;
+	}
+	.modal-wrap p {
+	  padding: 15px 20px 0 20px;
+	}
 }
