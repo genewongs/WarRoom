@@ -31,6 +31,12 @@ const BattleCardLeft = styled.div`
   }
 `;
 
+const AttackListStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: gray;
+`;
+
 const BattleCardRight = styled.div`
   flex-grow: 1;
   background-color: red;
@@ -62,6 +68,7 @@ function AutoBattleList({ monsters }) {
     "movement": "19",
     "id": "yqFoQpQ4btgbGXmIYRyK"
   });
+  const [attacks, setAttacks] = useState([]);
   const [selectOpponent, setSelectedOpponent] = useState(null);
 
   const { currentUser } = useContext(UserContext);
@@ -72,7 +79,7 @@ function AutoBattleList({ monsters }) {
   console.log('my shit', myMonsters)
   const renderRooms = function(set) {
     return set.map((monster) => (
-      <option key={monster.id} label={monster.name} value={monster}>
+      <option key={monster.id} label={monster.name} value={JSON.stringify(monster)}>
         {monster.name}
       </option>
     ));
@@ -82,14 +89,36 @@ function AutoBattleList({ monsters }) {
     <BattleCardDiv>
       <BattleCardLeft>
         <div className="custom-dropdown">
-          <select>
-            <option value="" disabled selected>Select Monster</option>
+          <select onChange={(e) => {
+            const currentMonster = JSON.parse(e.target.value);
+            setSelectedMonster(currentMonster);
+            setAttacks(currentMonster.attacks);
+          }}>
+            <option value=''
+            disabled selected>
+              Select Monster
+            </option>
               {renderRooms(myMonsters)}
           </select>
         </div>
 
         <img src={selectedMonster.image}></img>
         {selectedMonster.name}
+
+          {selectedMonster.attacks.map((attack,i) => {
+            return <AttackListStyled onClick={() => {
+              setAttacks((prev) => [...prev, attack])
+              console.log(attacks)
+              }}>
+
+              <div>Attack: {attack.attack}</div>
+              <div>Attack Name: {attack.attackName} </div>
+              <div> Damage: {attack.damage}</div>
+              <div>Multiplier: {attack.multiplier}</div>
+              <div>Range: {attack.range}</div>
+            </AttackListStyled>
+          })}
+
 
       </BattleCardLeft>
 
