@@ -26,17 +26,8 @@ const MonsterContainer = styled.div`
     text-shadow: 2px 2px 2px #171512;
   }
 `;
-const CenterText = styled.div`
-  width: 100%;
-  text-align: center;
-`;
 const ListContainer = styled.div`
-  height: auto;
-  overflow: hidden;
-  border-width: 2px;
-  border-style: solid;
-  border-image: linear-gradient(to right, #f5f7f5, #526e9f34) 1;
-  background-image: linear-gradient(to left, rgba(255,0,0,0), #526e9f34);
+  background-image: linear-gradient(to top, rgba(255,0,0,0), #526e9f34);
 `;
 function PopulateList({ index, monster, setMonster, setRender, setCount }) {
   // eslint-disable-next-line no-unused-vars

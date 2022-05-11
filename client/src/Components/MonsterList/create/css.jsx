@@ -181,7 +181,7 @@ const CSS = {
       display: none;
     }
   `,
-  Fix: styled.div`
+  AttackCardStyled: styled.div`
   position: absolute;
   display: flex;
   flex-direction: row;

@@ -14,6 +14,7 @@ const MonsterListContainer = styled.div`
   flex-direction: column;
   border-radius: 10px;
   width: 23%;
+  height: 110%;
   margin-bottom: 20px;
 
   & .activeTab {
@@ -60,6 +61,16 @@ const MainButtons = styled.button`
 const Header = styled.div`
   font-size: large;
   text-align: center;
+`;
+const Overflow = styled.div`
+  max-width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 function MonsterList() {
@@ -168,7 +179,9 @@ function MonsterList() {
           Details
         </MainButtons>
       </div>
-      {renderComponent()}
+      <Overflow>
+        {renderComponent()}
+      </Overflow>
     </MonsterListContainer>
   );
 }
