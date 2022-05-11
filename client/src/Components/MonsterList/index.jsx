@@ -118,7 +118,7 @@ function MonsterList() {
       return <List setMonster={setMonster} setRender={setRender} monsterArr={monsterArr} />;
     }
     if (render === 'Create') {
-      return <Create />;
+      return <Create setRender={setRender} />;
     }
     return <Details monster={monster} />;
   }

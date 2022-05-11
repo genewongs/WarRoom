@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import sampleArray from '../../exampleData/data';
+// import sampleArray from '../../exampleData/data';
 import PopulateList from './PopulateList';
 
 const ListContainer = styled.div`
@@ -16,6 +17,7 @@ const Header = styled.div`
   text-align: center;
 `;
 function List({ setMonster, setRender, monsterArr }) {
+  // eslint-disable-next-line no-unused-vars
   const [count, setCount] = useState(0);
 
   let onIndex = -1;
@@ -27,7 +29,14 @@ function List({ setMonster, setRender, monsterArr }) {
       {monsterArr.map((e) => {
         onIndex += 1;
         if (e.onBoard) {
-          return (<PopulateList index={onIndex} monster={e} setMonster={setMonster} setRender={setRender} />);
+          return (
+            <PopulateList
+              index={onIndex}
+              monster={e}
+              setMonster={setMonster}
+              setRender={setRender}
+            />
+          );
         }
         return <div />;
       })}
@@ -37,7 +46,15 @@ function List({ setMonster, setRender, monsterArr }) {
       {monsterArr.map((e) => {
         offIndex += 1;
         if (!e.onBoard) {
-          return (<PopulateList index={offIndex} monster={e} setMonster={setMonster} setRender={setRender} setCount={setCount} />);
+          return (
+            <PopulateList
+              index={offIndex}
+              monster={e}
+              setMonster={setMonster}
+              setRender={setRender}
+              setCount={setCount}
+            />
+          );
         }
         return <div />;
       })}
