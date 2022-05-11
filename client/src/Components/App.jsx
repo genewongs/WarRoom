@@ -91,7 +91,6 @@ function App() {
     return axios.get('http://localhost:3000/users')
       .then((data) => {
         setUserList(data.data)
-        console.log(userList)
       })
   }
 

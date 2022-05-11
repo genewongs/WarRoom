@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable max-len */
 const express = require('express');
 const path = require('path');
@@ -38,6 +39,14 @@ io.on('connection', (socket) => {
 
   socket.on('send_message', (data) => {
     socket.to(data.room).emit('recieve_message', data);
+  });
+
+  socket.on('logout', (data) => {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].name === data) {
+        users.splice(i, 1);
+      }
+    }
   });
 
   socket.on('send_log_message', (data) => {

@@ -64,12 +64,11 @@ function TileContent({
         setAttacker(monster);
       }
     } else if (attacker && attacker !== monster && !defender) {
-      // loop through attacker's attack
-      // pull longest range attack
-      // set the if block accordingly
+      let maxRange = Math.max(attacker.attacks.map((each)=> each.range));
+      console.log('maxRange in handleAttack', maxRange);
       if (
-        Math.abs(attacker.locationX - monster.locationX)
-        + Math.abs(attacker.locationY - monster.locationY) < 2 /* replace with longest range attack */
+        (Math.abs(attacker.locationX - monster.locationX)
+        + Math.abs(attacker.locationY - monster.locationY)) <= Math.floor(maxRange / 5)
       ) {
         if (monster.userUID === currentUser.uid) {
           setError('Trying to attack your own monster?');

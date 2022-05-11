@@ -15,7 +15,6 @@ function ChatBox({
 }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
-  // const [userList, setUserList] = useState([]);
   const { currentUser } = useContext(UserContext);
 
   const username = currentUser.displayName;

@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import sampleArray from './../../exampleData/data';
+import React, { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
+import sampleArray from "./../../exampleData/data";
+import { updateUserMonster } from "../../firebase-config";
+import UserContext from "../UserContext";
+import CSS from "./create/css";
 
 const DetailsContainer = styled.div`
   display: flex;
@@ -11,12 +14,16 @@ const DetailsContainer = styled.div`
   min-height: 100%;
   z-index: 5;
   border-radius: 5px;
+
+  & .edit {
+    margin: 0 auto;
+  }
 `;
 
 const TopContainer = styled.div`
   display: flex;
   margin: 15px;
-  font-family: 'Macondo', cursive !important;
+  font-family: "Macondo", cursive !important;
 `;
 
 const IconContainer = styled.img`
@@ -26,13 +33,21 @@ const IconContainer = styled.img`
   overflow: hidden;
   border-width: 2px;
   border-style: solid;
-  border-image: linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1;
+  border-image: linear-gradient(
+      -45deg,
+      #835d1a,
+      #bf953f,
+      #fbf5b7,
+      #bf953f,
+      #835d1a
+    )
+    1;
 `;
 
 const MonsterName = styled.div`
   display: flex;
   width: 100%;
-  background-image: linear-gradient(to right, rgba(255,0,0,0), #526e9f34);
+  background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #526e9f34);
   border-radius: 3px;
   font-size: x-large;
   justify-content: center;
@@ -66,7 +81,7 @@ const AttacksContainer = styled.div`
   text-transform: uppercase;
 
   tr:nth-last-child() {
-      border-bottom: none !important;
+    border-bottom: none !important;
   }
 
   & .attackContainer {
@@ -74,7 +89,11 @@ const AttacksContainer = styled.div`
     padding-bottom: 20px;
     border-bottom: 1px solid white;
     h4 {
-      background-image: linear-gradient(to right, rgba(255,0,0,0), #3e497a7d);
+      background-image: linear-gradient(
+        to right,
+        rgba(255, 0, 0, 0),
+        #3e497a7d
+      );
     }
   }
 `;
@@ -96,26 +115,155 @@ const StyledAttackTable = styled.table`
 
 function Details({ monster }) {
   // const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
+  const { currentUser } = useContext(UserContext);
+  const [editName, setEditName] = useState(false);
+  const [editDescription, setEditDescription] = useState(false);
+  const [editHealth, setEditHealth] = useState(false);
+  const [editArmor, setEditArmor] = useState(false);
+  const [editMovement, setEditMovement] = useState(false);
+  const [copiedMonster, setCopiedMonster] = useState(
+    JSON.parse(JSON.stringify(monster))
+  );
+  useEffect(() => {
+    setCopiedMonster(JSON.parse(JSON.stringify(monster)));
+    console.log(monster);
+  }, [monster]);
+  // Need to check if monsterID is accessible
+  function change() {
+    updateUserMonster(currentUser.displayName, monster.id, copiedMonster)
+      .then((data) => console.log("Monster had been updataed", data))
+      .catch((err) => console.log("Failed to update monster", err));
+  }
   return (
     <DetailsContainer>
       <TopContainer>
-        <IconContainer src={`${monster.image}`} alt="something" />
-        <MonsterName><h4>{monster.name}</h4></MonsterName>
+        <IconContainer src={`${copiedMonster.image}`} alt="something" />
+        <MonsterName
+          onDoubleClick={() => setEditName(true)}
+          onBlur={() => {
+            change();
+            setEditName(false);
+          }}
+        >
+          <h4>
+            {editName ? (
+              <CSS.Input
+                type="text"
+                id="MonsterName"
+                maxLength="20"
+                placeholder={copiedMonster.name}
+                onChange={(e) => {
+                  copiedMonster.name = e.target.value;
+                }} // change to onBlur?
+              />
+            ) : (
+              copiedMonster.name
+            )}
+          </h4>
+        </MonsterName>
       </TopContainer>
-      <Description>{monster.description}</Description>
+      <Description
+        onDoubleClick={() => setEditDescription(true)}
+        onBlur={() => {
+          change();
+          setEditDescription(false);
+        }}
+      >
+        {editDescription ? (
+          <CSS.Input
+            type="text"
+            id="Description"
+            maxLength="1000"
+            placeholder={copiedMonster.description}
+            onChange={(e) => {
+              copiedMonster.description = e.target.value;
+            }}
+          />
+        ) : (
+          copiedMonster.description
+        )}
+      </Description>
       <StatsContainer>
         <table>
           <tr>
             <StyledLeftTD>HEALTH: </StyledLeftTD>
-            <td>{monster.currentHealth}/{monster.maxHealth} </td>
+            <td
+              onDoubleClick={() => setEditHealth(true)}
+              onBlur={() => {
+                change();
+                setEditHealth(false);
+              }}
+            >
+              {editHealth ? (
+                <CSS.Input
+                  type="text"
+                  id="CurrentHealth"
+                  maxLength="3"
+                  placeholder={copiedMonster.currentHealth}
+                  onChange={(e) => {
+                    copiedMonster.currentHealth = e.target.value;
+                  }}
+                />
+              ) : (
+                copiedMonster.currentHealth
+              )}
+              /
+              {editHealth ? (
+                <CSS.Input
+                  type="text"
+                  id="MaxHealth"
+                  maxLength="3"
+                  placeholder={copiedMonster.maxHealth}
+                  onChange={(e) => (copiedMonster.maxHealth = e.target.value)}
+                />
+              ) : (
+                copiedMonster.maxHealth
+              )}{" "}
+            </td>
           </tr>
           <tr>
             <StyledLeftTD>ARMOR: </StyledLeftTD>
-            <td>{monster.armor}</td>
+            <td
+              onDoubleClick={() => setEditArmor(true)}
+              onBlur={() => {
+                change();
+                setEditArmor(false);
+              }}
+            >
+              {editArmor ? (
+                <CSS.Input
+                  type="text"
+                  id="Armor"
+                  maxLength="3"
+                  placeholder={copiedMonster.armor}
+                  onChange={(e) => (copiedMonster.armor = e.target.value)}
+                />
+              ) : (
+                copiedMonster.armor
+              )}
+            </td>
           </tr>
           <tr>
             <StyledLeftTD>MOVEMENT: </StyledLeftTD>
-            <td>{monster.movement}</td>
+            <td
+              onDoubleClick={() => setEditMovement(true)}
+              onBlur={() => {
+                change();
+                setEditMovement(false);
+              }}
+            >
+              {editMovement ? (
+                <CSS.Input
+                  type="text"
+                  id="Movement"
+                  maxLength="3"
+                  placeholder={copiedMonster.movement}
+                  onChange={(e) => (copiedMonster.movement = e.target.value)}
+                />
+              ) : (
+                copiedMonster.movement
+              )}
+            </td>
           </tr>
         </table>
 
@@ -125,7 +273,7 @@ function Details({ monster }) {
       </StatsContainer>
       <AttacksContainer>
         <AttackTitle>Attacks</AttackTitle>
-        {monster.attacks.map((e) => (
+        {copiedMonster.attacks.map((e, i) => (
           <div className="attackContainer">
             <h4>{e.attackName}</h4>
             <StyledAttackTable>
@@ -152,12 +300,27 @@ function Details({ monster }) {
               Damage: {e.damage}
             </div> */}
           </div>
-        )
-        )}
+        ))}
       </AttacksContainer>
-
+      <CSS.CharIcon
+        type="button"
+        className="edit"
+        onClick={() => {
+          setEditMode(!editMode);
+          console.log(copiedMonster);
+        }}
+      >
+        Edit
+      </CSS.CharIcon>
     </DetailsContainer>
   );
 }
 
 export default Details;
+
+/* DELETE THIS LATER... this is just for Elbert's convenience
+export const updateUserMonster = (userName, monsterId, updatedArea)=> {
+  const docRef = doc(db, userName, monsterId); // monster.userName, monster.id
+  updateDoc(docRef, updatedArea);
+};
+*/
