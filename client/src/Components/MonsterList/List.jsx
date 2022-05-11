@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import sampleArray from '../../exampleData/data';
+// import sampleArray from '../../exampleData/data';
 import PopulateList from './PopulateList';
 
 const ListContainer = styled.div`
@@ -46,6 +47,7 @@ const BoardCard = styled.div`
 `;
 
 function List({ setMonster, setRender, monsterArr }) {
+  // eslint-disable-next-line no-unused-vars
   const [count, setCount] = useState(0);
 
   let onIndex = -1;

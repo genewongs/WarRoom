@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import Icons from './create/Icons';
 import Attacks from './create/Attacks';
-import { getUsers, addUserMonster } from '../../firebase-config';
+import { addUserMonster } from '../../firebase-config';
 import UserContext from '../UserContext';
 import CSS from './create/css';
 
-function Create() {
+// eslint-disable-next-line react/prop-types
+function Create({ setRender }) {
   const { currentUser } = useContext(UserContext);
   const [iconArr] = useState([
     'Blob.jpg',
@@ -54,7 +55,7 @@ function Create() {
   const [health, setHealth] = useState(0);
   const [movement, setMovement] = useState(0);
   const [attackArr] = useState([{
-    attackName: 'none',
+    attackName: '',
     attack: 'none',
     multiplier: 1,
     damage: 'none',
@@ -99,18 +100,30 @@ function Create() {
     attackArr[index - 1][key] = value;
   };
   // sends data to database
-  function Submit(quanity) {
+  function Submit() {
+    let badData = false;
+    let badDataMessage = '';
+    const rollRegex = /^\d+d\d+ \+ \d+$/;
+    for (let i = 0; i < attackArr.length; i += 1) {
+      if (attackArr[i].attackName === '') {
+        badData = true;
+        badDataMessage = 'A attack does not have a name!';
+      }
+      if (!rollRegex.test(attackArr[i].attack)) {
+        badData = true;
+        badDataMessage = 'Attack is not formated correctly. Must be (number)d(number) + (number)';
+      }
+      if (!rollRegex.test(attackArr[i].damage)) {
+        badData = true;
+        badDataMessage = 'Damage is not formated correctly. Must be (number)d(number) + (number)';
+      }
+    }
     if (name === '') {
       alert('Name is blank');
-      console.log('log in first please');
-    } else if (Number(armor) === 'NaN') {
-      alert('Armor must be a number!');
-    } else if (Number(health) === 'NaN') {
-      alert('Armor must be a number!');
-    } else if (Number(movement) === 'NaN') {
-      alert('Movement must be a number!');
+    } else if (badData) {
+      alert(badDataMessage);
     } else {
-      let promises = [];
+      const promises = [];
       for (let i = 0; i < quantity; i += 1) {
         promises.push(addUserMonster(currentUser.displayName, {
           userUID: currentUser.uid,
@@ -129,9 +142,10 @@ function Create() {
         }));
       }
       setQuantity(1);
+      setRender('List');
       return Promise.all().then((data) => console.log(data)).catch((err) => console.log(err));
     }
-  };
+  }
   return (
     <CSS.CreateContainer>
       <div className="attribute">
@@ -173,19 +187,19 @@ function Create() {
       </div>
       <div className="attribute-attack">
         <h4>Attacks</h4>
-          <CSS.AttackBox>
-            {attackArr.map(() => {
-              count += 1;
-              return (
-                <Attacks
-                  setAttack={(index, key, value) => setAttack(index, key, value)}
-                  deleteAttack={(index) => deleteAttack(index)}
-                  addAttack={addAttack}
-                  count={count}
-                />
-              );
-            })}
-          </CSS.AttackBox>
+        <CSS.AttackBox>
+          {attackArr.map(() => {
+            count += 1;
+            return (
+              <Attacks
+                setAttack={(index, key, value) => setAttack(index, key, value)}
+                deleteAttack={(index) => deleteAttack(index)}
+                addAttack={() => addAttack()}
+                count={count}
+              />
+            );
+          })}
+        </CSS.AttackBox>
       </div>
       <div className="attribute">
         <h4>Quantity</h4>

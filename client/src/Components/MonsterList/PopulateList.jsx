@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useDrag } from 'react-dnd';
-import sampleArray from '../../exampleData/data';
+// import sampleArray from '../../exampleData/data';
 
 const Icon = styled.img`
   min-height: 100px;
@@ -24,13 +26,12 @@ const MonsterContainer = styled.div`
     text-shadow: 2px 2px 2px #171512;
   }
 `;
-const CenterText = styled.div`
-  width: 100%;
-  text-align: center;
+const ListContainer = styled.div`
+  background-image: linear-gradient(to top, rgba(255,0,0,0), #526e9f34);
 `;
 function PopulateList({ index, monster, setMonster, setRender, setCount }) {
+  // eslint-disable-next-line no-unused-vars
   const [{ isDragging }, drag] = useDrag(() => ({
-
     type: 'image',
     item: { id: index, monster, reRender: setCount },
     collect: (monitor) => ({
@@ -39,7 +40,7 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
   }));
 
   return (
-    <div onClick={() => {
+    <ListContainer onClick={() => {
       setMonster(monster);
       setRender('Details');
     }}
@@ -50,7 +51,9 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
             {monster.name}
           </h4>
           Health:
-          {monster.currentHealth}/{monster.maxHealth}
+          {monster.currentHealth}
+          /
+          {monster.maxHealth}
           <br />
           Armor:
           {monster.armor}
@@ -67,7 +70,7 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
           />
         </div>
       </MonsterContainer>
-    </div>
+    </ListContainer>
   );
 }
 
