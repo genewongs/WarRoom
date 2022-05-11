@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import Tile from './Tile';
 import UserContext from '../UserContext';
 import sampleArray from '../../../../data';
+import { updateUserMonster } from '../../firebase-config';
 
 const BoardStyled = styled.div`
   display: grid;
@@ -44,18 +45,13 @@ function Board({ socket, room }) {
   const dimension = 6 || 8;
   const { Zelroth, Gene } = sampleArray;
   const { currentUser } = useContext(UserContext);
-  console.log(currentUser.uid);
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
   );
   const [board, setBoard] = useState(
     Array.from({ length: dimension * dimension }, (element, index) => index),
   );
-  const [onBoard, setOnBoard] = useState({
-    [(Zelroth[0].locationX * dimension) + Zelroth[0].locationY]: Zelroth[0],
-    [(Gene[0].locationX * dimension) + Gene[0].locationY]: Gene[0],
-    [(Gene[1].locationX * dimension) + Gene[1].locationY]: Gene[1],
-  });
+  const [onBoard, setOnBoard] = useState({});
   const [attacker, setAttacker] = useState(null);
   const [defender, setDefender] = useState(null);
   const [error, setError] = useState(false);
@@ -69,7 +65,7 @@ function Board({ socket, room }) {
     socket.emit('send_new_board', newBoardSend);
   };
 
-  const move = async (from, to, monster) => {
+  const move = async (from, to, monster, reRender) => {
     if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');
@@ -91,9 +87,12 @@ function Board({ socket, room }) {
           setSend(true);
         }
 
-        if (reRender) {
-          reRender((previous) => previous + 1);
-        }
+        updateUserMonster(currentUser.displayName, monster.id, { onBoard: true, locationX: monster.locationX, locationY: monster.locationY })
+          .then(() => {
+            if (reRender) {
+              reRender((previous) => previous + 1);
+            }
+          });
       }
     } else {
       setError('You can not move there!');

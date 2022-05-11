@@ -52,11 +52,8 @@ const HeaderStyled = styled.div`
   background-color: #00000078;
 `
 
-const logout = async () => {
-  await signOut(auth);
-};
 
-function MainHome() {
+function MainHome(logout) {
   return (
     <MasterContainer>
       <HeaderStyled>
@@ -110,6 +107,12 @@ function App() {
       setCurrentUser({});
     }
   }, []);
+  const logout = async ()=> {
+    if (currentUser.displayName) {
+      socket.emit('logout', currentUser.displayName);
+    }
+    await signOut(auth);
+  };
 
 
   return (
@@ -118,7 +121,7 @@ function App() {
         <Router>
           <Routes>
             {/* <Route element={<ProtectedRoute/>}> */}
-            <Route exact path="/" element={MainHome()} />
+            <Route exact path="/" element={MainHome(logout)} />
             {/* </Route> */}
             <Route exact path="/login" element={<Authentication />} />
           </Routes>

@@ -4,21 +4,31 @@ import { useDrag } from 'react-dnd';
 import sampleArray from '../../exampleData/data';
 
 const Icon = styled.img`
-  width: 70%;
-  padding 5 px;
-  float: right;
+  min-height: 100px;
+  max-height: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1;
 `;
 const MonsterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding: 10px 10px;
+
+  h4 {
+    font-weight: 200;
+    color: #fff0cf;
+    text-shadow: 2px 2px 2px #171512;
+  }
 `;
 const CenterText = styled.div`
   width: 100%;
   text-align: center;
 `;
 function PopulateList({ index, monster, setMonster, setRender, setCount }) {
-
   const [{ isDragging }, drag] = useDrag(() => ({
 
     type: 'image',
@@ -57,9 +67,6 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
           />
         </div>
       </MonsterContainer>
-      <CenterText>
-        {monster.description}
-      </CenterText>
     </div>
   );
 }

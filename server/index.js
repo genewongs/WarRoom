@@ -5,6 +5,7 @@ const expressStaticGzip = require('express-static-gzip');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
+const { getUsers, updateUserMonster } = require('../client/src/firebase-config');
 // const Routers = require('./router');
 // const db = require('../database');
 
@@ -51,12 +52,29 @@ io.on('connection', (socket) => {
     socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
   });
 
+  socket.on('disconnect', () => {
+    // console.log("User Disconnected", socket.id);
+    // console.log(socket);
+  });
+
   socket.on('send_new_board', (newBoardSend) => {
     socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
   });
-
-  socket.on('disconnect', () => {
-    // console.log("User Disconnected", socket.id)
+  socket.on('logout', (data) => {
+    getUsers(data)
+      .then((snapshot) => {
+        let books = [];
+        snapshot.docs.forEach((doc) => {
+          books.push({ ...doc.data(), id: doc.id });
+        });
+        return (books);
+      })
+      .then((monsterArr) => (
+        Promise.all(monsterArr.map((monster) => (
+          updateUserMonster(data, monster.id, { onBoard: false, locationX: -1, locationY: -1 })
+        )))
+      ))
+      .catch((err) => console.log(err));
   });
 });
 
