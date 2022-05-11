@@ -6,14 +6,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import moment from 'moment';
 import UserContext from '../UserContext';
-import RoomContext from '../RoomContext';
 
 function ChatBox({ socket, room }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   // const [userList, setUserList] = useState([]);
   const { currentUser } = useContext(UserContext);
-  const { userList } = useContext(RoomContext);
 
   const username = currentUser.displayName;
 

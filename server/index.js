@@ -33,16 +33,10 @@ io.on('connection', (socket) => {
       };
       users.push(user);
     }
-    // socket.to(data.room).emit('users', users);
   });
 
   socket.on('send_message', (data) => {
     socket.to(data.room).emit('recieve_message', data);
-  });
-
-  socket.on('get_users', (data) => {
-    console.log(users);
-    socket.to(data.room).emit('users', users);
   });
 
   socket.on('send_log_message', (data) => {
