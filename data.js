@@ -86,6 +86,7 @@ const sampleArray = {
     {
       userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
       userName: 'Gene',
+      id: 'ZT5lu4W2zW4x1z3Ai0Sf',
       name: 'Prest',
       description: 'level 68 paladin',
       maxHealth: 13,
@@ -113,6 +114,7 @@ const sampleArray = {
     },
     {
       userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
+      id: 'ZT5lu4W2zW4x1z3Ai0Sf',
       userName: 'Gene',
       name: 'Imp Boi',
       description: 'level 99 wizrd',

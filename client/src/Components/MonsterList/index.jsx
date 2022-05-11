@@ -45,6 +45,7 @@ const MainButtons = styled.button`
   background-color: #1e242eeb;
   color: white;
   border: none;
+  border-bottom: 1px solid black;
   cursor: pointer;
   transition-duration: 0.2s;
   &:hover {
@@ -55,10 +56,12 @@ const MainButtons = styled.button`
     color: #FFD4CD;
   };
 `;
+
 const Header = styled.div`
   font-size: large;
   text-align: center;
 `;
+
 function MonsterList() {
   const { currentUser } = useContext(UserContext);
 
@@ -105,7 +108,6 @@ function MonsterList() {
       })
       .catch(() => console.log('no such document'))
         .then((data) => {
-          console.log('IM HERE',data);
           if (data.length === 0) {
             addUserMonster(userName, example)
               .then(console.log('data has been added'));

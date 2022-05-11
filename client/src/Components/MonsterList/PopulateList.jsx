@@ -10,18 +10,18 @@ const Icon = styled.img`
   max-width: 100px;
   border-width: 2px;
   border-style: solid;
-  border-image: linear-gradient(to right, #1b67ff, #ffffff) 1;
+  border-image: linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1;
 `;
 const MonsterContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 10px 10px;
-  border: 1px solid red;
 
   h4 {
-    color: #90b5e6;
-    text-shadow: 2px 2px 2px black;
+    font-weight: 200;
+    color: #fff0cf;
+    text-shadow: 2px 2px 2px #171512;
   }
 `;
 const CenterText = styled.div`
