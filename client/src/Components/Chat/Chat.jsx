@@ -20,7 +20,7 @@ function ChatBox({
 
   const username = currentUser.displayName;
   const renderRooms = chatRooms.map((option) => (
-      <option key={option.value} label={option.label} value={Number(option.value)} onClick={() => { setSelection(option); }} onClick={() => setSelection(option)}>
+      <option key={option.value} label={option.label} value={Number(option.value)} onClick={() => { setSelection(option) }}>
         {option.label}
       </option>
     ));
@@ -58,7 +58,7 @@ function ChatBox({
         <div className="chat-header-title">Live Battle Chat</div>
       </div>
       <div className="custom-dropdown">
-        <select>
+        <select onChange={() => console.log('hi')}>
           <option value="" disabled selected>Select A Room</option>
           {renderRooms}
         </select>

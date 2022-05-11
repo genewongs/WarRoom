@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import io from 'socket.io-client';
 import Tile from './Tile';
-import UserContext from '../UserContext';
+import AutoBattleList from './AutoBattleList';
 import sampleArray from '../../../../data';
+import UserContext from '../UserContext';
 import { updateUserMonster } from '../../firebase-config';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const BoardStyled = styled.div`
   display: grid;
@@ -40,6 +42,7 @@ const ErrorMessage = styled.div`
   margin-top: 20px;
   opacity: 0;
   color: #ca0000;
+  border: 1px solid red;
   transition: all ease-in-out 0.3s;
   &.show {
     opacity: 1 !important;
@@ -48,33 +51,51 @@ const ErrorMessage = styled.div`
   }
 `;
 
-const ButtonsContainer = styled.div`
+const MenuContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   width: 90%;
+`;
 
+const SelectBoard = styled.div`
+  border: 1px solid red;
+  justify-content: center;
 `;
 
 const AutoContainer = styled.div`
-
 `;
 const EndContainer = styled.div`
-
 `;
 
-function Board({ socket, room }) {
-  const dimension = 6 || 8;
+const BattleCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 100%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const { Zelroth, Gene } = sampleArray;
   const { currentUser } = useContext(UserContext);
+
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
   );
   const [board, setBoard] = useState(
     Array.from({ length: dimension * dimension }, (element, index) => index),
   );
-  const [onBoard, setOnBoard] = useState({});
+  // const [onBoard, setOnBoard] = useState({});
   const [attacker, setAttacker] = useState(null);
   const [defender, setDefender] = useState(null);
   const [error, setError] = useState(false);
   const [send, setSend] = useState(false);
+  const [battleList, setBattleList] = useState([]);
+  const [battleListCounter, setBattleListCounter] = useState([]);
 
   const sendNewBoard = () => {
     const newBoardSend = {
@@ -131,27 +152,44 @@ function Board({ socket, room }) {
 
   return (
     <BoardContainer>
-      <ButtonsContainer>
-      <div class="section full-height">
-        <AutoContainer>
-          <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-          <label for="modal-btn">Battle List<i class="uil uil-expand-arrows"></i></label>
-          <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-          <label for="modal-btn">Auto Battle<i class="uil uil-expand-arrows"></i></label>
-        </AutoContainer>
-        <EndContainer>
-          <input className="modal-btn danger" type="checkbox" id="modal-btn" name="modal-btn"/>
-          <label for="modal-btn">End Turn<i class="uil uil-expand-arrows"></i></label>
-        </EndContainer>
-      	<div className="modal">
-	      	<div className="modal-wrap">
-	      		<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-	      	</div>
-      	</div>
-        <a href="https://front.codes/" class="logo" target="_blank">
-        </a>
-      </div>
-      </ButtonsContainer>
+      <MenuContainer>
+        <SelectBoard>
+          Select Board Size:
+        </SelectBoard>
+        <div class="section full-height">
+            <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+            <label for="modal-btn">Battle List<i class="uil uil-expand-arrows"></i></label>
+            <input className="modal-btn" type="checkbox" id="modal-btn2" name="modal-btn"/>
+            <label for="modal-btn2">Auto Battle<i class="uil uil-expand-arrows"></i></label>
+            <input className="modal-btn" type="checkbox" id="modal-btn3" name="modal-btn"/>
+            <label for="modal-btn3" className="danger">End Turn<i className="uil uil-expand-arrows"></i></label>
+
+          <div className="modal">
+            <div className="modal-wrap">
+              <h4>Auto Battle List</h4>
+              <BattleCardContainer>
+                {battleList.length > 0 ?
+                  battleListCounter.map((el,index) => {
+                    return <AutoBattleList key={index} monsters={onBoard} />
+                  }) : null
+                }
+                <AddCircleIcon
+                  className="icon"
+                  fontSize="large"
+                  onClick={() => {
+                    setBattleList((prv) => [...prv, onBoard]);
+                    setBattleListCounter((prv) => [...prv, '0']);
+                  }}
+                  style={{ color: 'limegreen' }}
+                />
+              </BattleCardContainer>
+            </div>
+          </div>
+
+          <a href="https://front.codes/" class="logo" target="_blank">
+          </a>
+        </div>
+      </MenuContainer>
       <BoardStyled dimension={dimension}>
         {board.map((tile, index) => (onBoard[index] ? <Tile setError={setError} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
           : <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}

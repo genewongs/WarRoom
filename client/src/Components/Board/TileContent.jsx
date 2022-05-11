@@ -64,9 +64,12 @@ function TileContent({
         setAttacker(monster);
       }
     } else if (attacker && attacker !== monster && !defender) {
+      // loop through attacker's attack
+      // pull longest range attack
+      // set the if block accordingly
       if (
         Math.abs(attacker.locationX - monster.locationX)
-        + Math.abs(attacker.locationY - monster.locationY) === 1
+        + Math.abs(attacker.locationY - monster.locationY) < 2 /* replace with longest range attack */
       ) {
         if (monster.userUID === currentUser.uid) {
           setError('Trying to attack your own monster?');

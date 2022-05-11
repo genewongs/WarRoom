@@ -303,11 +303,17 @@ span {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   -ms-flex-pack: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .danger {
+  cursor: pointer;
   background-color: #8e0000 !important;
+  float: right !important;
+}
+.danger:hover {
+  cursor: pointer;
+  background-color: #c00000 !important;
 }
 
 [type="checkbox"]:checked,
@@ -351,8 +357,8 @@ span {
   box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.451);
 }
 .modal-btn:not(:checked) + label:hover{
-  background-color: #1b1d21;
-  color: #dbdee8;
+  background-color: #395679;
+  color: #f1f9ff;
 }
 /* .modal-btn:checked + label .uil,
 .modal-btn:not(:checked) + label .uil{
@@ -371,7 +377,7 @@ span {
   text-align: center;
   line-height: 30px;
   font-size: 18px;
-  background-color: #ffeba7;
+  background-color: #f1f9ff;
   color: #102770;
   font-family: 'unicons';
   content: '\eac6';
@@ -392,7 +398,7 @@ span {
   pointer-events: auto;
   transform: translateY(0);
 }
-.modal{
+.modal {
   position: fixed;
   display: block;
   display: -ms-flexbox;
@@ -421,32 +427,31 @@ span {
 }
 .modal-wrap {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   margin: 0 auto;
-  margin-top: 20px;
   margin-bottom: 20px;
   border-radius: 4px;
   overflow: hidden;
-  padding-bottom: 20px;
-  background-color: #fff;
+  padding: 20px 0px;
+  background-color: rgb(35, 37, 42);
     -ms-flex-item-align: center;
     align-self: center;
-    box-shadow: 0 12px 25px 0 rgba(199,175,189,.25);
+    box-shadow: 0 12px 25px 0 rgba(76, 70, 73, 0.25);
   opacity: 0;
   transform: scale(0.6);
   transition: opacity 250ms 250ms ease, transform 300ms 250ms ease;
   z-index: 50;
 }
-.modal-wrap img {
+/* .modal-wrap img {
   display: block;
   width: 100%;
   height: auto;
-}
-.modal-wrap p {
-  padding: 20px 30px 0 30px;
-}
+} */
 .modal-btn:checked ~ .modal .modal-wrap{
   opacity: 1;
   transform: scale(1);
