@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import moment from 'moment';
 import UserContext from '../UserContext';
+import RoomContext from '../RoomContext';
 
 function ChatBox({
   socket, room, chatRooms, setChatRooms, selection, setSelection,
@@ -16,13 +17,14 @@ function ChatBox({
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const { currentUser } = useContext(UserContext);
+  const { selectRoom } = useContext(RoomContext);
 
   const username = currentUser.displayName;
   const renderRooms = chatRooms.map((option) => (
-      <option key={option.value} label={option.label} value={Number(option.value)} onClick={() => { setSelection(option); }} onClick={() => setSelection(option)}>
-        {option.label}
-      </option>
-    ));
+    <option key={option.value} label={option.label} value={Number(option.value)} onClick={() => setSelection(option.label)}>
+      {option.label}
+    </option>
+  ));
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
@@ -57,7 +59,7 @@ function ChatBox({
         <div className="chat-header-title">Live Battle Chat</div>
       </div>
       <div className="custom-dropdown">
-        <select>
+        <select onChange={() => selectRoom(selection)}>
           <option value="" disabled selected>Select A Room</option>
           {renderRooms}
         </select>

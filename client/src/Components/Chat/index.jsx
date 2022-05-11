@@ -256,7 +256,7 @@ function Chat() {
 
   useEffect(() => {
     joinRoom();
-  }, []);
+  }, [room]);
 
   return (
     <ChatContainer>

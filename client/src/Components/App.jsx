@@ -76,11 +76,15 @@ function MainHome(logout) {
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [userList, setUserList] = useState([]);
+  const [room, setRoom] = useState(123)
   console.log('currentUser in app', currentUser);
   const socket = io.connect('http://localhost:3000');
   // console.log('currentUser !== {}', currentUser !== {});
 
-  const room = 123
+  const selectRoom = (room) => {
+    setRoom(Number(room.value))
+    console.log(room)
+  }
 
   const data = {
     room,
@@ -106,7 +110,7 @@ function App() {
       setCurrentUser({});
     }
   }, []);
-  const logout = async ()=> {
+  const logout = async () => {
     if (currentUser.displayName) {
       socket.emit('logout', currentUser.displayName);
     }
@@ -116,7 +120,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser, userList }}>
-      <RoomContext.Provider value={{ joinRoom, room, socket, data }}>
+      <RoomContext.Provider value={{ selectRoom, joinRoom, room, socket, data }}>
         <Router>
           <Routes>
             {/* <Route element={<ProtectedRoute/>}> */}
