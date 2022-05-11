@@ -15,6 +15,7 @@ function ChatBox({
 }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+  // const [userList, setUserList] = useState([]);
   const { currentUser } = useContext(UserContext);
 
   const username = currentUser.displayName;
@@ -48,7 +49,6 @@ function ChatBox({
   useEffect(() => {
     socket.on('recieve_message', (data) => {
       setMessageList((messageList) => [...messageList, data]);
-      // console.log('message');
     });
   }, [socket]);
 

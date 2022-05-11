@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const express = require('express');
 const path = require('path');
 const expressStaticGzip = require('express-static-gzip');
@@ -10,6 +11,7 @@ const { getUsers, updateUserMonster } = require('../client/src/firebase-config')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const users = [];
 
 const server = http.createServer(app);
 
@@ -24,8 +26,14 @@ io.on('connection', (socket) => {
   // console.log('User Connected', socket.id);
 
   socket.on('join_room', (data) => {
-    socket.join(data);
-    // console.log(data, 'has joined the room')
+    socket.join(data.room);
+    if (data.user.user !== undefined && users.filter((user) => user.id === data.user.user.uid).length === 0) {
+      const user = {
+        name: data.user.user.displayName,
+        id: data.user.user.uid,
+      };
+      users.push(user);
+    }
   });
 
   socket.on('send_message', (data) => {
@@ -74,6 +82,10 @@ app.use(express.json());
 app.use(expressStaticGzip(`${__dirname}/../client/dist`));
 app.use(cors());
 // // app.use('/', Routers);
+
+app.get('/users', (req, res) => {
+  res.send(users);
+});
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
