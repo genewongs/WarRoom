@@ -26,7 +26,7 @@ const IconContainer = styled.img`
   overflow: hidden;
   border-width: 2px;
   border-style: solid;
-  border-image: linear-gradient(to right, #1b67ff, #ffffff) 1;
+  border-image: linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1;
 `;
 
 const MonsterName = styled.div`
