@@ -36,14 +36,16 @@ const MonsterListContainer = styled.div`
 `;
 
 const MainButtons = styled.button`
+  font-family: 'Macondo', cursive !important;
+  font-size: 1.2rem;
+  text-shadow: 2px 2px 2px black;
   width: 33.333333%;
   height: 40px;
-  background-color: #1e242eeb;
   justify-content: center;
-  font-size: 1rem;
-  text-shadow: 2px 2px 2px black;
+  background-color: #1e242eeb;
   color: white;
   border: none;
+  border-bottom: 1px solid black;
   cursor: pointer;
   transition-duration: 0.2s;
   &:hover {
@@ -54,10 +56,12 @@ const MainButtons = styled.button`
     color: #FFD4CD;
   };
 `;
+
 const Header = styled.div`
   font-size: large;
   text-align: center;
 `;
+
 function MonsterList() {
   const { currentUser } = useContext(UserContext);
 
@@ -95,6 +99,14 @@ function MonsterList() {
         image: './assets/monsters/icons/TargetDummy.jpg',
       };
       getUsers(userName)
+      .then((snapshot) => {
+        let books = [];
+        snapshot.docs.forEach((doc) => {
+          books.push({ ...doc.data(), id: doc.id });
+        });
+        return (books);
+      })
+      .catch(() => console.log('no such document'))
         .then((data) => {
           if (data.length === 0) {
             addUserMonster(userName, example)
