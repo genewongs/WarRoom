@@ -95,6 +95,7 @@ function AttackCard({
 
   function handleAttack() {
     let multiple = chosenAttack.multiplier;
+    let allowdAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
     while (multiple >= 0) {
       // console.log(Battle(attacker, defender, chosenAttack));
       const logMessageData = {
@@ -104,6 +105,7 @@ function AttackCard({
       socket.emit('send_log_message', logMessageData);
       multiple -= 1;
     }
+
     if (defender.currentHealth <= 0) {
       const index = (defender.locationX * dimension) + defender.locationY;
       fadeOut(setTimeout(() => {
@@ -123,7 +125,7 @@ function AttackCard({
         <AttackList>
           <div className="attackListStyle">
             <h4>ATTACKER</h4>
-            {attacker.attacks.map((attack, index) => (
+            {allowdAttacks.map((attack, index) => (
               <ul key={index}>
                 <div
                   className={`listHeadAttacker ${chosenAttack === attack ? 'active' : ''}`}
