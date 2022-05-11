@@ -188,7 +188,7 @@ function MonsterList() {
       </div>
         {renderComponent()}
     </MonsterListContainer>
-  );
+  )
 }
 
 export default MonsterList;
