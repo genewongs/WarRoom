@@ -48,7 +48,6 @@ function ChatBox({
   useEffect(() => {
     socket.on('recieve_message', (data) => {
       setMessageList((messageList) => [...messageList, data]);
-      // console.log('message');
     });
   }, [socket]);
 
