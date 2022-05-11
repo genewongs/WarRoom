@@ -50,7 +50,7 @@ const Attacks = function Attacks({
       </CSS.DivInputs>
       <CSS.DivInputs>
         Range:&nbsp;
-        <CSS.Input type="number" id="Range" maxLength="60" placeholder="5 = 1 square" onChange={(e) => setAttack(count, 'range', e.target.value)} />
+        <CSS.Input type="number" id="Range" maxLength="60" step="5" placeholder="5 = 1 square" onChange={(e) => setAttack(count, 'range', e.target.value)} />
       </CSS.DivInputs>
     </div>
   );

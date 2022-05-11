@@ -1,7 +1,19 @@
 const { initializeApp } = require('firebase/app');
-const {getAuth} = require('firebase/auth');
-const { getFirestore, collection, getDocs, updateDoc, addDoc, arrayUnion, FieldValue, firestore, setDoc, deleteDoc, doc } = require('firebase/firestore');
-const { firebase } = require('firebase/app');
+const { getAuth } = require('firebase/auth');
+const {
+  getFirestore,
+  collection,
+  getDocs,
+  updateDoc,
+  addDoc,
+  arrayUnion,
+  FieldValue,
+  firestore,
+  setDoc,
+  deleteDoc,
+  doc,
+} = require("firebase/firestore");
+const { firebase } = require("firebase/app");
 
 const firebaseConfig = {
   apiKey: "AIzaSyDTZTqTiz-wjzwRq8ClTCcIW9boQkkBBcE",
@@ -19,19 +31,18 @@ const auth = getAuth(app);
 //init db service
 const db = getFirestore();
 
-
 const getUsers = (userName) => {
   const colRef = collection(db, userName);
   return (
     getDocs(colRef)
-      // .then((snapshot) => {
-      //   let books = [];
-      //   snapshot.docs.forEach((doc) => {
-      //     books.push({ ...doc.data(), id: doc.id });
-      //   });
-      //   return (books);
-      // })
-      // .catch(() => console.log('no such document'))
+    // .then((snapshot) => {
+    //   let books = [];
+    //   snapshot.docs.forEach((doc) => {
+    //     books.push({ ...doc.data(), id: doc.id });
+    //   });
+    //   return (books);
+    // })
+    // .catch(() => console.log('no such document'))
   );
 };
 
@@ -45,7 +56,7 @@ const updateUserMonster = (userName, monsterId, updatedArea) => {
   return updateDoc(docRef, updatedArea);
 };
 
-const deleteUsers = (userName, monsterId)=>{
+const deleteUsers = (userName, monsterId) => {
   const docRef = doc(db, userName, monsterId);
   return deleteDoc(docRef);
 };

@@ -147,7 +147,7 @@ function MonsterList() {
         </Overflow>
       )
     }
-    return <Details monster={monster} />;
+    return <Details setRender={setRender} monster={monster} />;
   }
   return (
     <MonsterListContainer>
