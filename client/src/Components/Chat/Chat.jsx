@@ -38,7 +38,6 @@ function ChatBox({ socket, room }) {
   useEffect(() => {
     socket.on('recieve_message', (data) => {
       setMessageList((messageList) => [...messageList, data]);
-      // console.log('message');
     });
   }, [socket]);
 
@@ -94,22 +93,6 @@ function ChatBox({ socket, room }) {
           />
           <label htmlFor="msg" className="form__label">Message</label>
         </div>
-        {/* <input
-          className="message-bar"
-          type="text"
-          placeholder="Enter a message"
-          value={currentMessage}
-          onKeyDown={(event) => handleKeypress(event)}
-          onChange={(event) => {
-            setCurrentMessage(event.target.value);
-          }}
-        /> */}
-        {/* <button
-          type="submit"
-          style={{ height: '3.5vh', width: '5%' }}
-          onClick={() => { sendMessage(); setCurrentMessage(''); }}
-        >
-        </button> */}
       </div>
       <div className="seperator" />
     </div>
