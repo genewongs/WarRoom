@@ -128,7 +128,7 @@ const ChatContainer = styled.div`
   //Battle Log
   .log-message {
     text-align: center;
-    background-color: #32722fc3;
+    background-color: #079800c3;
     margin: 4px 6px;
     padding: 5px 15px;
     border-radius: 5px;
