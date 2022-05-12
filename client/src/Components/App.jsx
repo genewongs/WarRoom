@@ -76,7 +76,7 @@ function MainHome(logout) {
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [userList, setUserList] = useState([]);
-  const [room, setRoom] = useState(123);
+  const [room, setRoom] = useState(27);
   const [changeRoom, setChangeRoom] = useState(false);
   console.log('currentUser in app', currentUser);
   const socket = io.connect('http://localhost:3000');
@@ -90,27 +90,27 @@ function App() {
 
   const selectRoom = (room) => {
     setRoom(Number(room))
-    console.log('new room', room)
     setChangeRoom(true)
     joinRoom();
   }
 
-  const getAllActiveUsers = () => {
-    return axios.get('http://localhost:3000/users')
-      .then((data) => {
-        setUserList(data.data)
-      })
-  }
+  // const getAllActiveUsers = () => {
+  //   return axios.get('http://localhost:3000/users')
+  //     .then((data) => {
+  //       console.log(data.data)
+  //       setUserList(data.data)
+  //     })
+  // }
 
   const joinRoom = async () => {
-    console.log('join data', data)
+    // console.log('join data', data)
     await socket.emit('join_room', data);
     setChangeRoom(false)
   };
 
   useEffect(() => {
-    socket.on('got_users', () => {
-      getAllActiveUsers();
+    socket.on('got_users', (data) => {
+      setUserList(data)
     })
   })
 
