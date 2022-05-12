@@ -110,7 +110,9 @@ function App() {
 
   useEffect(() => {
     socket.on('got_users', (data) => {
+      if (data) {
       setUserList(data)
+      }
     })
   })
 
@@ -131,7 +133,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser, userList }}>
-      <RoomContext.Provider value={{ setUserList, selectRoom, joinRoom, room, socket, data, changeRoom }}>
+      <RoomContext.Provider value={{ setUserList, selectRoom, joinRoom, setRoom, room, socket, data, changeRoom }}>
         <Router>
           <Routes>
             <Route element={<ProtectedRoute/>}>
