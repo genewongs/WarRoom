@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
     socket.join(data.room);
 
     if (!data.user) {
-      socket.to(data.room).emit('got_users', []);
+      socket.to(data.room).emit('got_users', users);
     } else if (data.user.user && users.filter((user) => user.id === data.user.user.uid).length === 0) {
       const user = {
         name: data.user.user.displayName,

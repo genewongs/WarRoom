@@ -243,6 +243,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     console.log(battleList)
   }, [monsterListCounter])
 
+  console.log('this is going right into ABL', battleList)
   return (
     <BoardContainer>
       <MenuContainer>
