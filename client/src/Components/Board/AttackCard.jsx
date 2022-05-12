@@ -89,16 +89,16 @@ const DefenderStats = styled.div`
 `;
 
 function AttackCard({
-  attacker, defender, setAttacker, setDefender, onBoard, setOnBoard, dimension, isDying, setIsDying, fadeOut,
+  attacker, defender, setAttacker, setDefender, onBoard, setOnBoard, dimension, isDying, setIsDying, fadeOut, sendNewBoard
 }) {
   const [chosenAttack, setChosenAttack] = useState(null);
   const { room, socket } = useContext(RoomContext);
 
   let allowedAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
-  function handleAttack() {
+  async function handleAttack() {
     let multiple = chosenAttack.multiplier;
     while (multiple > 0) {
-      const message = Battle(attacker, defender, chosenAttack);
+      const message = await Battle(attacker, defender, chosenAttack);
       // console.log(Battle(attacker, defender, chosenAttack));
       const logMessageData = {
         message,
@@ -116,6 +116,7 @@ function AttackCard({
         setOnBoard(() => {
           const tempBoard = { ...onBoard };
           delete tempBoard[index];
+          sendNewBoard(tempBoard);
           return tempBoard;
         });
       }, 1000));

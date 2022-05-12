@@ -37,7 +37,7 @@ const AttackCardStyled = styled.div`
 `;
 
 function TileContent({
-  x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError
+  x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError, sendNewBoard
 }) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'image',
@@ -128,6 +128,7 @@ function TileContent({
                   isDying={isDying}
                   setIsDying={setIsDying}
                   fadeOut={fadeOut}
+                  sendNewBoard={sendNewBoard}
                 />
               </AttackCardStyled>
             ) : null}

@@ -24,7 +24,7 @@ return (
         <input type="checkbox" className="check-box"/>
         <span>I agree to the terms & conditions</span>
         <button  type="submit" class="submit-btn">Register</button>
-        {error !== '' ? <span>{error}</span> : ''}
+        {error !== '' ? <span style={{ display: 'flex', justifyContent: 'center', color: 'red', marginTop: '10px' }}>{error}</span> : ''}
       </form>
     </div>
   </div>

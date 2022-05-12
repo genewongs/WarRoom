@@ -6,6 +6,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 function LogBox({ socket, setLogList, logList }) {
   useEffect(() => {
     socket.on('recieve_log_message', (data) => {
+      console.log('data', data);
       setLogList((logList) => [...logList, data]);
     });
   });
@@ -18,7 +19,6 @@ function LogBox({ socket, setLogList, logList }) {
       <div className="log-body">
         <ScrollToBottom className="message-container">
           {logList.map((logContent) => {
-            console.log(logContent);
             if (logContent.message.slice(-9) === 'no damage') {
               return (
                 <div style={{ backgroundColor: '#444356' }} className="log-message">
