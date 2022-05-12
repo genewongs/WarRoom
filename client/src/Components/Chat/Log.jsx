@@ -6,6 +6,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 function LogBox({ socket, setLogList, logList }) {
   useEffect(() => {
     socket.on('recieve_log_message', (data) => {
+      console.log('data', data);
       setLogList((logList) => [...logList, data]);
     });
   });
