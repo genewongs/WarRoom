@@ -183,7 +183,7 @@ function Create({ setRender }) {
       </div>
       <div className="attribute">
         <h4>Movement</h4>
-        <CSS.Input type="number" id="Movement" maxLength="60" placeholder="0" onChange={(e) => setMovement(e.target.value)} />
+        <CSS.Input type="number" id="Movement" step="5" maxLength="60" placeholder="0" onChange={(e) => setMovement(e.target.value)} />
       </div>
       <div className="attribute-attack">
         <h4>Attacks</h4>

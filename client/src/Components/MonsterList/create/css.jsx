@@ -104,6 +104,44 @@ const CSS = {
       color: white;
     }
   `,
+  InputFatty: styled.input`
+    font: inherit;
+    height: 12px;
+    padding: 0.5em;
+    border: none;
+    border-radius: 3px;
+    width: 50%;
+    margin: 0 0;
+    margin-left: 2px;
+    color: white;
+    background-color: #282d3ac5;
+    box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.259);
+    &:focus {
+      outline: none;
+    }
+    ::placeholder {
+      color: white;
+    }
+  `,
+  InputSkinny: styled.input`
+  font: inherit;
+  height: 12px;
+  padding: 0.5em;
+  border: none;
+  border-radius: 3px;
+  width: 2.5em;
+  margin: 0 0;
+  margin-left: 2px;
+  color: white;
+  background-color: #282d3ac5;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.259);
+  &:focus {
+    outline: none;
+  }
+  ::placeholder {
+    color: white;
+  }
+`,
   SelectedIcon: styled.img`
     width: 20%;
     box-shadow: 2px 2px 2px black;
