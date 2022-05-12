@@ -28,13 +28,24 @@ io.on('connection', (socket) => {
 
   socket.on('join_room', (data) => {
     socket.join(data.room);
-    if (data.user.user && users.filter((user) => user.id === data.user.user.uid).length === 0) {
-      const user = {
-        name: data.user.user.displayName,
-        id: data.user.user.uid,
+    console.log('current user in server', data);
+    console.log('beginning current users', users);
+    if (data.user.uid && users.filter((user) => user.id === data.user.uid).length === 0) {
+      let user = {
+        name: data.user.displayName,
+        id: data.user.uid,
+        room: data.room,
       };
       users.push(user);
+      // console.log(users);
+    } else if (!data.user.uid) {
+      return;
+    } else if (data.user.uid && users.filter((user) => user.id === data.user.uid).length > 0) {
+      console.log('current users in if statement', users);
+      users[0].room = data.room;
+      console.log('users');
     }
+    socket.to(data.room).emit('got_users');
   });
 
   socket.on('send_message', (data) => {
@@ -66,13 +77,10 @@ io.on('connection', (socket) => {
     // console.log(socket);
   });
 
-  socket.on('send_new_board', (newBoardSend) => {
-    socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
-  });
   socket.on('logout', (data) => {
     getUsers(data)
       .then((snapshot) => {
-        let books = [];
+        const books = [];
         snapshot.docs.forEach((doc) => {
           books.push({ ...doc.data(), id: doc.id });
         });
@@ -111,3 +119,9 @@ app.get('*.js', (req, res, next) => {
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
+
+
+// } else if (data.user.user && data.changeRoom) {
+//   const curUser = users.filter((user) => user.id === data.user.user.uid);
+//   curUser[0].room = data.room;
+// }

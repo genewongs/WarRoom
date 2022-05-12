@@ -12,16 +12,16 @@ import UserContext from '../UserContext';
 import RoomContext from '../RoomContext';
 
 function ChatBox({
-  socket, room, chatRooms, setChatRooms, selection, setSelection,
+  socket, room, chatRooms, setChatRooms
 }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const { currentUser } = useContext(UserContext);
-  const { selectRoom } = useContext(RoomContext);
+  const { selectRoom, changeRoom} = useContext(RoomContext);
 
   const username = currentUser.displayName;
   const renderRooms = chatRooms.map((option) => (
-    <option key={option.value} label={option.label} value={Number(option.value)} onClick={() => setSelection(option.label)}>
+    <option key={option.value} label={option.label} value={Number(option.value)}>
       {option.label}
     </option>
   ));
@@ -59,7 +59,7 @@ function ChatBox({
         <div className="chat-header-title">Live Battle Chat</div>
       </div>
       <div className="custom-dropdown">
-        <select onChange={() => selectRoom(selection)}>
+        <select onChange={(e) => selectRoom(e.target.value)}>
           <option value="" disabled selected>Select A Room</option>
           {renderRooms}
         </select>

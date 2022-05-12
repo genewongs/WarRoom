@@ -246,13 +246,7 @@ function Chat() {
     { label: 'Loathing Corner', value: '15' },
     { label: 'Zelroth\'s Lair', value: '69' },
   ]);
-  const [selection, setSelection] = useState({});
 
-  useEffect(() => {
-    if (chatRooms.length && !selection.label) {
-      setSelection(chatRooms[0]);
-    }
-  }, [chatRooms]);
 
   useEffect(() => {
     joinRoom();
@@ -260,7 +254,7 @@ function Chat() {
 
   return (
     <ChatContainer>
-      <ChatBox socket={socket} room={room} chatRooms={chatRooms} setChatRooms={setChatRooms} selection={selection} setSelection={setSelection} />
+      <ChatBox socket={socket} room={room} chatRooms={chatRooms} setChatRooms={setChatRooms}/>
       <LogBox socket={socket} room={room} />
     </ChatContainer>
   );

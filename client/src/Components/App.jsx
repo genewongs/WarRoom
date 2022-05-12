@@ -76,20 +76,24 @@ function MainHome(logout) {
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [userList, setUserList] = useState([]);
-  const [room, setRoom] = useState(123)
+  const [room, setRoom] = useState(123);
+  const [changeRoom, setChangeRoom] = useState(false);
   console.log('currentUser in app', currentUser);
   const socket = io.connect('http://localhost:3000');
   // console.log('currentUser !== {}', currentUser !== {});
 
-  const selectRoom = (room) => {
-    setRoom(Number(room.value))
-    console.log(room)
-  }
-
-  const data = {
+  var data = {
     room,
-    user: currentUser
+    user: currentUser,
+    changeRoom,
   };
+
+  const selectRoom = (room) => {
+    setRoom(Number(room))
+    console.log('new room', room)
+    setChangeRoom(true)
+    joinRoom();
+  }
 
   const getAllActiveUsers = () => {
     return axios.get('http://localhost:3000/users')
@@ -99,9 +103,16 @@ function App() {
   }
 
   const joinRoom = async () => {
+    console.log('join data', data)
     await socket.emit('join_room', data);
-    getAllActiveUsers();
+    setChangeRoom(false)
   };
+
+  useEffect(() => {
+    socket.on('got_users', () => {
+      getAllActiveUsers();
+    })
+  })
 
   useEffect(() => {
     if (currentUser.currentUser !== undefined) {
@@ -120,7 +131,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser, userList }}>
-      <RoomContext.Provider value={{ selectRoom, joinRoom, room, socket, data }}>
+      <RoomContext.Provider value={{ selectRoom, joinRoom, room, socket, data, changeRoom }}>
         <Router>
           <Routes>
             {/* <Route element={<ProtectedRoute/>}> */}
