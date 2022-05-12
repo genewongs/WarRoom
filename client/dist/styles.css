@@ -225,7 +225,7 @@ span {
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  width:100%;
+  width: 100%;
 }
 
 .custom-dropdown select {
@@ -411,15 +411,19 @@ span {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
   z-index: 100;
   overflow-x: hidden;
+  overflow-y: hidden;
+  scrollbar-width: none;
   background-color: rgba(31,32,41,.75);
   pointer-events: none;
   opacity: 0;
   transition: opacity 150ms 200ms ease;
   z-index: 20;
 }
+
 .modal-btn:checked ~ .modal{
   pointer-events: auto;
   opacity: 1;
@@ -431,14 +435,15 @@ span {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-height: 100%;
   width: 100%;
-  max-width: 600px;
+  max-width: 70vw;
   margin: 0 auto;
   margin-bottom: 20px;
   border-radius: 4px;
   overflow: hidden;
   padding: 20px 0px;
-  background-color: rgb(35, 37, 42);
+  background-color: #1b1c1f;
     -ms-flex-item-align: center;
     align-self: center;
     box-shadow: 0 12px 25px 0 rgba(76, 70, 73, 0.25);

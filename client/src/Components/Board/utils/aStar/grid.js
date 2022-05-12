@@ -43,8 +43,8 @@ Grid.prototype.isInside = function(x, y) {
   return (x >= 0 && x < this.dimension) && (y >= 0 && y < this.dimension);
 };
 
-Grid.prototype.setWalkableAt = function(x, y, walkable) {
-  this.nodes[x][y].walkable = walkable;
+Grid.prototype.setWalkableAt = function(x, y) {
+  this.nodes[x][y].walkable = true;
 };
 
 Grid.prototype.getNeighbors = function(node) {

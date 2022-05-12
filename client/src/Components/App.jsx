@@ -119,9 +119,9 @@ function App() {
       <RoomContext.Provider value={{ joinRoom, room, socket, data }}>
         <Router>
           <Routes>
-            {/* <Route element={<ProtectedRoute/>}> */}
+            <Route element={<ProtectedRoute/>}>
             <Route exact path="/" element={MainHome(logout)} />
-            {/* </Route> */}
+            </Route>
             <Route exact path="/login" element={<Authentication />} />
           </Routes>
         </Router>
