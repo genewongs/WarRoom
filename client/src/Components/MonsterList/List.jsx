@@ -14,7 +14,7 @@ const ListContainer = styled.div`
   min-height: 100%;
   border: 10px;
   border-radius: 0px 0px 5px 5px;
-  z-index: 100;
+  z-index: 5;
 `;
 const Header = styled.div`
   font-family: 'Macondo', cursive !important;

@@ -28,13 +28,30 @@ io.on('connection', (socket) => {
   // console.log('User Connected', socket.id);
   socket.on('join_room', (data) => {
     socket.join(data.room);
-    if (data.user.user && users.filter((user) => user.id === data.user.user.uid).length === 0) {
+    // console.log('current user in server', data);
+    // console.log('beginning current users', users);
+    if (data.user.uid && users.filter((user) => user.id === data.user.uid).length === 0) {
       const user = {
-        name: data.user.user.displayName,
-        id: data.user.user.uid,
+        name: data.user.displayName,
+        id: data.user.uid,
+        room: data.room,
         color: colorsArray.pop(),
       };
       users.push(user);
+      setTimeout(() => {
+        socket.to(data.room).emit('got_users', users);
+      }, 300);
+      // console.log(users);
+    } else if (!data.user.uid) {
+
+    } else if (data.user.uid && users.filter((user) => user.id === data.user.uid).length > 0) {
+      // console.log('current users in if statement', users);
+      // console.log('users before update', users);
+      users.filter((user) => user.id === data.user.uid).forEach((user) => user.room = data.room);
+      // console.log('users in socket', users);
+      setTimeout(() => {
+        socket.to(data.room).emit('got_users', users);
+      }, 300);
     }
   });
 
@@ -54,10 +71,6 @@ io.on('connection', (socket) => {
     socket.to(data.board).emit('recieve_log_message', data);
   });
 
-  socket.on('send_log_message_data', (data) => {
-    socket.to(data.board).emit('recieve_log_message_data', data);
-  });
-
   socket.on('send_new_board', (newBoardSend) => {
     socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
   });
@@ -67,13 +80,10 @@ io.on('connection', (socket) => {
     // console.log(socket);
   });
 
-  socket.on('send_new_board', (newBoardSend) => {
-    socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
-  });
   socket.on('logout', (data) => {
     getUsers(data)
       .then((snapshot) => {
-        let books = [];
+        const books = [];
         snapshot.docs.forEach((doc) => {
           books.push({ ...doc.data(), id: doc.id });
         });
@@ -93,9 +103,10 @@ app.use(expressStaticGzip(`${__dirname}/../client/dist`));
 app.use(cors());
 // // app.use('/', Routers);
 
-app.get('/users', (req, res) => {
-  res.send(users);
-});
+// app.get('/users', (req, res) => {
+//   console.log('users in app.get', users);
+//   res.send(users);
+// });
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
@@ -112,3 +123,8 @@ app.get('*.js', (req, res, next) => {
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
+
+// } else if (data.user.user && data.changeRoom) {
+//   const curUser = users.filter((user) => user.id === data.user.user.uid);
+//   curUser[0].room = data.room;
+// }

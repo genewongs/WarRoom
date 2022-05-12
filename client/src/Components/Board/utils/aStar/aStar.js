@@ -16,6 +16,7 @@ function aStar(dimension, onBoard, attacker, defender) {
   let startNode = grid.getNodeAt(startX, startY);
   let endNode = grid.getNodeAt(endX, endY);
   const heuristic = (dx, dy) => (dx + dy);
+  grid.setWalkableAt(endX, endY);
 
   startNode.g = 0;
   startNode.f = 0;
@@ -23,7 +24,7 @@ function aStar(dimension, onBoard, attacker, defender) {
   openList.push(startNode);
   startNode.opened = true;
   while (!openList.empty()) {
-    let node = openList.pop;
+    let node = openList.pop();
     node.closed = true;
     if (node === endNode) {
       let path = [];

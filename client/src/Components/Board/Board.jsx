@@ -9,6 +9,7 @@ import sampleArray from '../../../../data';
 import UserContext from '../UserContext';
 import { updateUserMonster } from '../../firebase-config';
 import aStar from './utils/aStar/aStar';
+import { Battle } from './utils/BattleFunc';
 
 const BoardStyled = styled.div`
   display: grid;
@@ -71,9 +72,9 @@ const EndContainer = styled.div`
 const BattleCardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 95%;
   height: 100%;
-  background-color: white;
+  background-color: #1d1f25;
   border-radius: 5px;
   padding: 10px;
   justify-content: center;
@@ -99,7 +100,6 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [monsterListCounter, setMonsterListCounter] = useState([]);
   const [battleList, setBattleList] = useState([]);
 
-
   const sendNewBoard = () => {
     const newBoardSend = {
       new_board: onBoard,
@@ -108,20 +108,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     socket.emit('send_new_board', newBoardSend);
   };
 
-  function handleAutoBattle() {
-    const attacker = Zelroth[0];
-    const defender = Gene[0];
-    const sampleBattleList = [
-      { attacker, defender, attack: attacker[0] },
-      { attacker, defender, attack: attacker[1] },
-    ];
-    console.log(sampleBattleList);
-    sampleBattleList.forEach((battle) => {
-      console.log(aStar(dimension, {1: true, 21: true}, battle.attacker, battle.defender));
-    });
-  }
-
-  const move = async (from, to, monster, reRender) => {
+  async function move(from, to, monster, reRender) {
     if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');
@@ -132,11 +119,10 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
         monster.onBoard = true;
         setAttacker(null);
         setDefender(null);
-        await setOnBoard((previous) => ({
-          ...previous,
-          [to]: monster,
-          [from]: null,
-        }));
+        const tempBoard = onBoard;
+        delete tempBoard[from];
+        tempBoard[to] = monster;
+        await setOnBoard(tempBoard);
         if (send) {
           setSend(false);
         } else {
@@ -156,8 +142,38 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     }
   };
 
+   function handleAutoBattle() {
+    function check(battleObj) {
+      return battleObj.attacker && battleObj.defender && battleObj.attack;
+    }
+    if (battleList.every(check)) {
+      battleList.reduce(async (promise, battle) => {
+        await promise;
+        const path = aStar(dimension, onBoard, battle.attacker, battle.defender);
+        const fromIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
+        console.log(path);
+        if (path.length - 1 > (battle.attacker.movement / 5) + (battle.attack.range / 5)) {
+          console.log('did not attack, target too far away');
+          return Promise([]);
+        }
+        console.log(path[0]);
+        const toIndex = (path[0][0] * dimension) + path[0][1];
+        return (
+          move(fromIndex, toIndex, battle.attacker)
+            .then(() => {
+              console.log(Battle(battle.attacker, battle.defender, battle.attack));
+              return 'hello :)';
+            })
+        );
+        // );
+      }, Promise.resolve());
+    }
+  }
+
   useEffect(() => {
-    sendNewBoard();
+    if (JSON.stringify(onBoard) !== '{}') {
+      sendNewBoard();
+    }
   }, [send]);
 
   useEffect(() => {
@@ -165,6 +181,19 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
       setOnBoard(newBoardSend.new_board);
     });
   }, [socket]);
+
+  useEffect(() => {
+    const myTemp = [];
+    const oppTemp = [];
+    Object.values(onBoard).forEach((monster) => {
+      if (monster && monster.userUID === currentUser.uid) {
+        myTemp.push(monster);
+      } else {
+        oppTemp.push(monster);
+      }
+    })
+    setMonsterList([myTemp, oppTemp]);
+  }, [onBoard]);
 
   return (
     <BoardContainer>
@@ -189,7 +218,12 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
               <BattleCardContainer>
                 {monsterList.length > 0 ?
                   monsterListCounter.map((el,index) => {
-                    return <AutoBattleList key={index} monsters={onBoard} />
+                    return <AutoBattleList
+                      key={index}
+                      monsters={monsterList}
+                      setBattleList={setBattleList}
+                      battleList={battleList}
+                      id={index} />
                   }) : null
                 }
                 <AddCircleIcon

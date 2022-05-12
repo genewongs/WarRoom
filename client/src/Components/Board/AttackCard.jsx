@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import io from 'socket.io-client';
 import { Button } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
+import { v4 as uuidv4 } from 'uuid';
 import RoomContext from '../RoomContext';
 import { Battle } from './utils/BattleFunc';
 
@@ -96,11 +97,13 @@ function AttackCard({
   let allowedAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
   function handleAttack() {
     let multiple = chosenAttack.multiplier;
-    while (multiple >= 0) {
+    while (multiple > 0) {
+      const message = Battle(attacker, defender, chosenAttack);
       // console.log(Battle(attacker, defender, chosenAttack));
       const logMessageData = {
-        message: Battle(attacker, defender, chosenAttack),
+        message,
         board: room,
+        id: uuidv4(),
       };
       socket.emit('send_log_message', logMessageData);
       multiple -= 1;
@@ -110,10 +113,11 @@ function AttackCard({
       const index = (defender.locationX * dimension) + defender.locationY;
       fadeOut(setTimeout(() => {
         setAttacker(null);
-        setOnBoard((previous) => ({
-          ...previous,
-          [index]: null,
-        }));
+        setOnBoard(() => {
+          const tempBoard = { ...onBoard };
+          delete tempBoard[index];
+          return tempBoard;
+        });
       }, 1000));
     }
     setAttacker(null);
