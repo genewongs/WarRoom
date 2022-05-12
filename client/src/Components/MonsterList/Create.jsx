@@ -188,7 +188,7 @@ function Create({ setRender }) {
       <div className="attribute-attack">
         <h4>Attacks</h4>
         <CSS.AttackBox>
-          {attackArr.map(() => {
+          {attackArr.map((e, i) => {
             count += 1;
             return (
               <Attacks

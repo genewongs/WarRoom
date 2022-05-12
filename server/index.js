@@ -23,15 +23,16 @@ const io = new Server(server, {
   },
 });
 
+let colorsArray = ['black', 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
 io.on('connection', (socket) => {
   // console.log('User Connected', socket.id);
-
   socket.on('join_room', (data) => {
     socket.join(data.room);
     if (data.user.user && users.filter((user) => user.id === data.user.user.uid).length === 0) {
       const user = {
         name: data.user.user.displayName,
         id: data.user.user.uid,
+        color: colorsArray.pop(),
       };
       users.push(user);
     }

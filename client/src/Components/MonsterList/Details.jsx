@@ -120,7 +120,7 @@ const StyledAttackTable = styled.table`
 
 function Details({ monster, deleteMonster }) {
   // const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, userList } = useContext(UserContext);
   const [editName, setEditName] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
   const [editHealth, setEditHealth] = useState(false);
@@ -128,7 +128,7 @@ function Details({ monster, deleteMonster }) {
   const [editMovement, setEditMovement] = useState(false);
   const [editAttack, setEditAttack] = useState(false);
   const [copiedMonster, setCopiedMonster] = useState(
-    JSON.parse(JSON.stringify(monster))
+    JSON.parse(JSON.stringify(monster)),
   );
   useEffect(() => {
     setCopiedMonster(JSON.parse(JSON.stringify(monster)));
@@ -395,7 +395,15 @@ function Details({ monster, deleteMonster }) {
         type="button"
         className="edit"
         onClick={() => {
-          if (editName || editDescription || editArmor || editHealth || editMovement || editAttack) {
+          console.log(userList);
+          if (
+            editName
+            || editDescription
+            || editArmor
+            || editHealth
+            || editMovement
+            || editAttack
+          ) {
             setEditName(false);
             setEditDescription(false);
             setEditArmor(false);
