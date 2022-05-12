@@ -28,24 +28,30 @@ io.on('connection', (socket) => {
 
   socket.on('join_room', (data) => {
     socket.join(data.room);
-    console.log('current user in server', data);
-    console.log('beginning current users', users);
+    // console.log('current user in server', data);
+    // console.log('beginning current users', users);
     if (data.user.uid && users.filter((user) => user.id === data.user.uid).length === 0) {
-      let user = {
+      const user = {
         name: data.user.displayName,
         id: data.user.uid,
         room: data.room,
       };
       users.push(user);
+      setTimeout(() => {
+        socket.to(data.room).emit('got_users', users);
+      }, 300);
       // console.log(users);
     } else if (!data.user.uid) {
-      return;
+
     } else if (data.user.uid && users.filter((user) => user.id === data.user.uid).length > 0) {
-      console.log('current users in if statement', users);
-      users[0].room = data.room;
-      console.log('users');
+      // console.log('current users in if statement', users);
+      // console.log('users before update', users);
+      users.filter((user) => user.id === data.user.uid).forEach((user) => user.room = data.room);
+      // console.log('users in socket', users);
+      setTimeout(() => {
+        socket.to(data.room).emit('got_users', users);
+      }, 300);
     }
-    socket.to(data.room).emit('got_users');
   });
 
   socket.on('send_message', (data) => {
@@ -96,9 +102,10 @@ app.use(expressStaticGzip(`${__dirname}/../client/dist`));
 app.use(cors());
 // // app.use('/', Routers);
 
-app.get('/users', (req, res) => {
-  res.send(users);
-});
+// app.get('/users', (req, res) => {
+//   console.log('users in app.get', users);
+//   res.send(users);
+// });
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
@@ -115,7 +122,6 @@ app.get('*.js', (req, res, next) => {
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
-
 
 // } else if (data.user.user && data.changeRoom) {
 //   const curUser = users.filter((user) => user.id === data.user.user.uid);
