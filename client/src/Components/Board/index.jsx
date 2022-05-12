@@ -16,15 +16,17 @@ function BoardComponent() {
   const { Zelroth } = sampleArray;
   const { joinRoom, room, socket } = useContext(RoomContext);
   const { currentUser, userList } = useContext(UserContext);
-  const [userRoomList, setUserRoomList] = useState([]);
-  const [onBoard, setOnBoard] = useState({1 : Zelroth[0]});
+  // const [userRoomList, setUserRoomList] = useState([]);
+  const [onBoard, setOnBoard] = useState({});
   const dimension = 6 || 8;
   useEffect(() => {
-    setUserRoomList(userList.filter((each) => each.room === room));
-    if (userList.length === 1) {
+    // console.log('userRoomList', userRoomList);
+    // setUserRoomList(userList.filter((each) => each.room === room));
+    const inSameRoom = userList.filter((user) => user.room === room);
+    if (inSameRoom.length === 1) {
       setOnBoard({});
-    } else if (userRoomList.length) {
-      Promise.all(userRoomList.map((user) => (
+    } else if (inSameRoom.length) {
+      Promise.all(inSameRoom.map((user) => (
         getUsers(user.name)
           .then((snapshot) => {
             let books = [];

@@ -119,7 +119,7 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
   };
 
   const handleDelete = function(index) {
-    console.log('handle bit', battleList);
+    console.log('BattleList which we are iterating over.', battleList);
     console.log('here is my index', index);
     // setMonsterListCounter((prev) => {
     //   let counterCopy = [...prev];
@@ -127,8 +127,8 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
     //   console.log('prevv', counterCopy)
     //   return counterCopy;
     // });
-    setBattleList(() => {
-      let copy = [...battleList];
+    setBattleList((prev) => {
+      let copy = [...prev];
       console.log('battleList', copy);
       copy.splice(index, 1);
       console.log('spliced', copy);
