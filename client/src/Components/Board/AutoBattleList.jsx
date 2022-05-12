@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import UserContext from '../UserContext';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const BattleCardDiv = styled.div`
   display: flex;
@@ -20,6 +21,11 @@ const BattleCardDiv = styled.div`
     border-style: solid;
     border-image: linear-gradient(-45deg,#0025ff,#89c5ff,#dddddd,#89c5ff,#0025ff) 1;
     margin: 4px 8px;
+  }
+
+  & .icon {
+    cursor: pointer;
+    align-self: center;
   }
 `;
 
@@ -111,6 +117,15 @@ function AutoBattleList({ monsters, setBattleList, battleList, id }) {
       </option>
     ));
   };
+
+  const handleDelete = function() {
+    console.log('handle bit', battleList)
+    setBattleList((prev) => {
+      let copy = [...prev];
+      copy = copy.slice(id, 1);
+      prev = copy;
+    });
+  }
 
   useEffect(() => {
     setBattleList((list) => {
@@ -208,6 +223,17 @@ function AutoBattleList({ monsters, setBattleList, battleList, id }) {
           }
         </div>
       </BattleCardRight>
+      <div style={{float: 'right', display: 'flex'}}>
+        <AddCircleIcon
+            fontSize="medium"
+            className="icon"
+            style={{
+              transform: 'rotate(45deg)',
+              color: 'red',
+            }}
+            onClick={() => {handleDelete()}}
+          />
+      </div>
     </BattleCardDiv>
   );
 }

@@ -66,9 +66,6 @@ io.on('connection', (socket) => {
     // console.log(socket);
   });
 
-  socket.on('send_new_board', (newBoardSend) => {
-    socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
-  });
   socket.on('logout', (data) => {
     getUsers(data)
       .then((snapshot) => {
