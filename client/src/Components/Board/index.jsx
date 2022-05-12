@@ -4,6 +4,7 @@ import Board from './Board';
 import RoomContext from '../RoomContext';
 import UserContext from '../UserContext';
 import { getUsers } from '../../firebase-config';
+import sampleArray from '../../../../data';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -12,17 +13,21 @@ const BoardContainer = styled.div`
 `;
 
 function BoardComponent() {
+  const { Zelroth } = sampleArray;
   const { joinRoom, room, socket } = useContext(RoomContext);
   const { currentUser, userList } = useContext(UserContext);
-  const [userRoomList, setUserRoomList] = useState([]);
+  // const [userRoomList, setUserRoomList] = useState([]);
   const [onBoard, setOnBoard] = useState({});
   const dimension = 6 || 8;
   useEffect(() => {
-    setUserRoomList(userList.filter((each) => each.room === room));
-    console.log('userRoomList', userRoomList);
-    console.log('userList', userList);
-    if (userRoomList.length) {
-      Promise.all(userRoomList.map((user) => (
+    // console.log('userRoomList', userRoomList);
+    // setUserRoomList(userList.filter((each) => each.room === room));
+    const inSameRoom = userList.filter((user) => user.room === room);
+    console.log('same room', inSameRoom);
+    if (inSameRoom.length === 1) {
+      setOnBoard({});
+    } else if (inSameRoom.length) {
+      Promise.all(inSameRoom.map((user) => (
         getUsers(user.name)
           .then((snapshot) => {
             let books = [];
@@ -52,7 +57,7 @@ function BoardComponent() {
     joinRoom();
   }, []);
 
-  return (
+  return onBoard ? (
     <BoardContainer>
       <Board
         socket={socket}
@@ -62,7 +67,7 @@ function BoardComponent() {
         setOnBoard={setOnBoard}
       />
     </BoardContainer>
-  );
+  ) : null;
 }
 
 export default BoardComponent;

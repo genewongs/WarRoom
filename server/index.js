@@ -25,33 +25,25 @@ const io = new Server(server, {
 
 let colorsArray = ['#5e0300', '#55005e', '#5e5a00', '#355e00', '#00355e', '#005e47', '#02005e', '#5e3500', '#fc8686', '#fcbd86', '#fcf886', '#bdfc86', '#f70707', '#86fcf8', '#9e86fc', '#86b1fc', '#e586fc', '#86fca7', '#fc869c', '#f78f07', '#9f07f7', '#63f707', '#075bf7', '#07f7ef', '#2f07f7', '#f7f707', '#f707af'];
 io.on('connection', (socket) => {
-  // console.log('User Connected', socket.id);
   socket.on('join_room', (data) => {
     socket.join(data.room);
-    console.log('current user in server', data);
-    // console.log('beginning current users', users);
-    if (data.user.uid && users.filter((user) => user.id === data.user.uid).length === 0) {
+
+    if (!data.user) {
+      console.log('first if statement');
+      socket.to(data.room).emit('got_users', users);
+    } else if (data.user.user && users.filter((user) => user.id === data.user.user.uid).length === 0) {
       const user = {
         name: data.user.user.displayName,
         id: data.user.user.uid,
-        room: data.room,
+        room: Number(data.room),
         color: colorsArray.pop(),
       };
       users.push(user);
-      setTimeout(() => {
-        socket.to(data.room).emit('got_users', users);
-      }, 300);
-      // console.log(users);
-    } else if (!data.user.uid) {
-
-    } else if (data.user.uid && users.filter((user) => user.id === data.user.uid).length > 0) {
-      // console.log('current users in if statement', users);
-      // console.log('users before update', users);
-      users.filter((user) => user.id === data.user.uid).forEach((user) => user.room = data.room);
-      // console.log('users in socket', users);
-      setTimeout(() => {
-        socket.to(data.room).emit('got_users', users);
-      }, 300);
+      console.log('the second if statement', users);
+      socket.to(data.room).emit('got_users', users);
+    } else {
+      console.log('here', users);
+      socket.to(data.room).emit('got_users', users);
     }
   });
 

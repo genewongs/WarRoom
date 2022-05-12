@@ -44,7 +44,6 @@ const ErrorMessage = styled.div`
   margin-top: 20px;
   opacity: 0;
   color: #ca0000;
-  border: 1px solid red;
   transition: all ease-in-out 0.3s;
   &.show {
     opacity: 1 !important;
@@ -98,7 +97,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [send, setSend] = useState(false);
   const [monsterList, setMonsterList] = useState([]);
   const [monsterListCounter, setMonsterListCounter] = useState([]);
-  const [battleList, setBattleList] = useState([]);
+  const [battleList, setBattleList] = useState([{}]);
   const [turn, setTurn] = useState('');
 
   const sendNewBoard = () => {
@@ -158,27 +157,72 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     function check(battleObj) {
       return battleObj.attacker && battleObj.defender && battleObj.attack;
     }
+    const newCoords = [];
     if (battleList.every(check)) {
-      battleList.reduce(async (promise, battle) => {
-        await promise;
-        const path = aStar(dimension, onBoard, battle.attacker, battle.defender);
-        const fromIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
-        console.log(path);
-        if (path.length - 1 > (battle.attacker.movement / 5) + (battle.attack.range / 5)) {
-          console.log('did not attack, target too far away');
-          return Promise([]);
+      for (let i = 0; i < battleList.length; i += 1) {
+        const battle = battleList[i];
+        const tempBoard = { ...onBoard };
+        if (newCoords.length) {
+          newCoords.forEach((coord) => {
+            if (coord.length) {
+              const index = (coord[0] * dimension) + coord[1];
+              if (i > 0) {
+                const oldAttacker = battleList[i - 1].attacker;
+                const oldIndex = (oldAttacker.locationX * dimension) + oldAttacker.locationY;
+                delete tempBoard[oldIndex];
+              }
+              tempBoard[index] = true;
+            }
+          });
         }
-        console.log(path[0]);
-        const toIndex = (path[0][0] * dimension) + path[0][1];
-        return (
-          move(fromIndex, toIndex, battle.attacker)
-            .then(() => {
-              console.log(Battle(battle.attacker, battle.defender, battle.attack));
-              return 'hello :)';
-            })
-        );
-        // );
-      }, Promise.resolve());
+        const path = aStar(dimension, tempBoard, battle.attacker, battle.defender);
+        if (path.length
+          && path.length - 1 < ((battle.attacker.movement / 5) + (battle.attack.range / 5))
+        ) {
+          newCoords.push(path[0]);
+        } else {
+          path.push(null);
+        }
+      }
+      console.log(battleList, newCoords);
+      Promise.all(battleList.map((battle, index) => {
+        let newIndex = newCoords[index] ? newCoords[index] : null;
+        if (newIndex) {
+          newIndex = (newIndex[0] * dimension) + newIndex[1];
+          const oldIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
+          return (
+            move(oldIndex, newIndex, battle.attacker)
+              .then(() => battle)
+          )
+        }
+        console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
+      }))
+        .then((results) => {
+          results.forEach((battle) => {
+            console.log(battle);
+            let multiple = battle.attack.multiplier;
+            while (multiple > 0) {
+              const message = Battle(battle.attacker, battle.defender, battle.attack);
+              const logMessageData = {
+                message,
+                board: room,
+                id: uuidv4(),
+              };
+              socket.emit('send_log_message', logMessageData);
+              multiple -= 1;
+            }
+            if (battle.defender.currentHealth <= 0) {
+              const index = (battle.defender.locationX * dimension) + battle.defender.locationY;
+              fadeOut(setTimeout(() => {
+                setOnBoard(() => {
+                  const tempBoard = { ...onBoard };
+                  delete tempBoard[index];
+                  return tempBoard;
+                });
+              }, 1000));
+            }
+          });
+        });
     }
   }
 
@@ -206,6 +250,10 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     })
     setMonsterList([myTemp, oppTemp]);
   }, [onBoard]);
+
+  useEffect(() => {
+    console.log(battleList)
+  }, [monsterListCounter])
 
   return (
     <BoardContainer>
@@ -248,25 +296,24 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
             <div className="modal-wrap">
               <h4>Auto Battle List</h4>
               <BattleCardContainer>
-                {monsterList.length > 0
-                  ? monsterListCounter.map((el, index) => {
-                      return (
-                        <AutoBattleList
-                          key={index}
-                          monsters={monsterList}
-                          setBattleList={setBattleList}
-                          battleList={battleList}
-                          id={index}
-                        />
-                      );
-                    })
-                  : null}
+                {monsterList.length > 0 ?
+                  battleList.map((el, index) => {
+                    return <AutoBattleList
+                      key={index}
+                      monsters={monsterList}
+                      setBattleList={setBattleList}
+                      battleList={battleList}
+                      battle={el}
+                      setMonsterListCounter={setMonsterListCounter}
+                      id={index} />
+                  }) : null
+                }
                 <AddCircleIcon
                   className="icon"
                   fontSize="large"
                   onClick={() => {
                     setMonsterList((prv) => [...prv, onBoard]);
-                    setMonsterListCounter((prv) => [...prv, "0"]);
+                    setBattleList((prv) => [...prv, {}]);
                   }}
                   style={{ color: "limegreen" }}
                 />

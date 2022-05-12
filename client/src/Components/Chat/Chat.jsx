@@ -20,11 +20,11 @@ function ChatBox({
   const { selectRoom, changeRoom } = useContext(RoomContext);
 
   const username = currentUser.displayName;
-  const renderRooms = chatRooms.map((option) => (
-    <option key={option.value} label={option.label} value={Number(option.value)}>
-      {option.label}
-    </option>
-  ));
+  // const renderRooms = chatRooms.map((option) => (
+  //   <option key={option.value} label={option.label} value={Number(option.value)}>
+  //     {option.label}
+  //   </option>
+  // ));
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
@@ -58,12 +58,12 @@ function ChatBox({
       <div className="chat-header">
         <div className="chat-header-title">Live Battle Chat</div>
       </div>
-      <div className="custom-dropdown">
+      {/* <div className="custom-dropdown">
         <select onChange={(e) => { selectRoom(e.target.value); setMessageList([]); setLogList([]); }}>
           <option value="" disabled selected>Select A Room</option>
           {renderRooms}
         </select>
-      </div>
+      </div> */}
       <div className="chat-body">
         <ScrollToBottom className="message-container">
           {messageList.map((messageContent) => (
