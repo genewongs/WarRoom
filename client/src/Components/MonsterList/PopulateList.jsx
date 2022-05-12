@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useDrag } from 'react-dnd';
+import UserContext from '../UserContext';
 // import sampleArray from '../../exampleData/data';
 
 const Icon = styled.img`
@@ -38,7 +39,6 @@ function PopulateList({ index, monster, setMonster, setRender, setCount }) {
       isDragging: !!monitor.isDragging(),
     }),
   }));
-
   return (
     <ListContainer onClick={() => {
       setMonster(monster);
