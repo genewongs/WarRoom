@@ -240,6 +240,10 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     setMonsterList([myTemp, oppTemp]);
   }, [onBoard]);
 
+  useEffect(() => {
+    console.log(battle)
+  }, [monsterListCounter])
+
   return (
     <BoardContainer>
       <MenuContainer>
@@ -268,6 +272,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
                       monsters={monsterList}
                       setBattleList={setBattleList}
                       battleList={battleList}
+                      setMonsterListCounter={setMonsterListCounter}
                       id={index} />
                   }) : null
                 }

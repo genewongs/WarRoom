@@ -19,8 +19,7 @@ function BoardComponent() {
   const dimension = 6 || 8;
   useEffect(() => {
     setUserRoomList(userList.filter((each) => each.room === room));
-    console.log('userRoomList', userRoomList);
-    console.log('userList', userList);
+    console.log(userList);
     if (userRoomList.length) {
       Promise.all(userRoomList.map((user) => (
         getUsers(user.name)
@@ -52,7 +51,7 @@ function BoardComponent() {
     joinRoom();
   }, []);
 
-  return (
+  return ((JSON.stringify(onBoard) !== '{}') || !userList.length) ? (
     <BoardContainer>
       <Board
         socket={socket}
@@ -62,7 +61,7 @@ function BoardComponent() {
         setOnBoard={setOnBoard}
       />
     </BoardContainer>
-  );
+  ) : null;
 }
 
 export default BoardComponent;

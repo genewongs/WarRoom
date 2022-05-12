@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
       users[0].room = data.room;
       console.log('users');
     }
-    socket.to(data.room).emit('got_users');
+    socket.to(data.room).emit('got_users', users);
   });
 
   socket.on('send_message', (data) => {

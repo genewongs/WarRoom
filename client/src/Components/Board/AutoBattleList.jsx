@@ -103,7 +103,7 @@ const MonsterHeader2 = styled.div`
   background-image: linear-gradient(to top, rgba(255,0,0,0), #0033ff99);
 `;
 
-function AutoBattleList({ monsters, setBattleList, battleList, id }) {
+function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCounter, id }) {
   const [selectedMonster, setSelectedMonster] = useState(null);
   const [selectOpponent, setSelectedOpponent] = useState(null);
   const [attacks, setAttacks] = useState([]);
@@ -119,11 +119,19 @@ function AutoBattleList({ monsters, setBattleList, battleList, id }) {
   };
 
   const handleDelete = function() {
-    console.log('handle bit', battleList)
+    console.log('handle bit', battleList);
     setBattleList((prev) => {
       let copy = [...prev];
-      copy = copy.slice(id, 1);
-      prev = copy;
+      delete copy[id];
+      console.log(copy[id])
+      return copy;
+    });
+    setMonsterListCounter((prev) => {
+      let counterCopy = [...prev];
+      console.log(id)
+      counterCopy.splice(id, 1);
+      console.log('prevv', counterCopy)
+      return counterCopy;
     });
   }
 
