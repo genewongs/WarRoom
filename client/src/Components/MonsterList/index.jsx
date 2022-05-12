@@ -132,7 +132,10 @@ function MonsterList() {
         .catch((err) => console.log(err));
     }
   }, [render, userId]);
-
+  function deleteMonster(userID, monsterID) {
+    setRender('List');
+    setMonster(monsterArr[0]);
+  }
   function renderComponent() {
     if (userName === undefined) {
       return <Header>Please Login</Header>;
@@ -141,9 +144,13 @@ function MonsterList() {
       return <List setMonster={setMonster} setRender={setRender} monsterArr={monsterArr} />;
     }
     if (render === 'Create') {
-      return <Create setRender={setRender} />;
+      return (
+        <Overflow>
+          <Create setRender={setRender} />
+        </Overflow>
+      )
     }
-    return <Details monster={monster} />;
+    return <Details deleteMonster={deleteMonster} monster={monster} />;
   }
   return (
     <MonsterListContainer>
@@ -179,11 +186,9 @@ function MonsterList() {
           Details
         </MainButtons>
       </div>
-      <Overflow>
         {renderComponent()}
-      </Overflow>
     </MonsterListContainer>
-  );
+  )
 }
 
 export default MonsterList;

@@ -26,26 +26,28 @@
 const sampleArray = {
   Zelroth: [
     {
-      userUID: 'wetRKQoXtgYvVyCfQyawBSqaJ7z1',
+      userUID: 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1',
       userName: 'Zelroth',
       name: 'Ogre Battler',
       description: 'level 68 paladin',
       maxHealth: 13,
       currentHealth: 4,
       armor: 55,
-      movement: 7,
+      movement: 30,
       attacks: [
         {
           attackName: 'X Cut',
           attack: '2d6 + 5',
           multiplier: 1,
           damage: '1d20 + 2',
+          range: 10,
         },
         {
           attackName: 'Firebell Flame',
           attack: '3d6 + 3',
           multiplier: 2,
           damage: '2d3 + 2',
+          range: 5,
         },
       ],
       onBoard: true,
@@ -61,19 +63,21 @@ const sampleArray = {
       maxHealth: 10,
       currentHealth: 4,
       armor: 12,
-      movement: 6,
+      movement: 25,
       attacks: [
         {
           attackName: 'quick attack',
           attack: '1d20 + 6',
           multiplier: 2,
           damage: '1d4 + 4',
+          range: 10,
         },
         {
           attackName: 'heavy attack',
           attack: '1d20 + 6',
           multiplier: 1,
           damage: '2d4 + 6',
+          range: 10,
         },
       ],
       onBoard: true,
@@ -92,19 +96,21 @@ const sampleArray = {
       maxHealth: 13,
       currentHealth: 13,
       armor: 15,
-      movement: 7,
+      movement: 50,
       attacks: [
         {
           attackName: 'Flying squirrels',
           attack: '2d6 + 5',
           multiplier: 4,
           damage: '1d20 + 0',
+          range: 10,
         },
         {
           attackName: 'quick attack',
           attack: '1d20 + 6',
           multiplier: 2,
           damage: '2d4 + 4',
+          range: 10,
         },
       ],
       onBoard: true,

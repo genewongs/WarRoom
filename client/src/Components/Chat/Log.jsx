@@ -19,13 +19,34 @@ function LogBox({ socket }) {
       </div>
       <div className="log-body">
         <ScrollToBottom className="message-container">
-          {logList.map((logContent) => (
-            <div className="log-message">
-              <p>
-                {logContent.message}
-              </p>
-            </div>
-          ))}
+          {logList.map((logContent) => {
+            console.log(logContent)
+            if (logContent.message.slice(-9)==='no damage') {
+              return (
+                <div style={{backgroundColor: 'grey'}} className="log-message">
+                  <p>
+                    {logContent.message}
+                  </p>
+                </div>
+              )
+            } else if (logContent.message.slice(-6) === 'damage') {
+              return (
+                <div style={{backgroundColor: 'red'}} className="log-message">
+                  <p>
+                    {logContent.message}
+                  </p>
+                </div>
+              )
+            } else {
+              return (
+                <div style={{backgroundColor: 'green'}} className="log-message">
+                  <p>
+                    {logContent.message}
+                  </p>
+                </div>
+              )
+            }
+          })}
         </ScrollToBottom>
       </div>
     </div>

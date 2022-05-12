@@ -2,12 +2,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import io from 'socket.io-client';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Tile from './Tile';
 import AutoBattleList from './AutoBattleList';
 import sampleArray from '../../../../data';
 import UserContext from '../UserContext';
 import { updateUserMonster } from '../../firebase-config';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import aStar from './utils/aStar/aStar';
+import { Battle } from './utils/BattleFunc';
 
 const BoardStyled = styled.div`
   display: grid;
@@ -70,9 +72,9 @@ const EndContainer = styled.div`
 const BattleCardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 95%;
   height: 100%;
-  background-color: white;
+  background-color: #1d1f25;
   border-radius: 5px;
   padding: 10px;
   justify-content: center;
@@ -94,8 +96,9 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [defender, setDefender] = useState(null);
   const [error, setError] = useState(false);
   const [send, setSend] = useState(false);
+  const [monsterList, setMonsterList] = useState([]);
+  const [monsterListCounter, setMonsterListCounter] = useState([]);
   const [battleList, setBattleList] = useState([]);
-  const [battleListCounter, setBattleListCounter] = useState([]);
 
   const sendNewBoard = () => {
     const newBoardSend = {
@@ -105,7 +108,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     socket.emit('send_new_board', newBoardSend);
   };
 
-  const move = async (from, to, monster, reRender) => {
+  async function move(from, to, monster, reRender) {
     if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');
@@ -116,11 +119,10 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
         monster.onBoard = true;
         setAttacker(null);
         setDefender(null);
-        await setOnBoard((previous) => ({
-          ...previous,
-          [to]: monster,
-          [from]: null,
-        }));
+        const tempBoard = onBoard;
+        delete tempBoard[from];
+        tempBoard[to] = monster;
+        await setOnBoard(tempBoard);
         if (send) {
           setSend(false);
         } else {
@@ -140,6 +142,34 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     }
   };
 
+   function handleAutoBattle() {
+    function check(battleObj) {
+      return battleObj.attacker && battleObj.defender && battleObj.attack;
+    }
+    if (battleList.every(check)) {
+      battleList.reduce(async (promise, battle) => {
+        await promise;
+        const path = aStar(dimension, onBoard, battle.attacker, battle.defender);
+        const fromIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
+        console.log(path);
+        if (path.length - 1 > (battle.attacker.movement / 5) + (battle.attack.range / 5)) {
+          console.log('did not attack, target too far away');
+          return Promise([]);
+        }
+        console.log(path[0]);
+        const toIndex = (path[0][0] * dimension) + path[0][1];
+        return (
+          move(fromIndex, toIndex, battle.attacker)
+            .then(() => {
+              console.log(Battle(battle.attacker, battle.defender, battle.attack));
+              return 'hello :)';
+            })
+        );
+        // );
+      }, Promise.resolve());
+    }
+  }
+
   useEffect(() => {
     sendNewBoard();
   }, [send]);
@@ -150,6 +180,19 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     });
   }, [socket]);
 
+  useEffect(() => {
+    const myTemp = [];
+    const oppTemp = [];
+    Object.values(onBoard).forEach((monster) => {
+      if (monster && monster.userUID === currentUser.uid) {
+        myTemp.push(monster);
+      } else {
+        oppTemp.push(monster);
+      }
+    })
+    setMonsterList([myTemp, oppTemp]);
+  }, [onBoard]);
+
   return (
     <BoardContainer>
       <MenuContainer>
@@ -157,28 +200,36 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
           Select Board Size:
         </SelectBoard>
         <div class="section full-height">
+
             <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
             <label for="modal-btn">Battle List<i class="uil uil-expand-arrows"></i></label>
-            <input className="modal-btn" type="checkbox" id="modal-btn2" name="modal-btn"/>
-            <label for="modal-btn2">Auto Battle<i class="uil uil-expand-arrows"></i></label>
-            <input className="modal-btn" type="checkbox" id="modal-btn3" name="modal-btn"/>
+
+            <input className="modal-btn" disabled="disabled" type="checkbox" id="modal-btn2" name="modal-btn"/>
+            <label onClick={() => handleAutoBattle()} for="modal-btn2">Auto Battle<i class="uil uil-expand-arrows"></i></label>
+
+            <input className="modal-btn" disabled="disabled" type="checkbox" id="modal-btn3" name="modal-btn"/>
             <label for="modal-btn3" className="danger">End Turn<i className="uil uil-expand-arrows"></i></label>
 
           <div className="modal">
             <div className="modal-wrap">
               <h4>Auto Battle List</h4>
               <BattleCardContainer>
-                {battleList.length > 0 ?
-                  battleListCounter.map((el,index) => {
-                    return <AutoBattleList key={index} monsters={onBoard} />
+                {monsterList.length > 0 ?
+                  monsterListCounter.map((el,index) => {
+                    return <AutoBattleList
+                      key={index}
+                      monsters={monsterList}
+                      setBattleList={setBattleList}
+                      battleList={battleList}
+                      id={index} />
                   }) : null
                 }
                 <AddCircleIcon
                   className="icon"
                   fontSize="large"
                   onClick={() => {
-                    setBattleList((prv) => [...prv, onBoard]);
-                    setBattleListCounter((prv) => [...prv, '0']);
+                    setMonsterList((prv) => [...prv, onBoard]);
+                    setMonsterListCounter((prv) => [...prv, '0']);
                   }}
                   style={{ color: 'limegreen' }}
                 />

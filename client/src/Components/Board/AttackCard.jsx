@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import io from 'socket.io-client';
 import { Button } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
+import { v4 as uuidv4 } from 'uuid';
 import RoomContext from '../RoomContext';
 import { Battle } from './utils/BattleFunc';
 
@@ -93,14 +94,16 @@ function AttackCard({
   const [chosenAttack, setChosenAttack] = useState(null);
   const { room, socket } = useContext(RoomContext);
 
+  let allowedAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
   function handleAttack() {
     let multiple = chosenAttack.multiplier;
-    let allowdAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
-    while (multiple >= 0) {
+    while (multiple > 0) {
+      const message = Battle(attacker, defender, chosenAttack);
       // console.log(Battle(attacker, defender, chosenAttack));
       const logMessageData = {
-        message: Battle(attacker, defender, chosenAttack),
+        message,
         board: room,
+        id: uuidv4(),
       };
       socket.emit('send_log_message', logMessageData);
       multiple -= 1;
@@ -125,7 +128,7 @@ function AttackCard({
         <AttackList>
           <div className="attackListStyle">
             <h4>ATTACKER</h4>
-            {allowdAttacks.map((attack, index) => (
+            {allowedAttacks.map((attack, index) => (
               <ul key={index}>
                 <div
                   className={`listHeadAttacker ${chosenAttack === attack ? 'active' : ''}`}
