@@ -74,7 +74,7 @@ const Overflow = styled.div`
 `;
 
 function MonsterList() {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, userList } = useContext(UserContext);
 
   const [monster, setMonster] = useState({});
   const [monsterArr, setMonsterArr] = useState([]);
@@ -131,6 +131,7 @@ function MonsterList() {
         })
         .catch((err) => console.log(err));
     }
+    console.log(userList);
   }, [render, userId]);
   function deleteMonster(userID, monsterID) {
     setRender('List');
