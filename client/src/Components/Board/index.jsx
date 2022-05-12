@@ -14,6 +14,7 @@ const BoardContainer = styled.div`
 function BoardComponent() {
   const { joinRoom, room, socket } = useContext(RoomContext);
   const { currentUser, userList } = useContext(UserContext);
+  const [userRoomList, setUserRoomList] = useState([]);
   const [onBoard, setOnBoard] = useState({});
   const dimension = 6 || 8;
   useEffect(() => {
