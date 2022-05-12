@@ -83,7 +83,7 @@ const BattleCardContainer = styled.div`
 
 function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const { Zelroth, Gene } = sampleArray;
-  const { currentUser } = useContext(UserContext);
+  const { currentUse, userList } = useContext(UserContext);
 
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
@@ -99,6 +99,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [monsterList, setMonsterList] = useState([]);
   const [monsterListCounter, setMonsterListCounter] = useState([]);
   const [battleList, setBattleList] = useState([]);
+  const [turn, setTurn] = useState('');
 
   const sendNewBoard = () => {
     const newBoardSend = {
@@ -107,11 +108,22 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     };
     socket.emit('send_new_board', newBoardSend);
   };
+  function endTurn() {
+    // create for loop to go though userList and get the index of the user whos turn it is.
+    // increament the currnet index by 1 or go back to 0 if we are at the end of the array of users.
+    for (let i = 0; i < userList.length; i += 1) {
+      if (userList[i].id === currentUser.uid) {
 
+      }
+    }
+  };
   async function move(from, to, monster, reRender) {
     if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');
+        setTimeout(() => { setError(false); }, 3000);
+      } else if (currentUser.uid !== turn) {
+        setError('Its not your turn!');
         setTimeout(() => { setError(false); }, 3000);
       } else {
         monster.locationX = Math.floor(to / dimension);
@@ -198,56 +210,118 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   return (
     <BoardContainer>
       <MenuContainer>
-        <SelectBoard>
-          Select Board Size:
-        </SelectBoard>
+        <SelectBoard>Select Board Size:</SelectBoard>
         <div class="section full-height">
+          <input
+            className="modal-btn"
+            type="checkbox"
+            id="modal-btn"
+            name="modal-btn"
+          />
+          <label for="modal-btn">
+            Battle List<i class="uil uil-expand-arrows"></i>
+          </label>
 
-            <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-            <label for="modal-btn">Battle List<i class="uil uil-expand-arrows"></i></label>
+          <input
+            className="modal-btn"
+            disabled="disabled"
+            type="checkbox"
+            id="modal-btn2"
+            name="modal-btn"
+          />
+          <label onClick={() => handleAutoBattle()} for="modal-btn2">
+            Auto Battle<i class="uil uil-expand-arrows"></i>
+          </label>
 
-            <input className="modal-btn" disabled="disabled" type="checkbox" id="modal-btn2" name="modal-btn"/>
-            <label onClick={() => handleAutoBattle()} for="modal-btn2">Auto Battle<i class="uil uil-expand-arrows"></i></label>
-
-            <input className="modal-btn" disabled="disabled" type="checkbox" id="modal-btn3" name="modal-btn"/>
-            <label for="modal-btn3" className="danger">End Turn<i className="uil uil-expand-arrows"></i></label>
+          <input
+            className="modal-btn"
+            disabled="disabled"
+            type="checkbox"
+            id="modal-btn3"
+            name="modal-btn"
+          />
+          <label for="modal-btn3" className="danger">
+            End Turn<i className="uil uil-expand-arrows"></i>
+          </label>
 
           <div className="modal">
             <div className="modal-wrap">
               <h4>Auto Battle List</h4>
               <BattleCardContainer>
-                {monsterList.length > 0 ?
-                  monsterListCounter.map((el,index) => {
-                    return <AutoBattleList
-                      key={index}
-                      monsters={monsterList}
-                      setBattleList={setBattleList}
-                      battleList={battleList}
-                      id={index} />
-                  }) : null
-                }
+                {monsterList.length > 0
+                  ? monsterListCounter.map((el, index) => {
+                      return (
+                        <AutoBattleList
+                          key={index}
+                          monsters={monsterList}
+                          setBattleList={setBattleList}
+                          battleList={battleList}
+                          id={index}
+                        />
+                      );
+                    })
+                  : null}
                 <AddCircleIcon
                   className="icon"
                   fontSize="large"
                   onClick={() => {
                     setMonsterList((prv) => [...prv, onBoard]);
-                    setMonsterListCounter((prv) => [...prv, '0']);
+                    setMonsterListCounter((prv) => [...prv, "0"]);
                   }}
-                  style={{ color: 'limegreen' }}
+                  style={{ color: "limegreen" }}
                 />
               </BattleCardContainer>
             </div>
           </div>
 
-          <a href="https://front.codes/" class="logo" target="_blank">
-          </a>
+          <a href="https://front.codes/" class="logo" target="_blank"></a>
         </div>
       </MenuContainer>
       <BoardStyled dimension={dimension}>
-        {board.map((tile, index) => (onBoard[index] ? <Tile setError={setError} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
-          : <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
+        {board.map((tile, index) =>
+          onBoard[index] ? (
+            <Tile
+              setError={setError}
+              onBoard={onBoard}
+              setOnBoard={setOnBoard}
+              dimension={dimension}
+              attacker={attacker}
+              setAttacker={setAttacker}
+              defender={defender}
+              setDefender={setDefender}
+              move={move}
+              x={Math.floor(index / dimension)}
+              y={index % dimension}
+              key={uuidv4()}
+              className="tile"
+              index={index}
+              number={randomNumbers[index]}
+              monster={onBoard[index]}
+            />
+          ) : (
+            <Tile
+              onBoard={onBoard}
+              setOnBoard={setOnBoard}
+              dimension={dimension}
+              attacker={attacker}
+              setAttacker={setAttacker}
+              defender={defender}
+              setDefender={setDefender}
+              move={move}
+              x={Math.floor(index / dimension)}
+              y={index % dimension}
+              key={uuidv4()}
+              className="tile"
+              index={index}
+              number={randomNumbers[index]}
+            />
+          )
+        )}
       </BoardStyled>
-      <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
+      <ErrorMessage className={error ? "show" : ""}>
+        {" "}
+        &nbsp;{error || ""}&nbsp;{" "}
+      </ErrorMessage>
     </BoardContainer>
   );
 }

@@ -28,12 +28,12 @@ io.on('connection', (socket) => {
   // console.log('User Connected', socket.id);
   socket.on('join_room', (data) => {
     socket.join(data.room);
-    // console.log('current user in server', data);
+    console.log('current user in server', data);
     // console.log('beginning current users', users);
     if (data.user.uid && users.filter((user) => user.id === data.user.uid).length === 0) {
       const user = {
-        name: data.user.displayName,
-        id: data.user.uid,
+        name: data.user.user.displayName,
+        id: data.user.user.uid,
         room: data.room,
         color: colorsArray.pop(),
       };

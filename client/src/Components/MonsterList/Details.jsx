@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import styled from "styled-components";
-import sampleArray from "./../../exampleData/data";
-import { updateUserMonster, deleteUsers } from "../../firebase-config";
-import UserContext from "../UserContext";
-import CSS from "./create/css";
+import React, { useState, useEffect, useContext } from 'react';
+import styled from 'styled-components';
+import { updateUserMonster, deleteUsers } from '../../firebase-config';
+import UserContext from '../UserContext';
+import CSS from './create/css';
 
 const DetailsContainer = styled.div`
   display: flex;
@@ -19,9 +18,9 @@ const DetailsContainer = styled.div`
     margin: 0 auto;
   }
   & .delete {
-    background-color: #FF0000;
+    background-color: #ff0000;
     margin: 0 auto;
-    margin-top: 20px
+    margin-top: 20px;
   }
 `;
 
@@ -136,26 +135,56 @@ function Details({ monster, deleteMonster }) {
   }, [monster]);
   // Need to check if monsterID is accessible
   function change() {
-    updateUserMonster(currentUser.displayName, monster.id, copiedMonster)
-      .then((data) => console.log("Monster had been updataed", data))
-      .catch((err) => console.log("Failed to update monster", err));
+    let badData = false;
+    let badDataMessage = '';
+    const rollRegex = /^\d+d\d+ \+ \d+$/;
+    for (let i = 0; i < copiedMonster.attacks.length; i += 1) {
+      copiedMonster.attacks[i].attack = copiedMonster.attacks[i].attack.replace(/ /g, '');
+      copiedMonster.attacks[i].attack = copiedMonster.attacks[i].attack.replace(/D/g, 'd');
+      copiedMonster.attacks[i].attack = copiedMonster.attacks[i].attack.replace(/\+/g, ' + ');
+      copiedMonster.attacks[i].damage = copiedMonster.attacks[i].damage.replace(/ /g, '');
+      copiedMonster.attacks[i].damage = copiedMonster.attacks[i].damage.replace(/D/g, 'd');
+      copiedMonster.attacks[i].damage = copiedMonster.attacks[i].damage.replace(/\+/g, ' + ');
+      if (copiedMonster.attacks[i].attackName === '') {
+        badData = true;
+        badDataMessage = 'A attack does not have a name!';
+      }
+      if (!rollRegex.test(copiedMonster.attacks[i].attack)) {
+        badData = true;
+        badDataMessage = 'Attack is not formated correctly. Must be (number)d(number) + (number)';
+      }
+      if (!rollRegex.test(copiedMonster.attacks[i].damage)) {
+        badData = true;
+        badDataMessage = 'Damage is not formated correctly. Must be (number)d(number) + (number)';
+      }
+    }
+    if (copiedMonster.name === '') {
+      alert('Name is blank');
+    } else if (badData) {
+      alert(badDataMessage);
+    } else {
+      updateUserMonster(currentUser.displayName, monster.id, copiedMonster)
+        .then((data) => console.log("Monster had been updataed", data))
+        .catch((err) => console.log("Failed to update monster", err));
+    }
   }
   return (
     <DetailsContainer>
       <TopContainer>
         <IconContainer src={`${copiedMonster.image}`} alt="something" />
-        <MonsterName
-          onDoubleClick={() => setEditName(true)}
-        >
+        <MonsterName onDoubleClick={() => setEditName(true)}>
           <h4>
             {editName ? (
               <CSS.InputFatty
                 type="text"
                 id="MonsterName"
                 maxLength="20"
-                placeholder={copiedMonster.name}
+                value={copiedMonster.name}
                 onChange={(e) => {
                   copiedMonster.name = e.target.value;
+                  setCopiedMonster({
+                    ...copiedMonster,
+                  });
                 }}
               />
             ) : (
@@ -164,17 +193,18 @@ function Details({ monster, deleteMonster }) {
           </h4>
         </MonsterName>
       </TopContainer>
-      <Description
-        onDoubleClick={() => setEditDescription(true)}
-      >
+      <Description onDoubleClick={() => setEditDescription(true)}>
         {editDescription ? (
           <CSS.InputFatty
             type="text"
             id="Description"
             maxLength="1000"
-            placeholder={copiedMonster.description}
+            value={copiedMonster.description}
             onChange={(e) => {
               copiedMonster.description = e.target.value;
+              setCopiedMonster({
+                ...copiedMonster,
+              });
             }}
           />
         ) : (
@@ -185,17 +215,18 @@ function Details({ monster, deleteMonster }) {
         <table>
           <tr>
             <StyledLeftTD>HEALTH: </StyledLeftTD>
-            <td
-              onDoubleClick={() => setEditHealth(true)}
-            >
+            <td onDoubleClick={() => setEditHealth(true)}>
               {editHealth ? (
                 <CSS.InputSkinny
                   type="number"
                   id="CurrentHealth"
                   maxLength="3"
-                  placeholder={copiedMonster.currentHealth}
+                  value={copiedMonster.currentHealth}
                   onChange={(e) => {
                     copiedMonster.currentHealth = e.target.value;
+                    setCopiedMonster({
+                      ...copiedMonster,
+                    });
                   }}
                 />
               ) : (
@@ -207,8 +238,13 @@ function Details({ monster, deleteMonster }) {
                   type="number"
                   id="MaxHealth"
                   maxLength="3"
-                  placeholder={copiedMonster.maxHealth}
-                  onChange={(e) => (copiedMonster.maxHealth = e.target.value)}
+                  value={copiedMonster.maxHealth}
+                  onChange={(e) => {
+                    copiedMonster.maxHealth = e.target.value;
+                    setCopiedMonster({
+                      ...copiedMonster,
+                    });
+                  }}
                 />
               ) : (
                 copiedMonster.maxHealth
@@ -217,16 +253,19 @@ function Details({ monster, deleteMonster }) {
           </tr>
           <tr>
             <StyledLeftTD>ARMOR: </StyledLeftTD>
-            <td
-              onDoubleClick={() => setEditArmor(true)}
-            >
+            <td onDoubleClick={() => setEditArmor(true)}>
               {editArmor ? (
                 <CSS.InputFatty
                   type="number"
                   id="Armor"
                   maxLength="3"
-                  placeholder={copiedMonster.armor}
-                  onChange={(e) => (copiedMonster.armor = e.target.value)}
+                  value={copiedMonster.armor}
+                  onChange={(e) => {
+                    copiedMonster.armor = e.target.value;
+                    setCopiedMonster({
+                      ...copiedMonster,
+                    });
+                  }}
                 />
               ) : (
                 copiedMonster.armor
@@ -235,17 +274,20 @@ function Details({ monster, deleteMonster }) {
           </tr>
           <tr>
             <StyledLeftTD>MOVEMENT: </StyledLeftTD>
-            <td
-              onDoubleClick={() => setEditMovement(true)}
-            >
+            <td onDoubleClick={() => setEditMovement(true)}>
               {editMovement ? (
                 <CSS.InputSkinny
                   type="number"
                   id="Movement"
                   maxLength="3"
                   step="5"
-                  placeholder={copiedMonster.movement}
-                  onChange={(e) => (copiedMonster.movement = e.target.value)}
+                  value={copiedMonster.movement}
+                  onChange={(e) => {
+                    copiedMonster.movement = e.target.value;
+                    setCopiedMonster({
+                      ...copiedMonster,
+                    });
+                  }}
                 />
               ) : (
                 copiedMonster.movement
@@ -271,10 +313,13 @@ function Details({ monster, deleteMonster }) {
                   type="text"
                   id="Attack Name"
                   maxLength="20"
-                  placeholder={e.attackName}
-                  onChange={(e) =>
-                    (copiedMonster.attacks[i].attackName = e.target.value)
-                  }
+                  value={e.attackName}
+                  onChange={(d) => {
+                    copiedMonster.attacks[i].attackName = d.target.value;
+                    setCopiedMonster({
+                      ...copiedMonster,
+                    });
+                  }}
                 />
               ) : (
                 e.attackName
@@ -289,10 +334,13 @@ function Details({ monster, deleteMonster }) {
                       type="text"
                       id="Attack"
                       maxLength="10"
-                      placeholder={e.attack}
-                      onChange={(e) =>
-                        (copiedMonster.attacks[i].attack = e.target.value)
-                      }
+                      value={e.attack}
+                      onChange={(d) => {
+                        copiedMonster.attacks[i].attack = d.target.value;
+                        setCopiedMonster({
+                          ...copiedMonster,
+                        });
+                      }}
                     />
                   ) : (
                     e.attack
@@ -307,10 +355,13 @@ function Details({ monster, deleteMonster }) {
                       type="text"
                       id="Damage"
                       maxLength="10"
-                      placeholder={e.damage}
-                      onChange={(e) =>
-                        (copiedMonster.attacks[i].damage = e.target.value)
-                      }
+                      value={e.damage}
+                      onChange={(d) => {
+                        copiedMonster.attacks[i].damage = d.target.value;
+                        setCopiedMonster({
+                          ...copiedMonster,
+                        });
+                      }}
                     />
                   ) : (
                     e.damage
@@ -325,10 +376,13 @@ function Details({ monster, deleteMonster }) {
                       type="number"
                       id="Multiplier"
                       maxLength="3"
-                      placeholder={e.multiplier}
-                      onChange={(e) =>
-                        (copiedMonster.attacks[i].multiplier = e.target.value)
-                      }
+                      value={e.multiplier}
+                      onChange={(d) => {
+                        copiedMonster.attacks[i].multiplier = d.target.value;
+                        setCopiedMonster({
+                          ...copiedMonster,
+                        });
+                      }}
                     />
                   ) : (
                     e.multiplier
@@ -344,10 +398,13 @@ function Details({ monster, deleteMonster }) {
                       id="Range"
                       step="5"
                       maxLength="3"
-                      placeholder={e.range}
-                      onChange={(e) =>
-                        (copiedMonster.attacks[i].range = e.target.value)
-                      }
+                      value={e.range}
+                      onChange={(d) => {
+                        copiedMonster.attacks[i].range = d.target.value;
+                        setCopiedMonster({
+                          ...copiedMonster,
+                        });
+                      }}
                     />
                   ) : (
                     e.range
@@ -373,12 +430,12 @@ function Details({ monster, deleteMonster }) {
         onClick={() => {
           console.log(userList);
           if (
-            editName
-            || editDescription
-            || editArmor
-            || editHealth
-            || editMovement
-            || editAttack
+            editName ||
+            editDescription ||
+            editArmor ||
+            editHealth ||
+            editMovement ||
+            editAttack
           ) {
             setEditName(false);
             setEditDescription(false);
@@ -386,6 +443,7 @@ function Details({ monster, deleteMonster }) {
             setEditHealth(false);
             setEditMovement(false);
             setEditAttack(false);
+            change();
           } else {
             setEditName(true);
             setEditDescription(true);
@@ -394,11 +452,16 @@ function Details({ monster, deleteMonster }) {
             setEditMovement(true);
             setEditAttack(true);
           }
-
-          console.log(copiedMonster);
         }}
       >
-        {editName || editDescription || editArmor || editHealth || editMovement || editAttack ? 'Submit' : 'Edit'}
+        {editName ||
+        editDescription ||
+        editArmor ||
+        editHealth ||
+        editMovement ||
+        editAttack
+          ? 'Submit'
+          : 'Edit'}
       </CSS.CharIcon>
       <CSS.CharIcon
         type="button"
