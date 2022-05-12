@@ -298,8 +298,48 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
         </div>
       </MenuContainer>
       <BoardStyled dimension={dimension}>
-        {board.map((tile, index) => (onBoard[index] ? <Tile sendNewBoard={sendNewBoard} setError={setError} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
-          : <Tile sendNewBoard={sendNewBoard} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
+        {board.map((tile, index) => (onBoard[index]
+          ? (
+            <Tile
+              sendNewBoard={sendNewBoard}
+              setError={setError}
+              onBoard={onBoard}
+              setOnBoard={setOnBoard}
+              dimension={dimension}
+              attacker={attacker}
+              setAttacker={setAttacker}
+              defender={defender}
+              setDefender={setDefender}
+              move={move}
+              x={Math.floor(index / dimension)}
+              y={index % dimension}
+              key={uuidv4()}
+              className="tile"
+              index={index}
+              number={randomNumbers[index]}
+              monster={onBoard[index]}
+            />
+          )
+          : (
+            <Tile
+              sendNewBoard={sendNewBoard}
+              onBoard={onBoard}
+              setOnBoard={setOnBoard}
+              dimension={dimension}
+              attacker={attacker}
+              setAttacker={setAttacker}
+              defender={defender}
+              setDefender={setDefender}
+              move={move}
+              x={Math.floor(index / dimension)}
+              y={index % dimension}
+              key={uuidv4()}
+              className="tile"
+              index={index}
+              number={randomNumbers[index]}
+            />
+          )
+        ))}
       </BoardStyled>
       <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
     </BoardContainer>
