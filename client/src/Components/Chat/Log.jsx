@@ -21,7 +21,7 @@ function LogBox({ socket, setLogList, logList }) {
             console.log(logContent);
             if (logContent.message.slice(-9) === 'no damage') {
               return (
-                <div style={{ backgroundColor: 'grey' }} className="log-message">
+                <div style={{ backgroundColor: '#444356' }} className="log-message">
                   <p>
                     {logContent.message}
                   </p>
@@ -29,7 +29,7 @@ function LogBox({ socket, setLogList, logList }) {
               );
             } if (logContent.message.slice(-6) === 'damage') {
               return (
-                <div style={{ backgroundColor: 'red' }} className="log-message">
+                <div style={{ backgroundColor: '#740011' }} className="log-message">
                   <p>
                     {logContent.message}
                   </p>
@@ -37,7 +37,7 @@ function LogBox({ socket, setLogList, logList }) {
               );
             }
             return (
-              <div style={{ backgroundColor: 'green' }} className="log-message">
+              <div style={{ backgroundColor: '#079800c3' }} className="log-message">
                 <p>
                   {logContent.message}
                 </p>

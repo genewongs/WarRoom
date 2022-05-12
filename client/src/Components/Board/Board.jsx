@@ -44,7 +44,6 @@ const ErrorMessage = styled.div`
   margin-top: 20px;
   opacity: 0;
   color: #ca0000;
-  border: 1px solid red;
   transition: all ease-in-out 0.3s;
   &.show {
     opacity: 1 !important;
@@ -98,7 +97,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [send, setSend] = useState(false);
   const [monsterList, setMonsterList] = useState([]);
   const [monsterListCounter, setMonsterListCounter] = useState([]);
-  const [battleList, setBattleList] = useState([]);
+  const [battleList, setBattleList] = useState([{}]);
 
   const sendNewBoard = () => {
     const newBoardSend = {
@@ -241,7 +240,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   }, [onBoard]);
 
   useEffect(() => {
-    console.log(battle)
+    console.log(battleList)
   }, [monsterListCounter])
 
   return (
@@ -266,12 +265,13 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
               <h4>Auto Battle List</h4>
               <BattleCardContainer>
                 {monsterList.length > 0 ?
-                  monsterListCounter.map((el,index) => {
+                  battleList.map((el, index) => {
                     return <AutoBattleList
                       key={index}
                       monsters={monsterList}
                       setBattleList={setBattleList}
                       battleList={battleList}
+                      battle={el}
                       setMonsterListCounter={setMonsterListCounter}
                       id={index} />
                   }) : null
@@ -281,7 +281,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
                   fontSize="large"
                   onClick={() => {
                     setMonsterList((prv) => [...prv, onBoard]);
-                    setMonsterListCounter((prv) => [...prv, '0']);
+                    setBattleList((prv) => [...prv, {}]);
                   }}
                   style={{ color: 'limegreen' }}
                 />

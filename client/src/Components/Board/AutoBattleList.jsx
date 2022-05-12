@@ -103,9 +103,9 @@ const MonsterHeader2 = styled.div`
   background-image: linear-gradient(to top, rgba(255,0,0,0), #0033ff99);
 `;
 
-function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCounter, id }) {
-  const [selectedMonster, setSelectedMonster] = useState(null);
-  const [selectOpponent, setSelectedOpponent] = useState(null);
+function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCounter, id, battle = {attacker: null, defender: null, attack: null} }) {
+  const [selectedMonster, setSelectedMonster] = useState(battle.attacker);
+  const [selectOpponent, setSelectedOpponent] = useState(battle.defender);
   const [attacks, setAttacks] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [myBattle, setMyBattle] = useState({});
@@ -118,20 +118,21 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
     ));
   };
 
-  const handleDelete = function() {
+  const handleDelete = function(index) {
     console.log('handle bit', battleList);
-    setBattleList((prev) => {
-      let copy = [...prev];
-      delete copy[id];
-      console.log(copy[id])
+    console.log('here is my index', index);
+    // setMonsterListCounter((prev) => {
+    //   let counterCopy = [...prev];
+    //   counterCopy.splice(index, 1);
+    //   console.log('prevv', counterCopy)
+    //   return counterCopy;
+    // });
+    setBattleList(() => {
+      let copy = [...battleList];
+      console.log('battleList', copy);
+      copy.splice(index, 1);
+      console.log('spliced', copy);
       return copy;
-    });
-    setMonsterListCounter((prev) => {
-      let counterCopy = [...prev];
-      console.log(id)
-      counterCopy.splice(id, 1);
-      console.log('prevv', counterCopy)
-      return counterCopy;
     });
   }
 
@@ -232,15 +233,17 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
         </div>
       </BattleCardRight>
       <div style={{float: 'right', display: 'flex'}}>
-        <AddCircleIcon
-            fontSize="medium"
+        <button
             className="icon"
+            value={id}
             style={{
-              transform: 'rotate(45deg)',
+              fontFamily: 'Font Awesome 5 Free',
               color: 'red',
             }}
-            onClick={() => {handleDelete()}}
-          />
+            onClick={(e) => {handleDelete(e.target.value)}}
+          >
+            ⓧ
+        </button>
       </div>
     </BattleCardDiv>
   );

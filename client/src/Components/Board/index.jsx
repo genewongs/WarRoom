@@ -4,6 +4,7 @@ import Board from './Board';
 import RoomContext from '../RoomContext';
 import UserContext from '../UserContext';
 import { getUsers } from '../../firebase-config';
+import sampleArray from '../../../../data';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -12,15 +13,17 @@ const BoardContainer = styled.div`
 `;
 
 function BoardComponent() {
+  const { Zelroth } = sampleArray;
   const { joinRoom, room, socket } = useContext(RoomContext);
   const { currentUser, userList } = useContext(UserContext);
   const [userRoomList, setUserRoomList] = useState([]);
-  const [onBoard, setOnBoard] = useState({});
+  const [onBoard, setOnBoard] = useState({1 : Zelroth[0]});
   const dimension = 6 || 8;
   useEffect(() => {
     setUserRoomList(userList.filter((each) => each.room === room));
-    console.log(userList);
-    if (userRoomList.length) {
+    if (userList.length === 1) {
+      setOnBoard({});
+    } else if (userRoomList.length) {
       Promise.all(userRoomList.map((user) => (
         getUsers(user.name)
           .then((snapshot) => {
@@ -51,7 +54,7 @@ function BoardComponent() {
     joinRoom();
   }, []);
 
-  return ((JSON.stringify(onBoard) !== '{}') || !userList.length) ? (
+  return onBoard ? (
     <BoardContainer>
       <Board
         socket={socket}
