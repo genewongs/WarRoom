@@ -118,23 +118,24 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
     ));
   };
 
-  const handleDelete = function(index) {
-    console.log('BattleList which we are iterating over.', battleList);
-    console.log('here is my index', index);
-    // setMonsterListCounter((prev) => {
-    //   let counterCopy = [...prev];
-    //   counterCopy.splice(index, 1);
-    //   console.log('prevv', counterCopy)
-    //   return counterCopy;
-    // });
-    setBattleList((prev) => {
-      let copy = [...prev];
-      console.log('battleList', copy);
-      copy.splice(index, 1);
-      console.log('spliced', copy);
-      return copy;
-    });
-  }
+  // // For further implementation
+  // const handleDelete = function(index) {
+  //   console.log('BattleList which we are iterating over.', battleList);
+  //   console.log('here is my index', index);
+  //   // setMonsterListCounter((prev) => {
+  //   //   let counterCopy = [...prev];
+  //   //   counterCopy.splice(index, 1);
+  //   //   console.log('prevv', counterCopy)
+  //   //   return counterCopy;
+  //   // });
+  //   setBattleList((prev) => {
+  //     let copy = [...prev];
+  //     console.log('battleList', copy);
+  //     copy.splice(id, 1);
+  //     console.log('spliced', copy);
+  //     return copy;
+  //   });
+  // }
 
   useEffect(() => {
     setBattleList((list) => {
@@ -232,7 +233,7 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
           }
         </div>
       </BattleCardRight>
-      <div style={{float: 'right', display: 'flex'}}>
+      {/* <div style={{float: 'right', display: 'flex'}}>
         <button
             className="icon"
             value={id}
@@ -244,7 +245,7 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
           >
             ⓧ
         </button>
-      </div>
+      </div> */}
     </BattleCardDiv>
   );
 }

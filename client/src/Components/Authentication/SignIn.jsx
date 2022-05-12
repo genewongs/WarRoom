@@ -63,7 +63,7 @@ export default function SignIn({
             <br />
             <a href="" onClick={hadnleSignUp}>Sign up</a>
           </div>
-          {error !== '' ? <span>{error}</span> : ''}
+          {error !== '' ? <span style={{ display: 'flex', justifyContent: 'center', color: 'red', marginTop: '10px' }}>{error}</span> : ''}
         </form>
       </div>
     </div>

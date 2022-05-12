@@ -99,9 +99,9 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [monsterListCounter, setMonsterListCounter] = useState([]);
   const [battleList, setBattleList] = useState([{}]);
 
-  const sendNewBoard = () => {
+  const sendNewBoard = (newBoard = onBoard) => {
     const newBoardSend = {
-      new_board: onBoard,
+      new_board: newBoard,
       room,
     };
     socket.emit('send_new_board', newBoardSend);
@@ -141,7 +141,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     }
   };
 
-   function handleAutoBattle() {
+  function handleAutoBattle() {
     function check(battleObj) {
       return battleObj.attacker && battleObj.defender && battleObj.attack;
     }
@@ -186,11 +186,11 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
         console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
       }))
         .then((results) => {
-          results.forEach((battle) => {
+          results.forEach(async (battle) => {
             console.log(battle);
             let multiple = battle.attack.multiplier;
             while (multiple > 0) {
-              const message = Battle(battle.attacker, battle.defender, battle.attack);
+              const message = await Battle(battle.attacker, battle.defender, battle.attack);
               const logMessageData = {
                 message,
                 board: room,
@@ -201,13 +201,12 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
             }
             if (battle.defender.currentHealth <= 0) {
               const index = (battle.defender.locationX * dimension) + battle.defender.locationY;
-              fadeOut(setTimeout(() => {
-                setOnBoard(() => {
-                  const tempBoard = { ...onBoard };
-                  delete tempBoard[index];
-                  return tempBoard;
-                });
-              }, 1000));
+              setOnBoard(() => {
+                const tempBoard = { ...onBoard };
+                delete tempBoard[index];
+                sendNewBoard(tempBoard);
+                return tempBoard;
+              });
             }
           });
         });
@@ -239,17 +238,9 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     setMonsterList([myTemp, oppTemp]);
   }, [onBoard]);
 
-  useEffect(() => {
-    console.log(battleList)
-  }, [monsterListCounter])
-
-  console.log('this is going right into ABL', battleList)
   return (
     <BoardContainer>
       <MenuContainer>
-        <SelectBoard>
-          Select Board Size:
-        </SelectBoard>
         <div class="section full-height">
 
             <input className="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
@@ -277,6 +268,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
                       id={index} />
                   }) : null
                 }
+                <div style={{display: 'flex', flexDirection: 'rows'}}>
                 <AddCircleIcon
                   className="icon"
                   fontSize="large"
@@ -285,7 +277,18 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
                     setBattleList((prv) => [...prv, {}]);
                   }}
                   style={{ color: 'limegreen' }}
-                />
+                  />
+                <AddCircleIcon
+                  className="icon"
+                  fontSize="large"
+                  onClick={() => {setBattleList((prev) => {
+                    let copy = [...prev];
+                    copy.pop();
+                    return copy;
+                  })}}
+                  style={{ color: 'red', transform: 'rotate(45deg)' }}
+                  />
+                </div>
               </BattleCardContainer>
             </div>
           </div>
@@ -295,8 +298,8 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
         </div>
       </MenuContainer>
       <BoardStyled dimension={dimension}>
-        {board.map((tile, index) => (onBoard[index] ? <Tile setError={setError} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
-          : <Tile onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
+        {board.map((tile, index) => (onBoard[index] ? <Tile sendNewBoard={sendNewBoard} setError={setError} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} monster={onBoard[index]} />
+          : <Tile sendNewBoard={sendNewBoard} onBoard={onBoard} setOnBoard={setOnBoard} dimension={dimension} attacker={attacker} setAttacker={setAttacker} defender={defender} setDefender={setDefender} move={move} x={Math.floor(index / dimension)} y={index % dimension} key={uuidv4()} className="tile" index={index} number={randomNumbers[index]} />))}
       </BoardStyled>
       <ErrorMessage className={error ? 'show' : ''}> &nbsp;{error || ""}&nbsp; </ErrorMessage>
     </BoardContainer>
