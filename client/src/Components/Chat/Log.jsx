@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 
 function LogBox({ socket, setLogList, logList }) {
@@ -18,7 +18,6 @@ function LogBox({ socket, setLogList, logList }) {
       <div className="log-body">
         <ScrollToBottom className="message-container">
           {logList.map((logContent) => {
-            console.log(logContent);
             if (logContent.message.slice(-9) === 'no damage') {
               return (
                 <div style={{ backgroundColor: 'grey' }} className="log-message">
