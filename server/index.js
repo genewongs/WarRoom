@@ -23,7 +23,7 @@ const io = new Server(server, {
   },
 });
 
-let colorsArray = ['black', 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+let colorsArray = ['#5e0300', '#55005e', '#5e5a00', '#355e00', '#00355e', '#005e47', '#02005e', '#5e3500', '#fc8686', '#fcbd86', '#fcf886', '#bdfc86', '#f70707', '#86fcf8', '#9e86fc', '#86b1fc', '#e586fc', '#86fca7', '#fc869c', '#f78f07', '#9f07f7', '#63f707', '#075bf7', '#07f7ef', '#2f07f7', '#f7f707', '#f707af'];
 io.on('connection', (socket) => {
   // console.log('User Connected', socket.id);
   socket.on('join_room', (data) => {

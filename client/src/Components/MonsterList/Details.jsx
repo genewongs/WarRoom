@@ -146,10 +146,6 @@ function Details({ monster, deleteMonster }) {
         <IconContainer src={`${copiedMonster.image}`} alt="something" />
         <MonsterName
           onDoubleClick={() => setEditName(true)}
-          onBlur={() => {
-            change();
-            setEditName(false);
-          }}
         >
           <h4>
             {editName ? (
@@ -160,7 +156,7 @@ function Details({ monster, deleteMonster }) {
                 placeholder={copiedMonster.name}
                 onChange={(e) => {
                   copiedMonster.name = e.target.value;
-                }} // change to onBlur?
+                }}
               />
             ) : (
               copiedMonster.name
@@ -170,10 +166,6 @@ function Details({ monster, deleteMonster }) {
       </TopContainer>
       <Description
         onDoubleClick={() => setEditDescription(true)}
-        onBlur={() => {
-          change();
-          setEditDescription(false);
-        }}
       >
         {editDescription ? (
           <CSS.InputFatty
@@ -195,10 +187,6 @@ function Details({ monster, deleteMonster }) {
             <StyledLeftTD>HEALTH: </StyledLeftTD>
             <td
               onDoubleClick={() => setEditHealth(true)}
-              onBlur={() => {
-                change();
-                setEditHealth(false);
-              }}
             >
               {editHealth ? (
                 <CSS.InputSkinny
@@ -231,10 +219,6 @@ function Details({ monster, deleteMonster }) {
             <StyledLeftTD>ARMOR: </StyledLeftTD>
             <td
               onDoubleClick={() => setEditArmor(true)}
-              onBlur={() => {
-                change();
-                setEditArmor(false);
-              }}
             >
               {editArmor ? (
                 <CSS.InputFatty
@@ -253,10 +237,6 @@ function Details({ monster, deleteMonster }) {
             <StyledLeftTD>MOVEMENT: </StyledLeftTD>
             <td
               onDoubleClick={() => setEditMovement(true)}
-              onBlur={() => {
-                change();
-                setEditMovement(false);
-              }}
             >
               {editMovement ? (
                 <CSS.InputSkinny
@@ -284,10 +264,6 @@ function Details({ monster, deleteMonster }) {
           <div
             className="attackContainer"
             onDoubleClick={() => setEditAttack(true)}
-            onBlur={() => {
-              change();
-              setEditAttack(false);
-            }}
           >
             <h4>
               {editAttack ? (
