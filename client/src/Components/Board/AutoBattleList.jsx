@@ -56,7 +56,7 @@ const AttackListItem = styled.div`
   box-shadow: 2px 2px 2px #161617;
 
   &.selected {
-    box-shadow: 6px 3px 3px #49546e;
+    box-shadow: 5px 4px 3px #49546e;
     background-image: linear-gradient(to right, rgba(255,0,0,0), #60719a);
   }
 
@@ -125,7 +125,6 @@ function AutoBattleList({ monsters, setBattleList, battleList, id }) {
       <BattleCardLeft>
         <div className="custom-dropdown">
           <select onChange={(e) => {
-            console.log(id, battleList)
             const currentMonster = JSON.parse(e.target.value);
             setSelectedMonster(currentMonster);
             setMyBattle((prev) => {return {...prev, attacker: currentMonster}});
