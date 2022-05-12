@@ -78,7 +78,7 @@ function MonsterList() {
   const { currentUser, userList } = useContext(UserContext);
   const { socket } = useContext(RoomContext);
   const [monster, setMonster] = useState({});
-  const [change, setChange] = useState[false]
+  const [change, setChange] = useState(false)
   const [monsterArr, setMonsterArr] = useState([]);
   const [render, setRender] = useState('List');
   const userId = currentUser ? currentUser.uid : '';
@@ -118,14 +118,14 @@ function MonsterList() {
         image: './assets/monsters/icons/TargetDummy.jpg',
       };
       getUsers(userName)
-      .then((snapshot) => {
-        let books = [];
-        snapshot.docs.forEach((doc) => {
-          books.push({ ...doc.data(), id: doc.id });
-        });
-        return (books);
-      })
-      .catch(() => console.log('no such document'))
+        .then((snapshot) => {
+          let books = [];
+          snapshot.docs.forEach((doc) => {
+            books.push({ ...doc.data(), id: doc.id });
+          });
+          return (books);
+        })
+        .catch(() => console.log('no such document'))
         .then((data) => {
           if (data.length === 0) {
             addUserMonster(userName, example)
@@ -195,7 +195,7 @@ function MonsterList() {
           Details
         </MainButtons>
       </div>
-        {renderComponent()}
+      {renderComponent()}
     </MonsterListContainer>
   )
 }
