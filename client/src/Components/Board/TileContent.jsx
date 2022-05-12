@@ -53,7 +53,7 @@ function TileContent({
     cb();
   };
 
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, userList } = useContext(UserContext);
 
   function handleAttack() {
     if (!attacker) {
@@ -89,7 +89,6 @@ function TileContent({
   // useEffect(() => {
   //   handleAttack();
   // }, [defender]);
-
   return (
     monster?.image
       ? (
@@ -104,7 +103,13 @@ function TileContent({
               cursor: (monster.userUID === currentUser.uid) ? 'grab' : 'default',
               width: '90%',
               height: '90%',
-              border: attacker === monster ? '3px solid darkred' : '0px',
+              border: attacker === monster ? '3px solid darkred' : `3px solid ${monster !== undefined ? userList.filter((e) => e.name === monster.userName)[0].color : 'white'}`, // testing border on image
+              // determine the owner of the monster
+              // monster.userName
+              // userList[i].name
+              // iterate through userList to find that specific owner/user
+              // userList.filter((e) => e.name !== monster.userName).color
+              // take the color property and use it on border property of img tag above
               transition: 'all ease-in-out 1s',
             }}
             className={isDying ? 'dying' : ''}
