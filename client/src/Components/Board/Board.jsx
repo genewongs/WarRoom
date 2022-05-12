@@ -171,7 +171,9 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   }
 
   useEffect(() => {
-    sendNewBoard();
+    if (JSON.stringify(onBoard) !== '{}') {
+      sendNewBoard();
+    }
   }, [send]);
 
   useEffect(() => {

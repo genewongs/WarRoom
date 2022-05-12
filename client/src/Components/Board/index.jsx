@@ -14,8 +14,7 @@ const BoardContainer = styled.div`
 function BoardComponent() {
   const { joinRoom, room, socket } = useContext(RoomContext);
   const { currentUser, userList } = useContext(UserContext);
-  const [userRoomList, setUserRoomList] = useState([]);
-  const [onBoard, setOnBoard] = useState(null);
+  const [onBoard, setOnBoard] = useState({});
   const dimension = 6 || 8;
   useEffect(() => {
     setUserRoomList(userList.filter((each) => each.room === room));
@@ -52,7 +51,7 @@ function BoardComponent() {
     joinRoom();
   }, []);
 
-  return onBoard ? (
+  return (
     <BoardContainer>
       <Board
         socket={socket}
@@ -62,7 +61,7 @@ function BoardComponent() {
         setOnBoard={setOnBoard}
       />
     </BoardContainer>
-  ) : null;
+  );
 }
 
 export default BoardComponent;
