@@ -113,10 +113,11 @@ function AttackCard({
       const index = (defender.locationX * dimension) + defender.locationY;
       fadeOut(setTimeout(() => {
         setAttacker(null);
-        setOnBoard((previous) => ({
-          ...previous,
-          [index]: null,
-        }));
+        setOnBoard(() => {
+          const tempBoard = { ...onBoard };
+          delete tempBoard[index];
+          return tempBoard;
+        });
       }, 1000));
     }
     setAttacker(null);

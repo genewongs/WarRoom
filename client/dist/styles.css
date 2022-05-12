@@ -231,12 +231,12 @@ span {
 .custom-dropdown select {
   font-family: 'Poppins', sans-serif;
   font-size: .85em;
+  text-align: center;
   background-color: #252a2f;
   color: #fff;
   padding: .5em;
   border: 0;
   margin: 0;
-  border-radius: 3px;
   padding-right: 10px;
   min-width: 100%;
   text-indent: 0.01px;
@@ -257,21 +257,21 @@ span {
 }
 
 .custom-dropdown::after { /*  Custom dropdown arrow */
-  content: "\25BC";
+  /* content: "\25BC";
   height: 1em;
   font-size: .625em;
   line-height: 1;
   right: 1.2em;
   top: 50%;
-  margin-top: -.5em;
+  margin-top: -.5em; */
 }
 
 .custom-dropdown::before { /*  Custom dropdown arrow cover */
-  width: 2em;
+  /* width: 2em;
   right: 0;
   top: 0;
   bottom: 0;
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0; */
 }
 
 .custom-dropdown select[disabled] {
@@ -371,16 +371,16 @@ span {
   top: 30px;
   right: 30px;
   z-index: 110;
-  width: 40px;
+  width: 35px;
   border-radius: 3px;
   height: 30px;
   text-align: center;
   line-height: 30px;
-  font-size: 18px;
-  background-color: #f1f9ff;
-  color: #102770;
-  font-family: 'unicons';
-  content: '\eac6';
+  font-size: 20px;
+  background-color: #4d576e;
+  color: #ede0e0;
+  font-family: 'Font Awesome 5 Free';
+  content: "\f057";
   box-shadow: 0 12px 25px 0 rgba(16,39,112,.25);
   transition: all 200ms linear;
   opacity: 0;
@@ -389,8 +389,8 @@ span {
 }
 .modal-btn:checked + label:hover:after,
 .modal-btn:not(:checked) + label:hover:after{
-  background-color: #102770;
-  color: #ffeba7;
+  background-color: #4d576e;
+  color: #ff0000;
 }
 .modal-btn:checked + label:after{
   transition: opacity 300ms 300ms ease, transform 300ms 300ms ease, background-color 250ms linear, color 250ms linear;
@@ -415,13 +415,17 @@ span {
   max-height: 100%;
   z-index: 100;
   overflow-x: hidden;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   scrollbar-width: none;
   background-color: rgba(31,32,41,.75);
   pointer-events: none;
   opacity: 0;
   transition: opacity 150ms 200ms ease;
   z-index: 20;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 .modal-btn:checked ~ .modal{
@@ -444,9 +448,9 @@ span {
   overflow: hidden;
   padding: 20px 0px;
   background-color: #1b1c1f;
-    -ms-flex-item-align: center;
-    align-self: center;
-    box-shadow: 0 12px 25px 0 rgba(76, 70, 73, 0.25);
+  -ms-flex-item-align: center;
+  align-self: center;
+  box-shadow: 0 12px 25px 0 rgba(76, 70, 73, 0.25);
   opacity: 0;
   transform: scale(0.6);
   transition: opacity 250ms 250ms ease, transform 300ms 250ms ease;

@@ -76,28 +76,45 @@ function MainHome(logout) {
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [userList, setUserList] = useState([]);
+  const [room, setRoom] = useState(27);
+  const [changeRoom, setChangeRoom] = useState(false);
   console.log('currentUser in app', currentUser);
   const socket = io.connect('http://localhost:3000');
   // console.log('currentUser !== {}', currentUser !== {});
 
-  const room = 123
-
-  const data = {
+  var data = {
     room,
-    user: currentUser
+    user: currentUser,
+    changeRoom,
   };
 
-  const getAllActiveUsers = () => {
-    return axios.get('http://localhost:3000/users')
-      .then((data) => {
-        setUserList(data.data)
-      })
+  const selectRoom = (room) => {
+    setRoom(Number(room))
+    setChangeRoom(true)
+    joinRoom();
   }
 
+  // const getAllActiveUsers = () => {
+  //   return axios.get('http://localhost:3000/users')
+  //     .then((data) => {
+  //       console.log(data.data)
+  //       setUserList(data.data)
+  //     })
+  // }
+
   const joinRoom = async () => {
+    // console.log('join data', data)
     await socket.emit('join_room', data);
-    getAllActiveUsers();
+    setChangeRoom(false)
   };
+
+  useEffect(() => {
+    socket.on('got_users', (data) => {
+      if (data) {
+      setUserList(data)
+      }
+    })
+  })
 
   useEffect(() => {
     if (currentUser.currentUser !== undefined) {
@@ -106,7 +123,7 @@ function App() {
       setCurrentUser({});
     }
   }, []);
-  const logout = async ()=> {
+  const logout = async () => {
     if (currentUser.displayName) {
       socket.emit('logout', currentUser.displayName);
     }
@@ -116,7 +133,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser, userList }}>
-      <RoomContext.Provider value={{ joinRoom, room, socket, data }}>
+      <RoomContext.Provider value={{ setUserList, selectRoom, joinRoom, setRoom, room, socket, data, changeRoom }}>
         <Router>
           <Routes>
             <Route element={<ProtectedRoute/>}>

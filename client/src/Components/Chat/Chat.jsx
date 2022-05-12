@@ -9,20 +9,22 @@ import styled from 'styled-components';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import moment from 'moment';
 import UserContext from '../UserContext';
+import RoomContext from '../RoomContext';
 
 function ChatBox({
-  socket, room, chatRooms, setChatRooms, selection, setSelection,
+  socket, room, chatRooms, setChatRooms, logList, setLogList,
 }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const { currentUser } = useContext(UserContext);
+  const { selectRoom, changeRoom } = useContext(RoomContext);
 
   const username = currentUser.displayName;
-  const renderRooms = chatRooms.map((option) => (
-      <option key={option.value} label={option.label} value={Number(option.value)} onClick={() => { setSelection(option) }}>
-        {option.label}
-      </option>
-    ));
+  // const renderRooms = chatRooms.map((option) => (
+  //   <option key={option.value} label={option.label} value={Number(option.value)}>
+  //     {option.label}
+  //   </option>
+  // ));
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
@@ -56,12 +58,12 @@ function ChatBox({
       <div className="chat-header">
         <div className="chat-header-title">Live Battle Chat</div>
       </div>
-      <div className="custom-dropdown">
-        <select onChange={() => console.log('hi')}>
+      {/* <div className="custom-dropdown">
+        <select onChange={(e) => { selectRoom(e.target.value); setMessageList([]); setLogList([]); }}>
           <option value="" disabled selected>Select A Room</option>
           {renderRooms}
         </select>
-      </div>
+      </div> */}
       <div className="chat-body">
         <ScrollToBottom className="message-container">
           {messageList.map((messageContent) => (

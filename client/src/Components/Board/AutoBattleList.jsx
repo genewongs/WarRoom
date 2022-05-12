@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import UserContext from '../UserContext';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const BattleCardDiv = styled.div`
   display: flex;
@@ -20,6 +21,11 @@ const BattleCardDiv = styled.div`
     border-style: solid;
     border-image: linear-gradient(-45deg,#0025ff,#89c5ff,#dddddd,#89c5ff,#0025ff) 1;
     margin: 4px 8px;
+  }
+
+  & .icon {
+    cursor: pointer;
+    align-self: center;
   }
 `;
 
@@ -56,7 +62,7 @@ const AttackListItem = styled.div`
   box-shadow: 2px 2px 2px #161617;
 
   &.selected {
-    box-shadow: 6px 3px 3px #49546e;
+    box-shadow: 5px 4px 3px #49546e;
     background-image: linear-gradient(to right, rgba(255,0,0,0), #60719a);
   }
 
@@ -97,9 +103,9 @@ const MonsterHeader2 = styled.div`
   background-image: linear-gradient(to top, rgba(255,0,0,0), #0033ff99);
 `;
 
-function AutoBattleList({ monsters, setBattleList, battleList, id }) {
-  const [selectedMonster, setSelectedMonster] = useState(null);
-  const [selectOpponent, setSelectedOpponent] = useState(null);
+function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCounter, id, battle = {attacker: null, defender: null, attack: null} }) {
+  const [selectedMonster, setSelectedMonster] = useState(battle.attacker);
+  const [selectOpponent, setSelectedOpponent] = useState(battle.defender);
   const [attacks, setAttacks] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [myBattle, setMyBattle] = useState({});
@@ -111,6 +117,24 @@ function AutoBattleList({ monsters, setBattleList, battleList, id }) {
       </option>
     ));
   };
+
+  const handleDelete = function(index) {
+    console.log('BattleList which we are iterating over.', battleList);
+    console.log('here is my index', index);
+    // setMonsterListCounter((prev) => {
+    //   let counterCopy = [...prev];
+    //   counterCopy.splice(index, 1);
+    //   console.log('prevv', counterCopy)
+    //   return counterCopy;
+    // });
+    setBattleList((prev) => {
+      let copy = [...prev];
+      console.log('battleList', copy);
+      copy.splice(index, 1);
+      console.log('spliced', copy);
+      return copy;
+    });
+  }
 
   useEffect(() => {
     setBattleList((list) => {
@@ -125,7 +149,6 @@ function AutoBattleList({ monsters, setBattleList, battleList, id }) {
       <BattleCardLeft>
         <div className="custom-dropdown">
           <select onChange={(e) => {
-            console.log(id, battleList)
             const currentMonster = JSON.parse(e.target.value);
             setSelectedMonster(currentMonster);
             setMyBattle((prev) => {return {...prev, attacker: currentMonster}});
@@ -209,6 +232,19 @@ function AutoBattleList({ monsters, setBattleList, battleList, id }) {
           }
         </div>
       </BattleCardRight>
+      <div style={{float: 'right', display: 'flex'}}>
+        <button
+            className="icon"
+            value={id}
+            style={{
+              fontFamily: 'Font Awesome 5 Free',
+              color: 'red',
+            }}
+            onClick={(e) => {handleDelete(e.target.value)}}
+          >
+            ⓧ
+        </button>
+      </div>
     </BattleCardDiv>
   );
 }
