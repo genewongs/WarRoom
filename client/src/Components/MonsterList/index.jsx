@@ -132,7 +132,10 @@ function MonsterList() {
         .catch((err) => console.log(err));
     }
   }, [render, userId]);
-
+  function deleteMonster(userID, monsterID) {
+    setRender('List');
+    setMonster(monsterArr[0]);
+  }
   function renderComponent() {
     if (userName === undefined) {
       return <Header>Please Login</Header>;
@@ -147,7 +150,7 @@ function MonsterList() {
         </Overflow>
       )
     }
-    return <Details setRender={setRender} monster={monster} />;
+    return <Details deleteMonster={deleteMonster} monster={monster} />;
   }
   return (
     <MonsterListContainer>
