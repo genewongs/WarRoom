@@ -208,6 +208,11 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
                   return tempBoard;
                 });
               }, 1000));
+              if (send) {
+                setSend(false);
+              } else {
+                setSend(true);
+              }
             }
           });
         });
