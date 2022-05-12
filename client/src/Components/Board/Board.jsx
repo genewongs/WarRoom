@@ -184,7 +184,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
               .then(() => battle)
           )
         }
-        console.log(`${battle.attacker.name} could not find a valid path.`);
+        console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
       }))
         .then((results) => {
           results.forEach((battle) => {
