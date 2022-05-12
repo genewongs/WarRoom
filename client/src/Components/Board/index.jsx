@@ -23,7 +23,7 @@ function BoardComponent() {
     // console.log('userRoomList', userRoomList);
     // setUserRoomList(userList.filter((each) => each.room === room));
     const inSameRoom = userList.filter((user) => user.room === room);
-    console.log(inSameRoom);
+    console.log('same room', inSameRoom);
     if (inSameRoom.length === 1) {
       setOnBoard({});
     } else if (inSameRoom.length) {
