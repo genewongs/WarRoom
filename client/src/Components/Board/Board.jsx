@@ -82,7 +82,7 @@ const BattleCardContainer = styled.div`
 
 function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const { Zelroth, Gene } = sampleArray;
-  const { currentUse, userList } = useContext(UserContext);
+  const { currentUser, userList } = useContext(UserContext);
 
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
@@ -98,7 +98,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [monsterList, setMonsterList] = useState([]);
   const [monsterListCounter, setMonsterListCounter] = useState([]);
   const [battleList, setBattleList] = useState([{}]);
-  const [turn, setTurn] = useState('');
+  const [turn, setTurn] = useState(userList.length > 0 ? userList[0].id : '');
 
   const sendNewBoard = () => {
     const newBoardSend = {
@@ -108,14 +108,22 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     socket.emit('send_new_board', newBoardSend);
   };
   function endTurn() {
+    console.log('---------endTurn is called--------');
     // create for loop to go though userList and get the index of the user whos turn it is.
     // increament the currnet index by 1 or go back to 0 if we are at the end of the array of users.
-    for (let i = 0; i < userList.length; i += 1) {
-      if (userList[i].id === currentUser.uid) {
-
+    if (currentUser.uid === turn) {
+      for (let i = 0; i < userList.length; i += 1) {
+        if (userList[i].id === turn) {
+          if (i + 1 <= userList.length) {
+            setTurn(userList[i + 1].id);
+          } else {
+            setTurn(userList[0].id);
+          }
+        }
       }
     }
-  };
+    console.log('current turn ID', turn);
+  }
   async function move(from, to, monster, reRender) {
     if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
@@ -184,6 +192,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
           path.push(null);
         }
       }
+
       console.log(battleList, newCoords);
       Promise.all(battleList.map((battle, index) => {
         let newIndex = newCoords[index] ? newCoords[index] : null;
@@ -288,7 +297,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
             id="modal-btn3"
             name="modal-btn"
           />
-          <label for="modal-btn3" className="danger">
+          <label onClick={() => endTurn()} for="modal-btn3" className="danger">
             End Turn<i className="uil uil-expand-arrows"></i>
           </label>
 
