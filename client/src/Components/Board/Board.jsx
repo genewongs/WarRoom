@@ -201,51 +201,54 @@ function Board({
         const path = aStar(dimension, tempBoard, battle.attacker, battle.defender);
         if (path.length
           && path.length - 1 < ((battle.attacker.movement / 5) + (battle.attack.range / 5))
-        ) {
-          newCoords.push(path[0]);
-        } else {
-          path.push(null);
+          ) {
+            newCoords.push(path[0]);
+          } else {
+            path.push(null);
+          }
         }
-      }
-      console.log(battleList, newCoords);
-      Promise.all(battleList.map((battle, index) => {
-        let newIndex = newCoords[index] ? newCoords[index] : null;
-        if (newIndex) {
-          newIndex = (newIndex[0] * dimension) + newIndex[1];
-          const oldIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
-          return (
-            move(oldIndex, newIndex, battle.attacker)
+        console.log(battleList, newCoords);
+        Promise.all(battleList.map((battle, index) => {
+          let newIndex = newCoords[index] ? newCoords[index] : null;
+          if (newIndex) {
+            newIndex = (newIndex[0] * dimension) + newIndex[1];
+            const oldIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
+            return (
+              move(oldIndex, newIndex, battle.attacker)
               .then(() => battle)
-          );
-        }
-        console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
-      }))
-        .then((results) => {
-          const deadMonsters = [];
-          results.forEach(async (battle) => {
-            console.log(battle);
-            let multiple = battle.attack.multiplier;
-            while (multiple > 0) {
-              const message = await Battle(battle.attacker, battle.defender, battle.attack);
-              const logMessageData = {
-                message,
-                board: room,
-                id: uuidv4(),
-              };
-              socket.emit('send_log_message', logMessageData);
-              multiple -= 1;
+              );
             }
-            if (battle.defender.currentHealth <= 0) {
-              const index = (battle.defender.locationX * dimension) + battle.defender.locationY;
-              deadMonsters.push(index);
-            }
-          });
-          const tempBoard = { ...onBoard };
-          console.log(deadMonsters);
-          deadMonsters.forEach((deadIndex) => {
-            delete tempBoard[deadIndex];
-          });
-          console.log(tempBoard);
+            console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
+          }))
+          .then((results) => {
+            Promise.all(
+              results.map(async (battle) => {
+                console.log(battle);
+                let multiple = battle.attack.multiplier;
+                while (multiple > 0) {
+                  const message = await Battle(battle.attacker, battle.defender, battle.attack);
+                  const logMessageData = {
+                    message,
+                    board: room,
+                    id: uuidv4(),
+                  };
+                socket.emit('send_log_message', logMessageData);
+                multiple -= 1;
+              }
+              if (battle.defender.currentHealth <= 0) {
+                return Promise.resolve((battle.defender.locationX * dimension) + battle.defender.locationY);
+                deadMonsters.push(index);
+              }
+            })
+          )
+            .then((data) => {
+              const tempBoard = { ...onBoard };
+              data.forEach((deadInd) => {
+                delete tempBoard[deadInd];
+              })
+              setOnBoard(tempBoard);
+              sendNewBoard(tempBoard);
+            })
         });
     } else {
       setError('Not your turn');
