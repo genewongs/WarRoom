@@ -252,8 +252,10 @@ function Board({
               sendNewBoard(tempBoard);
             })
         });
-    } else {
+    } else if (currentUser.uid !== turn) {
       setError('Not your turn');
+    } else {
+      setError('Pick an attack');
     }
   }
   useEffect(() => {
