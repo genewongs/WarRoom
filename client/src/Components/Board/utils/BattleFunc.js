@@ -52,11 +52,18 @@ async function Battle(attacker, defender, attack) {
   }
   if (modifier >= defender.currentHealth) {
     defender.currentHealth -= modifier;
-    await deleteUsers(defender.userName, defender.id);
+    await updateUserMonster(defender.userName, defender.id, {
+      currentHealth: defender.maxHealth,
+      onBoard: false,
+      locationX: -1,
+      locationY: -1,
+    });
     return `${attacker.userName}'s ${attacker.name} rolled ${attModifier} and ${adj[Math.floor(Math.random() * adj.length)]} ${killVerbs[Math.floor(Math.random() * killVerbs.length)]} ${defender.userName}'s ${defender.name} with ${modifier} damage`;
   }
   defender.currentHealth -= modifier;
-  await updateUserMonster(defender.userName, defender.id, { currentHealth: defender.currentHealth });
+  await updateUserMonster(defender.userName, defender.id, {
+    currentHealth: defender.currentHealth,
+  });
   return `${attacker.userName}'s ${attacker.name} rolled ${attModifier}, ${dmgVerbs[Math.floor(Math.random() * dmgVerbs.length)]} ${defender.userName}'s ${defender.name} for ${modifier} damage. ${defender.userName}'s ${defender.name} has ${defender.currentHealth} HP left`;
 }
 
