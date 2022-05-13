@@ -159,7 +159,11 @@ function Board({
         } else {
           setSend(true);
         }
-        updateUserMonster(currentUser.displayName, monster.id, { onBoard: true, locationX: monster.locationX, locationY: monster.locationY })
+        updateUserMonster(currentUser.displayName, monster.id, {
+          onBoard: true,
+          locationX: monster.locationX,
+          locationY: monster.locationY,
+        })
           .then(() => {
             if (reRender) {
               reRender((previous) => previous + 1);
@@ -177,7 +181,7 @@ function Board({
       return battleObj.attacker && battleObj.defender && battleObj.attack;
     }
     const newCoords = [];
-    if (battleList.every(check)) {
+    if (battleList.every(check) && currentUser.uid === turn) {
       for (let i = 0; i < battleList.length; i += 1) {
         const battle = battleList[i];
         const tempBoard = { ...onBoard };
@@ -203,7 +207,6 @@ function Board({
           path.push(null);
         }
       }
-
       console.log(battleList, newCoords);
       Promise.all(battleList.map((battle, index) => {
         let newIndex = newCoords[index] ? newCoords[index] : null;
@@ -218,6 +221,7 @@ function Board({
         console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
       }))
         .then((results) => {
+          const deadMonsters = [];
           results.forEach(async (battle) => {
             console.log(battle);
             let multiple = battle.attack.multiplier;
@@ -233,15 +237,18 @@ function Board({
             }
             if (battle.defender.currentHealth <= 0) {
               const index = (battle.defender.locationX * dimension) + battle.defender.locationY;
-              setOnBoard(() => {
-                const tempBoard = { ...onBoard };
-                delete tempBoard[index];
-                sendNewBoard(tempBoard);
-                return tempBoard;
-              });
+              deadMonsters.push(index);
             }
           });
+          const tempBoard = { ...onBoard };
+          console.log(deadMonsters);
+          deadMonsters.forEach((deadIndex) => {
+            delete tempBoard[deadIndex];
+          });
+          console.log(tempBoard);
         });
+    } else {
+      setError('Not your turn');
     }
   }
   useEffect(() => {

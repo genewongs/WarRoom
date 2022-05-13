@@ -94,7 +94,10 @@ function TileContent({
               cursor: (monster.userUID === currentUser.uid) ? 'grab' : 'default',
               width: '90%',
               height: '90%',
-              border: attacker === monster ? '3px solid darkred' : `3px solid ${monster !== undefined ? userList.filter((e) => e.name === monster.userName)[0].color : 'white'}`, // testing border on image
+              borderWidth: '3px',
+              borderStyle: 'solid',
+              borderImage: attacker === monster ? 'linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1' : `${monster !== undefined ? userList.filter((e) => e.name === monster.userName)[0].color : 'white'}`,
+              // testing border on image
               // determine the owner of the monster
               // monster.userName
               // userList[i].name
