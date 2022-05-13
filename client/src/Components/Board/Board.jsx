@@ -328,7 +328,7 @@ function Board({
             name="modal-btn"
           />
           <label onClick={() => endTurn()} htmlFor="modal-btn3" className="danger">
-            End Turn
+            {turn.length < 1 ? 'Connect To Game' : currentUser.uid === turn ? 'End Turn' : 'Waiting'}
             <i className="uil uil-expand-arrows" />
           </label>
 
@@ -429,6 +429,15 @@ function Board({
 &nbsp;
         {' '}
       </ErrorMessage>
+      <div
+        style={{
+          color: `${turn.length < 1 ? 'white' : userList.filter((e) => e.id === turn)[0].color}`,
+        }}
+      >
+        It's&nbsp;
+        {turn.length < 1 ? 'Nobody' : userList.filter((e) => e.id === turn)[0].name}
+        's turn
+      </div>
     </BoardContainer>
   );
 }

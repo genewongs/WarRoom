@@ -96,7 +96,7 @@ function TileContent({
               height: '90%',
               borderWidth: '3px',
               borderStyle: 'solid',
-              borderImage: attacker === monster ? 'linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1' : `${monster !== undefined ? userList.filter((e) => e.name === monster.userName)[0].color : 'white'}`,
+              borderImage: (attacker === monster ? 'linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1' : monster !== undefined ? `linear-gradient(${(userList.filter((e) => e.name === monster.userName)[0].color)}, ${(userList.filter((e) => e.name === monster.userName)[0].color)}) 1` : 'white'),
               // testing border on image
               // determine the owner of the monster
               // monster.userName
@@ -107,7 +107,7 @@ function TileContent({
               transition: 'all ease-in-out 1s',
             }}
             className={isDying ? 'dying' : ''}
-          />
+          /> {console.log(monster !== undefined ? userList.filter((e) => e.name === monster.userName)[0].color : 'white')}
           {(attacker && defender && defender === monster)
             ? (
               <AttackCardStyled>
