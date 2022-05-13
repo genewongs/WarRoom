@@ -98,7 +98,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [monsterList, setMonsterList] = useState([]);
   const [monsterListCounter, setMonsterListCounter] = useState([]);
   const [battleList, setBattleList] = useState([{}]);
-  const [turn, setTurn] = useState(userList.length > 0 ? userList[0].id : '');
+  const [turn, setTurn] = useState(userList.length > 0 ? userList[0].id : 'JgNn0zNQ4ZZCEUkd2xXOMXpYEno1');
 
   const sendNewBoard = (newBoard = onBoard) => {
     const newBoardSend = {
@@ -125,7 +125,13 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     console.log('current turn ID', turn);
   }
   async function move(from, to, monster, reRender) {
-    if (!onBoard[to]) {
+    const fromX = Math.floor(from / dimension);
+    const fromY = from % dimension;
+    const toX = Math.floor(to / dimension);
+    const toY = to % dimension;
+    if (monster.onBoard && Math.abs(toX - fromX) + Math.abs(toY - fromY) > (monster.movement / 5)) {
+      setError('That is too far away!');
+    } else if (!onBoard[to]) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');
         setTimeout(() => { setError(false); }, 3000);
@@ -133,8 +139,8 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
         setError('Its not your turn!');
         setTimeout(() => { setError(false); }, 3000);
       } else {
-        monster.locationX = Math.floor(to / dimension);
-        monster.locationY = to % dimension;
+        monster.locationX = toX;
+        monster.locationY = toY;
         monster.onBoard = true;
         setAttacker(null);
         setDefender(null);
@@ -147,7 +153,6 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
         } else {
           setSend(true);
         }
-
         updateUserMonster(currentUser.displayName, monster.id, { onBoard: true, locationX: monster.locationX, locationY: monster.locationY })
           .then(() => {
             if (reRender) {
