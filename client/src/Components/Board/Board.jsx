@@ -436,6 +436,8 @@ function Board({
       <div
         style={{
           color: `${turn.length < 1 ? 'white' : userList.filter((e) => e.id === turn)[0].color}`,
+          textShadow: '2px 2px 2px black',
+          fontSize: '1.5em',
         }}
       >
         It's&nbsp;
