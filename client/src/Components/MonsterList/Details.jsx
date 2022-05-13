@@ -220,6 +220,7 @@ function Details({ monster, deleteMonster }) {
                 <CSS.InputSkinny
                   type="number"
                   id="CurrentHealth"
+                  min="0"
                   maxLength="3"
                   value={copiedMonster.currentHealth}
                   onChange={(e) => {
@@ -237,6 +238,7 @@ function Details({ monster, deleteMonster }) {
                 <CSS.InputSkinny
                   type="number"
                   id="MaxHealth"
+                  min={copiedMonster.currentHealth}
                   maxLength="3"
                   value={copiedMonster.maxHealth}
                   onChange={(e) => {
@@ -255,10 +257,11 @@ function Details({ monster, deleteMonster }) {
             <StyledLeftTD>ARMOR: </StyledLeftTD>
             <td onDoubleClick={() => setEditArmor(true)}>
               {editArmor ? (
-                <CSS.InputFatty
+                <CSS.InputSkinny
                   type="number"
                   id="Armor"
                   maxLength="3"
+                  min="0"
                   value={copiedMonster.armor}
                   onChange={(e) => {
                     copiedMonster.armor = e.target.value;
@@ -280,6 +283,7 @@ function Details({ monster, deleteMonster }) {
                   type="number"
                   id="Movement"
                   maxLength="3"
+                  min="5"
                   step="5"
                   value={copiedMonster.movement}
                   onChange={(e) => {
@@ -375,6 +379,7 @@ function Details({ monster, deleteMonster }) {
                     <CSS.InputSkinny
                       type="number"
                       id="Multiplier"
+                      min="1"
                       maxLength="3"
                       value={e.multiplier}
                       onChange={(d) => {
@@ -396,6 +401,7 @@ function Details({ monster, deleteMonster }) {
                     <CSS.InputSkinny
                       type="number"
                       id="Range"
+                      min="5"
                       step="5"
                       maxLength="3"
                       value={e.range}
