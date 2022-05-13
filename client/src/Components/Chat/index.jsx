@@ -128,7 +128,7 @@ const ChatContainer = styled.div`
   //Battle Log
   .log-message {
     text-align: center;
-    background-color: #32722fc3;
+    background-color: #079800c3;
     margin: 4px 6px;
     padding: 5px 15px;
     border-radius: 5px;
@@ -234,34 +234,16 @@ const ChatContainer = styled.div`
 
 function Chat() {
   const { joinRoom, room, socket } = useContext(RoomContext);
-  const [chatRooms, setChatRooms] = useState([
-    { label: 'Lobby', value: '27' },
-    { label: 'Battlefield 1', value: '11' },
-    { label: 'Battlefield 2', value: '56' },
-    { label: 'Battlefield 3', value: '78' },
-    { label: 'Battlefield 4', value: '90' },
-    { label: 'Alex\'s Kitchen', value: '80' },
-    { label: 'Broco Lounge', value: '64' },
-    { label: 'Glassjaw Room', value: '97' },
-    { label: 'Loathing Corner', value: '15' },
-    { label: 'Zelroth\'s Lair', value: '69' },
-  ]);
-  const [selection, setSelection] = useState({});
-
-  useEffect(() => {
-    if (chatRooms.length && !selection.label) {
-      setSelection(chatRooms[0]);
-    }
-  }, [chatRooms]);
+  const [logList, setLogList] = useState([]);
 
   useEffect(() => {
     joinRoom();
-  }, []);
+  }, [room]);
 
   return (
     <ChatContainer>
-      <ChatBox socket={socket} room={room} chatRooms={chatRooms} setChatRooms={setChatRooms} selection={selection} setSelection={setSelection} />
-      <LogBox socket={socket} room={room} />
+      <ChatBox socket={socket} room={room} />
+      <LogBox socket={socket} room={room} setLogList={setLogList} logList={logList} />
     </ChatContainer>
   );
 }

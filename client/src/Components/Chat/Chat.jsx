@@ -3,26 +3,21 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, {
-  useState, useEffect, useContext, useRef,
+  useState, useEffect, useContext,
 } from 'react';
-import styled from 'styled-components';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import moment from 'moment';
 import UserContext from '../UserContext';
+// import RoomContext from '../RoomContext';
 
 function ChatBox({
-  socket, room, chatRooms, setChatRooms, selection, setSelection,
+  socket, room, chatRooms, setChatRooms, logList, setLogList,
 }) {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const { currentUser } = useContext(UserContext);
 
   const username = currentUser.displayName;
-  const renderRooms = chatRooms.map((option) => (
-      <option key={option.value} label={option.label} value={Number(option.value)} onClick={() => { setSelection(option) }}>
-        {option.label}
-      </option>
-    ));
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
@@ -55,12 +50,6 @@ function ChatBox({
     <div style={{ border: '0px' }}>
       <div className="chat-header">
         <div className="chat-header-title">Live Battle Chat</div>
-      </div>
-      <div className="custom-dropdown">
-        <select onChange={() => console.log('hi')}>
-          <option value="" disabled selected>Select A Room</option>
-          {renderRooms}
-        </select>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">

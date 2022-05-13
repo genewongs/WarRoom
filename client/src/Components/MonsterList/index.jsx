@@ -6,6 +6,7 @@ import Create from './Create';
 import Details from './Details';
 import sampleArray from '../../exampleData/data';
 import { getUsers, addUserMonster } from '../../firebase-config';
+import RoomContext from '../RoomContext';
 
 const MonsterListContainer = styled.div`
   flex-grow: 1;
@@ -74,14 +75,21 @@ const Overflow = styled.div`
 `;
 
 function MonsterList() {
-  const { currentUser } = useContext(UserContext);
-
+  const { currentUser, userList } = useContext(UserContext);
+  const { socket } = useContext(RoomContext);
   const [monster, setMonster] = useState({});
+  const [change, setChange] = useState(false);
   const [monsterArr, setMonsterArr] = useState([]);
   const [render, setRender] = useState('List');
   const userId = currentUser ? currentUser.uid : '';
   const userName = currentUser.displayName;
   // add target dummy if user does not have any monsters
+  useEffect(() => {
+    socket.on('recieve_log_message', (data) => {
+      setChange((previous) => !previous);
+    });
+  });
+
   useEffect(() => {
     if (userName !== undefined) {
       // getUsers(userName)
@@ -110,14 +118,14 @@ function MonsterList() {
         image: './assets/monsters/icons/TargetDummy.jpg',
       };
       getUsers(userName)
-      .then((snapshot) => {
-        let books = [];
-        snapshot.docs.forEach((doc) => {
-          books.push({ ...doc.data(), id: doc.id });
-        });
-        return (books);
-      })
-      .catch(() => console.log('no such document'))
+        .then((snapshot) => {
+          const books = [];
+          snapshot.docs.forEach((doc) => {
+            books.push({ ...doc.data(), id: doc.id });
+          });
+          return (books);
+        })
+        .catch(() => console.log('no such document'))
         .then((data) => {
           if (data.length === 0) {
             addUserMonster(userName, example)
@@ -131,19 +139,33 @@ function MonsterList() {
         })
         .catch((err) => console.log(err));
     }
-  }, [render, userId]);
-
+    console.log(userList);
+  }, [render, userId, change]);
+  function deleteMonster(userID, monsterID) {
+    setRender('List');
+    setMonster(monsterArr[0]);
+  }
   function renderComponent() {
     if (userName === undefined) {
       return <Header>Please Login</Header>;
     }
     if (render === 'List') {
-      return <List setMonster={setMonster} setRender={setRender} monsterArr={monsterArr} />;
+      return (
+        <List
+          setMonster={setMonster}
+          setRender={setRender}
+          monsterArr={monsterArr}
+        />
+      );
     }
     if (render === 'Create') {
-      return <Create setRender={setRender} />;
+      return (
+        <Overflow>
+          <Create setRender={setRender} />
+        </Overflow>
+      );
     }
-    return <Details monster={monster} />;
+    return <Details deleteMonster={deleteMonster} monster={monster} />;
   }
   return (
     <MonsterListContainer>
@@ -179,9 +201,7 @@ function MonsterList() {
           Details
         </MainButtons>
       </div>
-      <Overflow>
-        {renderComponent()}
-      </Overflow>
+      {renderComponent()}
     </MonsterListContainer>
   );
 }

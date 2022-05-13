@@ -1,15 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useDrag } from 'react-dnd';
-import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
-import { makeStyles } from '@material-ui/core';
-import { Battle } from './utils/BattleFunc';
 import AttackCard from './AttackCard';
 import UserContext from '../UserContext';
 
@@ -37,7 +28,7 @@ const AttackCardStyled = styled.div`
 `;
 
 function TileContent({
-  x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError
+  x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError, sendNewBoard
 }) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'image',
@@ -53,7 +44,7 @@ function TileContent({
     cb();
   };
 
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, userList } = useContext(UserContext);
 
   function handleAttack() {
     if (!attacker) {
@@ -64,7 +55,7 @@ function TileContent({
         setAttacker(monster);
       }
     } else if (attacker && attacker !== monster && !defender) {
-      let maxRange = Math.max(attacker.attacks.map((each)=> each.range));
+      const maxRange = Math.max(attacker.attacks.map((each)=> each.range));
       console.log('maxRange in handleAttack', maxRange);
       if (
         (Math.abs(attacker.locationX - monster.locationX)
@@ -72,13 +63,13 @@ function TileContent({
       ) {
         if (monster.userUID === currentUser.uid) {
           setError('Trying to attack your own monster?');
-          setTimeout(() => {setError(false); }, 3000);
+          setTimeout(() => { setError(false); }, 3000);
         } else {
           setDefender(monster);
         }
       } else {
         setError('Opponent is too far away');
-        setTimeout(() => {setError(false); }, 3000);
+        setTimeout(() => { setError(false); }, 3000);
       }
     } else if (attacker === monster) {
       setAttacker(null);
@@ -89,7 +80,6 @@ function TileContent({
   // useEffect(() => {
   //   handleAttack();
   // }, [defender]);
-
   return (
     monster?.image
       ? (
@@ -104,7 +94,16 @@ function TileContent({
               cursor: (monster.userUID === currentUser.uid) ? 'grab' : 'default',
               width: '90%',
               height: '90%',
-              border: attacker === monster ? '3px solid darkred' : '0px',
+              borderWidth: '3px',
+              borderStyle: 'solid',
+              borderImage: attacker === monster ? 'linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1' : `${monster !== undefined ? userList.filter((e) => e.name === monster.userName)[0].color : 'white'}`,
+              // testing border on image
+              // determine the owner of the monster
+              // monster.userName
+              // userList[i].name
+              // iterate through userList to find that specific owner/user
+              // userList.filter((e) => e.name !== monster.userName).color
+              // take the color property and use it on border property of img tag above
               transition: 'all ease-in-out 1s',
             }}
             className={isDying ? 'dying' : ''}
@@ -123,6 +122,7 @@ function TileContent({
                   isDying={isDying}
                   setIsDying={setIsDying}
                   fadeOut={fadeOut}
+                  sendNewBoard={sendNewBoard}
                 />
               </AttackCardStyled>
             ) : null}

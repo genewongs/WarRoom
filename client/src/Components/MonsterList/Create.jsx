@@ -105,6 +105,12 @@ function Create({ setRender }) {
     let badDataMessage = '';
     const rollRegex = /^\d+d\d+ \+ \d+$/;
     for (let i = 0; i < attackArr.length; i += 1) {
+      attackArr[i].attack = attackArr[i].attack.replace(/ /g, '');
+      attackArr[i].attack = attackArr[i].attack.replace(/D/g, 'd');
+      attackArr[i].attack = attackArr[i].attack.replace(/\+/g, ' + ');
+      attackArr[i].damage = attackArr[i].damage.replace(/ /g, '');
+      attackArr[i].damage = attackArr[i].damage.replace(/D/g, 'd');
+      attackArr[i].damage = attackArr[i].damage.replace(/\+/g, ' + ');
       if (attackArr[i].attackName === '') {
         badData = true;
         badDataMessage = 'A attack does not have a name!';
@@ -183,12 +189,12 @@ function Create({ setRender }) {
       </div>
       <div className="attribute">
         <h4>Movement</h4>
-        <CSS.Input type="number" id="Movement" maxLength="60" placeholder="0" onChange={(e) => setMovement(e.target.value)} />
+        <CSS.Input type="number" id="Movement" step="5" maxLength="60" placeholder="0" onChange={(e) => setMovement(e.target.value)} />
       </div>
       <div className="attribute-attack">
         <h4>Attacks</h4>
         <CSS.AttackBox>
-          {attackArr.map(() => {
+          {attackArr.map((e, i) => {
             count += 1;
             return (
               <Attacks

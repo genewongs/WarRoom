@@ -4,24 +4,24 @@ function Node(x, y, walkable) {
   this.walkable = (walkable === undefined ? true : walkable);
 }
 
-const DiagonalMovement = {
-  Always: 1,
-  Never: 2,
-  IfAtMostOneObstacle: 3,
-  OnlyWhenNoObstacles: 4,
-};
+// const DiagonalMovement = {
+//   Always: 1,
+//   Never: 2,
+//   IfAtMostOneObstacle: 3,
+//   OnlyWhenNoObstacles: 4,
+// };
 
 function Grid(dimension, onBoard) {
   this.dimension = dimension;
-  this.nodes = this._buildnodes(dimension, onBoard);
+  this.nodes = this.buildnodes(dimension, onBoard);
 }
 
-Grid.prototype._buildnodes = (onBoard) => {
-  const nodes = new Array(this.dimension);
-  for (let i = 0; i < this.dimension; i += 1) {
-    nodes[i] = new Array(this.dimension);
-    for (let j = 0; j < this.dimension; j += 1) {
-      if (onBoard[(i * this.dimension) + j]) {
+Grid.prototype.buildnodes = function (dimension, onBoard) {
+  const nodes = new Array(dimension);
+  for (let i = 0; i < dimension; i += 1) {
+    nodes[i] = new Array(dimension);
+    for (let j = 0; j < dimension; j += 1) {
+      if (onBoard[(i * dimension) + j]) {
         nodes[i][j] = new Node(i, j, false);
       } else {
         nodes[i][j] = new Node(i, j);
@@ -31,26 +31,26 @@ Grid.prototype._buildnodes = (onBoard) => {
   return nodes;
 };
 
-Grid.prototype.getNodeAt = (x, y) => (
-  this.nodes[x][y]
-);
-
-Grid.prototype.isWalkableAt = (x, y) => (
-  this.nodes[x][y]
-);
-
-Grid.prototype.isInside = (x, y) => (
-  (x >= 0 && x < this.dimension) && (y >= 0 && y < this.dimension)
-);
-
-Grid.prototype.setWalkableAt = (x, y, walkable) => {
-  this.nodes[x][y].walkable = walkable;
+Grid.prototype.getNodeAt = function (x, y) {
+  return this.nodes[x][y];
 };
 
-Grid.prototype.getNeighbors = (node) => {
-  let { x, y } = node;
-  let neighbors = [];
-  let { nodes } = this;
+Grid.prototype.isWalkableAt = function (x, y) {
+  return this.isInside(x, y) && this.nodes[x][y].walkable;
+};
+
+Grid.prototype.isInside = function (x, y) {
+  return (x >= 0 && x < this.dimension) && (y >= 0 && y < this.dimension);
+};
+
+Grid.prototype.setWalkableAt = function (x, y) {
+  this.nodes[x][y].walkable = true;
+};
+
+Grid.prototype.getNeighbors = function (node) {
+  const { x, y } = node;
+  const neighbors = [];
+  const { nodes } = this;
   let down = false;
   let up = false;
   let left = false;

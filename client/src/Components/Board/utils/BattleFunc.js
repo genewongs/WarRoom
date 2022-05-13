@@ -1,4 +1,6 @@
-function Battle(attacker, defender, attack) {
+const { updateUserMonster, deleteUsers } = require('../../../firebase-config');
+
+async function Battle(attacker, defender, attack) {
   function chanceTime(range) {
     return Math.ceil(Math.random() * range);
   }
@@ -32,41 +34,38 @@ function Battle(attacker, defender, attack) {
   const atkDice = attack.attack.split(' + ');
   let numberOfRolls = Number(atkDice[0].split('d')[0]);
   let range = Number(atkDice[0].split('d')[1]);
-  let modifier = Number(atkDice[1]);
+  let attModifier = Number(atkDice[1]);
   while (numberOfRolls >= 0) {
-    modifier += chanceTime(range);
+    attModifier += chanceTime(range);
     numberOfRolls -= 1;
   }
-  if (modifier < defender.armor) {
-    return `${attacker.userName}'s ${attacker.name}${missVerbs[Math.floor(Math.random() * missVerbs.length)]} ${defender.userName}'s ${defender.name}, dealing no damage`;
+  if (attModifier < defender.armor) {
+    return `Rolling a ${attModifier}, ${attacker.userName}'s ${attacker.name}${missVerbs[Math.floor(Math.random() * missVerbs.length)]} ${defender.userName}'s ${defender.name}, dealing no damage`;
   }
   const dmgDice = attack.damage.split(' + ');
   numberOfRolls = Number(dmgDice[0].split('d')[0]);
   range = Number(dmgDice[0].split('d')[1]);
-  modifier = Number(dmgDice[1]);
+  let modifier = Number(dmgDice[1]);
   while (numberOfRolls >= 0) {
     modifier += chanceTime(range);
     numberOfRolls -= 1;
   }
   if (modifier >= defender.currentHealth) {
     defender.currentHealth -= modifier;
-    return `${attacker.userName}'s ${attacker.name} ${adj[Math.floor(Math.random() * adj.length)]} ${killVerbs[Math.floor(Math.random() * killVerbs.length)]} ${defender.userName}'s ${defender.name}`;
+    await updateUserMonster(defender.userName, defender.id, {
+      currentHealth: defender.maxHealth,
+      onBoard: false,
+      locationX: -1,
+      locationY: -1,
+    });
+    return `${attacker.userName}'s ${attacker.name} rolled ${attModifier} and ${adj[Math.floor(Math.random() * adj.length)]} ${killVerbs[Math.floor(Math.random() * killVerbs.length)]} ${defender.userName}'s ${defender.name} with ${modifier} damage`;
   }
   defender.currentHealth -= modifier;
-  return `${attacker.userName}'s ${attacker.name} ${dmgVerbs[Math.floor(Math.random() * dmgVerbs.length)]} ${defender.userName}'s ${defender.name} for ${modifier} damage. ${defender.userName}'s ${defender.name} has ${defender.currentHealth} HP left`;
+  await updateUserMonster(defender.userName, defender.id, {
+    currentHealth: defender.currentHealth,
+  });
+  return `${attacker.userName}'s ${attacker.name} rolled ${attModifier}, ${dmgVerbs[Math.floor(Math.random() * dmgVerbs.length)]} ${defender.userName}'s ${defender.name} for ${modifier} damage. ${defender.userName}'s ${defender.name} has ${defender.currentHealth} HP left`;
 }
-
-// let i = 10;
-// while (i > 0) {
-//   const attacker = sampleArray.Zelroth[Math.floor(Math.random() * sampleArray.Zelroth.length)];
-//   const defender = sampleArray.Gene[Math.floor(Math.random() * sampleArray.Gene.length)];
-//   console.log(
-//     Battle(attacker, defender, attacker.attacks[
-//       Math.floor(Math.random() * attacker.attacks.length)
-//     ]),
-//   );
-//   i -= 1;
-// }
 
 module.exports = {
   Battle,

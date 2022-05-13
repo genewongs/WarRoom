@@ -14,7 +14,7 @@ const errorHandling = (err, setError) => {
   } else if (err === 'auth/too-many-requests') {
     setError(`You've tried too many times`);
   } else {
-    setError('error.message');
+    setError('');
   }
 };
 

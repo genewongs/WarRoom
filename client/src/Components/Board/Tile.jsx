@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useDrop } from 'react-dnd';
-import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
 import TileContent from './TileContent';
 
 const TileContainer = styled.div`
@@ -17,7 +16,7 @@ const TileContainer = styled.div`
 `;
 
 function Tile({
-  x, y, index, number, move, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError
+  x, y, index, number, move, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError, sendNewBoard
 }) {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'image',
@@ -42,6 +41,7 @@ function Tile({
         onBoard={onBoard}
         setOnBoard={setOnBoard}
         setError={setError}
+        sendNewBoard={sendNewBoard}
       />
     </TileContainer>
   );
