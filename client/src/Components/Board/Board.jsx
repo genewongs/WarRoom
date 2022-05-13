@@ -98,7 +98,11 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   const [monsterList, setMonsterList] = useState([]);
   const [monsterListCounter, setMonsterListCounter] = useState([]);
   const [battleList, setBattleList] = useState([{}]);
+
   const [turn, setTurn] = useState(userList.length > 0 ? userList[0].id : '');
+  console.log('userList in monster list', userList);
+  console.log('turn', turn);
+
 
   const sendNewBoard = () => {
     const newBoardSend = {
@@ -107,20 +111,31 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
     };
     socket.emit('send_new_board', newBoardSend);
   };
+  const sendNewTurn = () => {
+    const newTurnSend = {
+      new_turn: turn,
+      room,
+    };
+    socket.emit('send_new_turn', newTurnSend);
+  };
   function endTurn() {
-    console.log('---------endTurn is called--------');
+    console.log('---------endTurn is called--------', turn);
     // create for loop to go though userList and get the index of the user whos turn it is.
     // increament the currnet index by 1 or go back to 0 if we are at the end of the array of users.
     if (currentUser.uid === turn) {
+      console.log('----if statement is working---');
       for (let i = 0; i < userList.length; i += 1) {
         if (userList[i].id === turn) {
-          if (i + 1 <= userList.length) {
+          if (i + 1 < userList.length) {
             setTurn(userList[i + 1].id);
           } else {
             setTurn(userList[0].id);
           }
         }
       }
+    }
+    if (turn.length < 1) {
+      setTurn(userList[0].id);
     }
     console.log('current turn ID', turn);
   }
@@ -129,7 +144,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
       if (monster.userUID !== currentUser.uid) {
         setError('Trying to move something that is not yours?');
         setTimeout(() => { setError(false); }, 3000);
-      } else if (currentUser.uid !== turn) {
+      } else if (currentUser.uid !== turn || turn.length < 1) {
         setError('Its not your turn!');
         setTimeout(() => { setError(false); }, 3000);
       } else {
@@ -234,6 +249,13 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
         });
     }
   }
+  useEffect(() => {
+    // console.log('userList', userList);
+    // if (turn.length < 1 && !(userList.length > 0)) {
+    //   setTurn(userList[0].id);
+    // }
+    sendNewTurn();
+  }, [turn]);
 
   useEffect(() => {
     if (JSON.stringify(onBoard) !== '{}') {
@@ -244,6 +266,12 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
   useEffect(() => {
     socket.on('recieve_new_board', (newBoardSend) => {
       setOnBoard(newBoardSend.new_board);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('recieve_new_turn', (newTurn) => {
+      setTurn(newTurn.new_turn);
     });
   }, [socket]);
 
