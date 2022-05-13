@@ -55,7 +55,7 @@ function List({ setMonster, setRender, monsterArr }) {
   return (
     <ListContainer>
       <CharacterContainer>
-          <Header>On Board</Header>
+        <Header>On Board</Header>
         <BoardCard>
           {monsterArr.map((e) => {
             onIndex += 1;
@@ -65,7 +65,7 @@ function List({ setMonster, setRender, monsterArr }) {
             return <div />;
           })}
         </BoardCard>
-          <Header>Off Board</Header>
+        <Header>Off Board</Header>
         <BoardCard>
           {monsterArr.map((e) => {
             offIndex += 1;
