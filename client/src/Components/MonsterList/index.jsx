@@ -78,7 +78,7 @@ function MonsterList() {
   const { currentUser, userList } = useContext(UserContext);
   const { socket } = useContext(RoomContext);
   const [monster, setMonster] = useState({});
-  const [change, setChange] = useState(false)
+  const [change, setChange] = useState(false);
   const [monsterArr, setMonsterArr] = useState([]);
   const [render, setRender] = useState('List');
   const userId = currentUser ? currentUser.uid : '';
@@ -86,7 +86,7 @@ function MonsterList() {
   // add target dummy if user does not have any monsters
   useEffect(() => {
     socket.on('recieve_log_message', (data) => {
-      setChange(!change)
+      setChange((previous) => !previous);
     });
   });
 
@@ -119,7 +119,7 @@ function MonsterList() {
       };
       getUsers(userName)
         .then((snapshot) => {
-          let books = [];
+          const books = [];
           snapshot.docs.forEach((doc) => {
             books.push({ ...doc.data(), id: doc.id });
           });
@@ -150,14 +150,20 @@ function MonsterList() {
       return <Header>Please Login</Header>;
     }
     if (render === 'List') {
-      return <List setMonster={setMonster} setRender={setRender} monsterArr={monsterArr} />;
+      return (
+        <List
+          setMonster={setMonster}
+          setRender={setRender}
+          monsterArr={monsterArr}
+        />
+      );
     }
     if (render === 'Create') {
       return (
         <Overflow>
           <Create setRender={setRender} />
         </Overflow>
-      )
+      );
     }
     return <Details deleteMonster={deleteMonster} monster={monster} />;
   }
@@ -197,7 +203,7 @@ function MonsterList() {
       </div>
       {renderComponent()}
     </MonsterListContainer>
-  )
+  );
 }
 
 export default MonsterList;

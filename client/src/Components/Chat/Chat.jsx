@@ -3,13 +3,12 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, {
-  useState, useEffect, useContext, useRef,
+  useState, useEffect, useContext,
 } from 'react';
-import styled from 'styled-components';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import moment from 'moment';
 import UserContext from '../UserContext';
-import RoomContext from '../RoomContext';
+// import RoomContext from '../RoomContext';
 
 function ChatBox({
   socket, room, chatRooms, setChatRooms, logList, setLogList,

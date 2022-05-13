@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import io from 'socket.io-client';
@@ -94,7 +95,12 @@ function AttackCard({
   const [chosenAttack, setChosenAttack] = useState(null);
   const { room, socket } = useContext(RoomContext);
 
-  let allowedAttacks = attacker.attacks.filter((each)=> each.range >= (Math.abs(attacker.locationX - defender.locationX) + Math.abs(attacker.locationY - defender.locationY)) * 5);
+  const allowedAttacks = attacker.attacks.filter(
+    (each) => each.range >= (
+      Math.abs(attacker.locationX - defender.locationX)
+      + Math.abs(attacker.locationY - defender.locationY)
+    ) * 5,
+  );
   async function handleAttack() {
     let multiple = chosenAttack.multiplier;
     while (multiple > 0) {

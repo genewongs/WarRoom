@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useDrop } from 'react-dnd';
-import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
 import TileContent from './TileContent';
 
 const TileContainer = styled.div`
