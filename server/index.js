@@ -66,6 +66,10 @@ io.on('connection', (socket) => {
     socket.to(newBoardSend.room).emit('recieve_new_board', newBoardSend);
   });
 
+  socket.on('send_new_turn', (newTurn) => {
+    socket.to(newTurn.room).emit('recieve_new_turn', newTurn);
+  });
+
   socket.on('disconnect', () => {
     // console.log("User Disconnected", socket.id);
     // console.log(socket);
