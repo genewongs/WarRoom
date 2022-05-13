@@ -4,19 +4,19 @@ function Node(x, y, walkable) {
   this.walkable = (walkable === undefined ? true : walkable);
 }
 
-const DiagonalMovement = {
-  Always: 1,
-  Never: 2,
-  IfAtMostOneObstacle: 3,
-  OnlyWhenNoObstacles: 4,
-};
+// const DiagonalMovement = {
+//   Always: 1,
+//   Never: 2,
+//   IfAtMostOneObstacle: 3,
+//   OnlyWhenNoObstacles: 4,
+// };
 
 function Grid(dimension, onBoard) {
   this.dimension = dimension;
-  this.nodes = this._buildnodes(dimension, onBoard);
+  this.nodes = this.buildnodes(dimension, onBoard);
 }
 
-Grid.prototype._buildnodes = function(dimension, onBoard) {
+Grid.prototype.buildnodes = function (dimension, onBoard) {
   const nodes = new Array(dimension);
   for (let i = 0; i < dimension; i += 1) {
     nodes[i] = new Array(dimension);
@@ -31,26 +31,26 @@ Grid.prototype._buildnodes = function(dimension, onBoard) {
   return nodes;
 };
 
-Grid.prototype.getNodeAt = function(x, y) {
+Grid.prototype.getNodeAt = function (x, y) {
   return this.nodes[x][y];
 };
 
-Grid.prototype.isWalkableAt = function(x, y) {
+Grid.prototype.isWalkableAt = function (x, y) {
   return this.isInside(x, y) && this.nodes[x][y].walkable;
 };
 
-Grid.prototype.isInside = function(x, y) {
+Grid.prototype.isInside = function (x, y) {
   return (x >= 0 && x < this.dimension) && (y >= 0 && y < this.dimension);
 };
 
-Grid.prototype.setWalkableAt = function(x, y) {
+Grid.prototype.setWalkableAt = function (x, y) {
   this.nodes[x][y].walkable = true;
 };
 
-Grid.prototype.getNeighbors = function(node) {
-  let { x, y } = node;
-  let neighbors = [];
-  let { nodes } = this;
+Grid.prototype.getNeighbors = function (node) {
+  const { x, y } = node;
+  const neighbors = [];
+  const { nodes } = this;
   let down = false;
   let up = false;
   let left = false;
@@ -74,7 +74,7 @@ Grid.prototype.getNeighbors = function(node) {
   return neighbors;
 };
 
-Grid.prototype.clone = function() {
+Grid.prototype.clone = function () {
   let i; let j;
 
   const { dimension } = this;

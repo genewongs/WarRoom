@@ -4,7 +4,6 @@ import Board from './Board';
 import RoomContext from '../RoomContext';
 import UserContext from '../UserContext';
 import { getUsers } from '../../firebase-config';
-import sampleArray from '../../../../data';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -13,7 +12,6 @@ const BoardContainer = styled.div`
 `;
 
 function BoardComponent() {
-  const { Zelroth } = sampleArray;
   const { joinRoom, room, socket } = useContext(RoomContext);
   const { currentUser, userList } = useContext(UserContext);
   // const [userRoomList, setUserRoomList] = useState([]);
@@ -30,7 +28,7 @@ function BoardComponent() {
       Promise.all(inSameRoom.map((user) => (
         getUsers(user.name)
           .then((snapshot) => {
-            let books = [];
+            const books = [];
             snapshot.docs.forEach((doc) => {
               books.push({ ...doc.data(), id: doc.id });
             });

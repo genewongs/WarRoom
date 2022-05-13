@@ -1,7 +1,6 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import UserContext from '../UserContext';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const BattleCardDiv = styled.div`
   display: flex;
@@ -103,14 +102,16 @@ const MonsterHeader2 = styled.div`
   background-image: linear-gradient(to top, rgba(255,0,0,0), #0033ff99);
 `;
 
-function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCounter, id, battle = {attacker: null, defender: null, attack: null} }) {
+function AutoBattleList({
+  monsters, setBattleList, id, battle = { attacker: null, defender: null, attack: null },
+}) {
   const [selectedMonster, setSelectedMonster] = useState(battle.attacker);
   const [selectOpponent, setSelectedOpponent] = useState(battle.defender);
   const [attacks, setAttacks] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [myBattle, setMyBattle] = useState({});
 
-  const renderMonsters = function(set) {
+  const renderMonsters = function (set) {
     return set.map((monster) => (
       <option key={monster.id} label={monster.name} value={JSON.stringify(monster)}>
         {monster.name}
@@ -142,7 +143,7 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
       const tempList = [...list];
       tempList[id] = { ...myBattle };
       return tempList;
-    })
+    });
   }, [myBattle]);
 
   return (
@@ -152,7 +153,7 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
           <select onChange={(e) => {
             const currentMonster = JSON.parse(e.target.value);
             setSelectedMonster(currentMonster);
-            setMyBattle((prev) => {return {...prev, attacker: currentMonster}});
+            setMyBattle((prev) => ({ ...prev, attacker: currentMonster }));
           }}
           >
             <option
@@ -166,43 +167,43 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
           </select>
         </div>
 
-        {selectedMonster &&
+        {selectedMonster && (
           <MonsterHeader>
-            <img src={selectedMonster.image} />
+            <img src={selectedMonster.image} alt="" />
             {selectedMonster.name}
           </MonsterHeader>
-        }
+        )}
 
         {selectedMonster && selectedMonster.attacks.map((attack, i) => (
           <AttackListStyled>
-            {selectedMonster &&
+            {selectedMonster && (
               <AttackListItem
                 className={attack === selectedItem ? 'selected' : ''}
                 onClick={() => {
-                setAttacks((prev) => [...prev, attack]);
-                setSelectedItem(attack);
-                setMyBattle((prev) => {return {...prev, attack, }});
-              }}
+                  setAttacks((prev) => [...prev, attack]);
+                  setSelectedItem(attack);
+                  setMyBattle((prev) => ({ ...prev, attack }));
+                }}
               >
                 <div>
                   Attack:c
                   {attack.attack}
-                  <br></br>
+                  <br />
                   Attack Name:&nbsp;
                   {attack.attackName}
-                  <br></br>
+                  <br />
                   {' '}
                   Damage:&nbsp;
                   {attack.damage}
-                  <br></br>
+                  <br />
                   Multiplier:&nbsp;
                   {attack.multiplier}
-                  <br></br>
+                  <br />
                   Range:&nbsp;
                   {attack.range}
                 </div>
               </AttackListItem>
-            }
+            )}
           </AttackListStyled>
         ))}
 
@@ -213,24 +214,36 @@ function AutoBattleList({ monsters, setBattleList, battleList, setMonsterListCou
           <select onChange={(e) => {
             const currentMonster = JSON.parse(e.target.value);
             setSelectedOpponent(currentMonster);
-            setMyBattle((prev) =>  {return {...prev, defender: currentMonster}});
+            setMyBattle((prev) => ({ ...prev, defender: currentMonster }));
             // setBattleList((list) => list[id].defender = currentMonster)
-          }}>
+          }}
+          >
             <option value="" disabled selected>Select Opponent</option>
             {renderMonsters(monsters[1])}
           </select>
 
-          {selectOpponent &&
-            <div style={{marginTop: '20px'}}>
+          {selectOpponent
+          && (
+            <div style={{ marginTop: '20px' }}>
               <MonsterHeader2>
-                <img src={selectOpponent.image}></img>
-                {selectOpponent.name} <br></br>
+                <img src={selectOpponent.image} alt="defender" />
+                {selectOpponent.name}
+                <br />
               </MonsterHeader2>
-              Armor: {selectOpponent.armor} <br></br>
-              Health: {selectOpponent.maxHealth} <br></br>
-              Current Health: {selectOpponent.currentHealth} <br></br>
+              Armor:
+              {' '}
+              {selectOpponent.armor}
+              <br />
+              Health:
+              {' '}
+              {selectOpponent.maxHealth}
+              <br />
+              Current Health:
+              {' '}
+              {selectOpponent.currentHealth}
+              <br />
             </div>
-          }
+          )}
         </div>
       </BattleCardRight>
       {/* <div style={{float: 'right', display: 'flex'}}>

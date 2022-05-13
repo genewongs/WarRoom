@@ -1,15 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useDrag } from 'react-dnd';
-import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
-import { makeStyles } from '@material-ui/core';
-import { Battle } from './utils/BattleFunc';
 import AttackCard from './AttackCard';
 import UserContext from '../UserContext';
 
@@ -64,7 +55,7 @@ function TileContent({
         setAttacker(monster);
       }
     } else if (attacker && attacker !== monster && !defender) {
-      let maxRange = Math.max(attacker.attacks.map((each)=> each.range));
+      const maxRange = Math.max(attacker.attacks.map((each)=> each.range));
       console.log('maxRange in handleAttack', maxRange);
       if (
         (Math.abs(attacker.locationX - monster.locationX)
@@ -72,13 +63,13 @@ function TileContent({
       ) {
         if (monster.userUID === currentUser.uid) {
           setError('Trying to attack your own monster?');
-          setTimeout(() => {setError(false); }, 3000);
+          setTimeout(() => { setError(false); }, 3000);
         } else {
           setDefender(monster);
         }
       } else {
         setError('Opponent is too far away');
-        setTimeout(() => {setError(false); }, 3000);
+        setTimeout(() => { setError(false); }, 3000);
       }
     } else if (attacker === monster) {
       setAttacker(null);

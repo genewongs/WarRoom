@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
@@ -5,7 +6,6 @@ import io from 'socket.io-client';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Tile from './Tile';
 import AutoBattleList from './AutoBattleList';
-import sampleArray from '../../../../data';
 import UserContext from '../UserContext';
 import { updateUserMonster } from '../../firebase-config';
 import aStar from './utils/aStar/aStar';
@@ -58,16 +58,6 @@ const MenuContainer = styled.div`
   width: 90%;
 `;
 
-const SelectBoard = styled.div`
-  border: 1px solid red;
-  justify-content: center;
-`;
-
-const AutoContainer = styled.div`
-`;
-const EndContainer = styled.div`
-`;
-
 const BattleCardContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -80,8 +70,9 @@ const BattleCardContainer = styled.div`
   align-items: center;
 `;
 
-function Board({ socket, room, dimension, onBoard, setOnBoard }) {
-  const { Zelroth, Gene } = sampleArray;
+function Board({
+  socket, room, dimension, onBoard, setOnBoard,
+}) {
   const { currentUser, userList } = useContext(UserContext);
 
   const [randomNumbers] = useState(
@@ -164,7 +155,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
       setError('You can not move there!');
       setTimeout(() => { setError(false); }, 3000);
     }
-  };
+  }
 
   function handleAutoBattle() {
     function check(battleObj) {
@@ -207,7 +198,7 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
           return (
             move(oldIndex, newIndex, battle.attacker)
               .then(() => battle)
-          )
+          );
         }
         console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
       }))
@@ -260,22 +251,23 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
       } else {
         oppTemp.push(monster);
       }
-    })
+    });
     setMonsterList([myTemp, oppTemp]);
   }, [onBoard]);
 
   return (
     <BoardContainer>
       <MenuContainer>
-        <div class="section full-height">
+        <div className="section full-height">
           <input
             className="modal-btn"
             type="checkbox"
             id="modal-btn"
             name="modal-btn"
           />
-          <label for="modal-btn">
-            Battle List<i class="uil uil-expand-arrows"></i>
+          <label htmlFor="modal-btn">
+            Battle List
+            <i className="uil uil-expand-arrows" />
           </label>
 
           <input
@@ -285,8 +277,9 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
             id="modal-btn2"
             name="modal-btn"
           />
-          <label onClick={() => handleAutoBattle()} for="modal-btn2">
-            Auto Battle<i class="uil uil-expand-arrows"></i>
+          <label onClick={() => handleAutoBattle()} htmlFor="modal-btn2">
+            Auto Battle
+            <i className="uil uil-expand-arrows" />
           </label>
 
           <input
@@ -296,52 +289,55 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
             id="modal-btn3"
             name="modal-btn"
           />
-          <label onClick={() => endTurn()} for="modal-btn3" className="danger">
-            End Turn<i className="uil uil-expand-arrows"></i>
+          <label onClick={() => endTurn()} htmlFor="modal-btn3" className="danger">
+            End Turn
+            <i className="uil uil-expand-arrows" />
           </label>
 
           <div className="modal">
             <div className="modal-wrap">
               <h4>Auto Battle List</h4>
               <BattleCardContainer>
-                {monsterList.length > 0 ?
-                  battleList.map((el, index) => {
-                    return <AutoBattleList
+                {monsterList.length > 0
+                  ? battleList.map((el, index) => (
+                    <AutoBattleList
                       key={index}
                       monsters={monsterList}
                       setBattleList={setBattleList}
                       battleList={battleList}
                       battle={el}
                       setMonsterListCounter={setMonsterListCounter}
-                      id={index} />
-                  }) : null
-                }
-                <div style={{display: 'flex', flexDirection: 'rows'}}>
-                <AddCircleIcon
-                  className="icon"
-                  fontSize="large"
-                  onClick={() => {
-                    setMonsterList((prv) => [...prv, onBoard]);
-                    setBattleList((prv) => [...prv, {}]);
-                  }}
-                  style={{ color: 'limegreen' }}
+                      id={index}
+                    />
+                  )) : null}
+                <div style={{ display: 'flex', flexDirection: 'rows' }}>
+                  <AddCircleIcon
+                    className="icon"
+                    fontSize="large"
+                    onClick={() => {
+                      setMonsterList((prv) => [...prv, onBoard]);
+                      setBattleList((prv) => [...prv, {}]);
+                    }}
+                    style={{ color: 'limegreen' }}
                   />
-                <AddCircleIcon
-                  className="icon"
-                  fontSize="large"
-                  onClick={() => {setBattleList((prev) => {
-                    let copy = [...prev];
-                    copy.pop();
-                    return copy;
-                  })}}
-                  style={{ color: 'red', transform: 'rotate(45deg)' }}
+                  <AddCircleIcon
+                    className="icon"
+                    fontSize="large"
+                    onClick={() => {
+                      setBattleList((prev) => {
+                        const copy = [...prev];
+                        copy.pop();
+                        return copy;
+                      });
+                    }}
+                    style={{ color: 'red', transform: 'rotate(45deg)' }}
                   />
                 </div>
               </BattleCardContainer>
             </div>
           </div>
 
-          <a href="https://front.codes/" class="logo" target="_blank"></a>
+          <a href="https://front.codes/" className="logo" target="_blank" rel="noreferrer" />
         </div>
       </MenuContainer>
       <BoardStyled dimension={dimension}>
@@ -388,9 +384,12 @@ function Board({ socket, room, dimension, onBoard, setOnBoard }) {
           )
         ))}
       </BoardStyled>
-      <ErrorMessage className={error ? "show" : ""}>
-        {" "}
-        &nbsp;{error || ""}&nbsp;{" "}
+      <ErrorMessage className={error ? 'show' : ''}>
+        {' '}
+        &nbsp;
+        {error || ''}
+&nbsp;
+        {' '}
       </ErrorMessage>
     </BoardContainer>
   );

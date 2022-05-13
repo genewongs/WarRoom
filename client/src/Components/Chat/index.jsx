@@ -254,7 +254,14 @@ function Chat() {
 
   return (
     <ChatContainer>
-      <ChatBox socket={socket} room={room} chatRooms={chatRooms} setChatRooms={setChatRooms} setLogList={setLogList} logList={logList} />
+      <ChatBox
+        socket={socket}
+        room={room}
+        chatRooms={chatRooms}
+        setChatRooms={setChatRooms}
+        setLogList={setLogList}
+        logList={logList}
+      />
       <LogBox socket={socket} room={room} setLogList={setLogList} logList={logList} />
     </ChatContainer>
   );

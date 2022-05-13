@@ -3,13 +3,12 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, {
-  useState, useEffect, useContext, useRef,
+  useState, useEffect, useContext,
 } from 'react';
-import styled from 'styled-components';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import moment from 'moment';
 import UserContext from '../UserContext';
-import RoomContext from '../RoomContext';
+// import RoomContext from '../RoomContext';
 
 function ChatBox({
   socket, room, chatRooms, setChatRooms, logList, setLogList,
@@ -17,7 +16,7 @@ function ChatBox({
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const { currentUser } = useContext(UserContext);
-  const { selectRoom, changeRoom } = useContext(RoomContext);
+  // const { selectRoom, changeRoom } = useContext(RoomContext);
 
   const username = currentUser.displayName;
   // const renderRooms = chatRooms.map((option) => (
@@ -59,7 +58,9 @@ function ChatBox({
         <div className="chat-header-title">Live Battle Chat</div>
       </div>
       {/* <div className="custom-dropdown">
-        <select onChange={(e) => { selectRoom(e.target.value); setMessageList([]); setLogList([]); }}>
+        <select onChange={(e) => {
+          selectRoom(e.target.value); setMessageList([]); setLogList([]);
+        }}>
           <option value="" disabled selected>Select A Room</option>
           {renderRooms}
         </select>
