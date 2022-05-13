@@ -235,18 +235,6 @@ const ChatContainer = styled.div`
 function Chat() {
   const { joinRoom, room, socket } = useContext(RoomContext);
   const [logList, setLogList] = useState([]);
-  const [chatRooms, setChatRooms] = useState([
-    { label: 'Lobby', value: '27' },
-    { label: 'Battlefield 1', value: '11' },
-    { label: 'Battlefield 2', value: '56' },
-    { label: 'Battlefield 3', value: '78' },
-    { label: 'Battlefield 4', value: '90' },
-    { label: 'Alex\'s Kitchen', value: '80' },
-    { label: 'Broco Lounge', value: '64' },
-    { label: 'Glassjaw Room', value: '97' },
-    { label: 'Loathing Corner', value: '15' },
-    { label: 'Zelroth\'s Lair', value: '69' },
-  ]);
 
   useEffect(() => {
     joinRoom();
@@ -254,14 +242,7 @@ function Chat() {
 
   return (
     <ChatContainer>
-      <ChatBox
-        socket={socket}
-        room={room}
-        chatRooms={chatRooms}
-        setChatRooms={setChatRooms}
-        setLogList={setLogList}
-        logList={logList}
-      />
+      <ChatBox socket={socket} room={room} />
       <LogBox socket={socket} room={room} setLogList={setLogList} logList={logList} />
     </ChatContainer>
   );

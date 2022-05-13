@@ -89,7 +89,7 @@ function App() {
   const joinRoom = async () => {
     // console.log('join data', data)
     await socket.emit('join_room', data);
-    setChangeRoom(false)
+    setChangeRoom(false);
   };
 
   const selectRoom = (room) => {
@@ -111,8 +111,8 @@ function App() {
       if (dataList) {
         setUserList(dataList);
       }
-    })
-  })
+    });
+  });
 
   useEffect(() => {
     if (currentUser.currentUser !== undefined) {
@@ -132,12 +132,18 @@ function App() {
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser, userList }}>
       <RoomContext.Provider
-        value={{ setUserList, selectRoom, joinRoom, setRoom, room, socket, data, changeRoom }}
+        value={{
+          setUserList, selectRoom, joinRoom, setRoom, room, socket, data, changeRoom,
+        }}
       >
         <Router>
           <Routes>
             <Route element={<ProtectedRoute />}>
-              <Route exact path="/" element={MainHome(logout)} />
+              <Route
+                exact
+                path="/"
+                element={MainHome(logout)}
+              />
             </Route>
             <Route exact path="/login" element={<Authentication />} />
           </Routes>
