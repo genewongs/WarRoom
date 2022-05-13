@@ -429,6 +429,15 @@ function Board({
 &nbsp;
         {' '}
       </ErrorMessage>
+      <div
+        style={{
+          color: `${turn.length < 1 ? 'white' : userList.filter((e) => e.id === turn)[0].color}`,
+        }}
+      >
+        It's&nbsp;
+        {turn.length < 1 ? 'Nobody' : userList.filter((e) => e.id === turn)[0].name}
+        's turn
+      </div>
     </BoardContainer>
   );
 }
