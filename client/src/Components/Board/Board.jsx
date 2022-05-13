@@ -135,41 +135,42 @@ function Board({
     const fromY = from % dimension;
     const toX = Math.floor(to / dimension);
     const toY = to % dimension;
-    if (monster.onBoard && Math.abs(toX - fromX) + Math.abs(toY - fromY) > (monster.movement / 5)) {
+    if (currentUser.uid !== turn || turn.length < 1) {
+      setError('Its not your turn!');
+      setTimeout(() => { setError(false); }, 3000);
+    } else if (monster.userUID !== currentUser.uid) {
+      setError('Trying to move something that is not yours?');
+      setTimeout(() => { setError(false); }, 3000);
+    } else if (
+      monster.onBoard && Math.abs(toX - fromX) + Math.abs(toY - fromY) > (monster.movement / 5)
+    ) {
       setError('That is too far away!');
+      setTimeout(() => { setError(false); }, 3000);
     } else if (!onBoard[to]) {
-      if (monster.userUID !== currentUser.uid) {
-        setError('Trying to move something that is not yours?');
-        setTimeout(() => { setError(false); }, 3000);
-      } else if (currentUser.uid !== turn || turn.length < 1) {
-        setError('Its not your turn!');
-        setTimeout(() => { setError(false); }, 3000);
+      monster.locationX = toX;
+      monster.locationY = toY;
+      monster.onBoard = true;
+      setAttacker(null);
+      setDefender(null);
+      const tempBoard = onBoard;
+      delete tempBoard[from];
+      tempBoard[to] = monster;
+      await setOnBoard(tempBoard);
+      if (send) {
+        setSend(false);
       } else {
-        monster.locationX = toX;
-        monster.locationY = toY;
-        monster.onBoard = true;
-        setAttacker(null);
-        setDefender(null);
-        const tempBoard = onBoard;
-        delete tempBoard[from];
-        tempBoard[to] = monster;
-        await setOnBoard(tempBoard);
-        if (send) {
-          setSend(false);
-        } else {
-          setSend(true);
-        }
-        updateUserMonster(currentUser.displayName, monster.id, {
-          onBoard: true,
-          locationX: monster.locationX,
-          locationY: monster.locationY,
-        })
-          .then(() => {
-            if (reRender) {
-              reRender((previous) => previous + 1);
-            }
-          });
+        setSend(true);
       }
+      updateUserMonster(currentUser.displayName, monster.id, {
+        onBoard: true,
+        locationX: monster.locationX,
+        locationY: monster.locationY,
+      })
+        .then(() => {
+          if (reRender) {
+            reRender((previous) => previous + 1);
+          }
+        });
     } else {
       setError('You can not move there!');
       setTimeout(() => { setError(false); }, 3000);
@@ -206,6 +207,7 @@ function Board({
           && path.length - 1 < ((battle.attacker.movement / 5) + (battle.attack.range / 5))
         ) {
           newCoords[battle.attacker.id] = path[0];
+          delete oldCoords[battle.attacker.id];
         } else {
           newCoords[battle.attacker.id] = null;
         }
@@ -238,19 +240,21 @@ function Board({
                 multiple -= 1;
               }
               if (battle.defender.currentHealth <= 0) {
-                return Promise.resolve((battle.defender.locationX * dimension) + battle.defender.locationY);
-                deadMonsters.push(index);
+                return Promise.resolve(
+                  (battle.defender.locationX * dimension) + battle.defender.locationY,
+                );
               }
-            })
+            }),
           )
             .then((data) => {
               const tempBoard = { ...onBoard };
+              console.log('old coords', oldCoords);
               data.forEach((deadInd) => {
                 delete tempBoard[deadInd];
-              })
+              });
               setOnBoard(tempBoard);
               sendNewBoard(tempBoard);
-            })
+            });
         });
     } else if (currentUser.uid !== turn) {
       setError('Not your turn');

@@ -158,7 +158,7 @@ function Create({ setRender }) {
     <CSS.CreateContainer>
       <div className="attribute">
         <h4>Name</h4>
-        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
+        <CSS.Input type="text" id="nickname" autocomplete='off' maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="attribute">
         <h4>Description</h4>

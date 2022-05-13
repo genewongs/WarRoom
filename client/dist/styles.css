@@ -79,6 +79,10 @@ html, body {
   height: 100%;
 }
 
+.formLogo {
+  height: 80px;
+}
+
 .formTitle > h2 {
   color: rgb(242, 231, 229);
   text-shadow: 2px 2px 2px #c50000;
@@ -143,7 +147,7 @@ html, body {
   padding: 10px 30px;
   cursor: pointer;
   display: block;
-  margin:auto;
+  margin-top: 20px;
   background:linear-gradient(to right, #ff105f);
   border:0;
   outline: none;
@@ -153,6 +157,10 @@ html, body {
 /* For the check box of terms and conditions */
 .check-box {
   margin: 30px 10px 30px;
+}
+
+.login-check {
+
 }
 
 span {
