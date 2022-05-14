@@ -28,7 +28,7 @@ async function Battle(attacker, defender, attack) {
   ];
   const killVerbs = [
     'obliterates', 'decimates', 'destroys', 'wipes out',
-    'kills', 'sat on', 'decapitated', 'sharted on', 'KOs', 'disposes of',
+    'kills', 'sat on', 'decapitated', 'KOs', 'disposes of',
     'humiliates', 'slaughters', 'impales', 'claps',
   ];
   const atkDice = attack.attack.split(' + ');

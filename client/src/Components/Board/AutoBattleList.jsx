@@ -80,6 +80,16 @@ const BattleCardRight = styled.div`
   border-top: 1px solid black;
 `;
 
+const BattleCardRightInfo = styled.div`
+  width: 100%;
+  font-size: .9em;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px 10px 20px;
+  margin: 5px 0px;
+  border-radius: 3px;
+`;
+
 const MonsterHeader = styled.div`
   font-family: 'Macondo', cursive;
   display: flex;
@@ -230,18 +240,20 @@ function AutoBattleList({
                 {selectOpponent.name}
                 <br />
               </MonsterHeader2>
-              Armor:
-              {' '}
-              {selectOpponent.armor}
-              <br />
-              Health:
-              {' '}
-              {selectOpponent.maxHealth}
-              <br />
-              Current Health:
-              {' '}
-              {selectOpponent.currentHealth}
-              <br />
+              <BattleCardRightInfo>
+                Armor:
+                {' '}
+                {selectOpponent.armor}
+                <br />
+                Health:
+                {' '}
+                {selectOpponent.maxHealth}
+                <br />
+                Current Health:
+                {' '}
+                {selectOpponent.currentHealth}
+                <br />
+              </BattleCardRightInfo>
             </div>
           )}
         </div>

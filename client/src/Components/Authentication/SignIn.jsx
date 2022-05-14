@@ -41,6 +41,7 @@ export default function SignIn({
       <div className="formbox">
         <div className="button-box">
           <div className="formTitle">
+            {/* <img className="formLogo" src='./assets/logoflame.png'></img> */}
             <h2>War Room</h2>
             <img className="swordImage" src="./assets/sword.png" />
           </div>
@@ -54,9 +55,11 @@ export default function SignIn({
               {renderRooms}
             </select>
           </div>
-          <input type="checkbox" className="check-box" />
+          <input className="login-check" type="checkbox" className="check-box" />
           <span> Remember Password</span>
-          <button className="submit-btn">Log in</button>
+          <div className="submit-btn-div">
+            <button className="submit-btn">Log in</button>
+          </div>
           <div className="signUp">
             Don't have account?
             {' '}

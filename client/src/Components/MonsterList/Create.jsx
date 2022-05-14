@@ -13,7 +13,6 @@ function Create({ setRender }) {
     'Blob.jpg',
     'Hunter.jpg',
     'SkullLord.jpg',
-    'Thief.jpg',
     'amethystDragon.jpg',
     'boneWarrior.png',
     'chomp.jpg',
@@ -24,7 +23,7 @@ function Create({ setRender }) {
     'ghoul.png',
     'greenDragon.jpg',
     'iceBug.jpg',
-    'iceDragon.jpg',
+    'pug.png',
     'iceMage.jpg',
     'iceQueen.jpg',
     'impBoi.png',
@@ -36,6 +35,7 @@ function Create({ setRender }) {
     'mage.jpg',
     'minotaur.png',
     'octoman.jpg',
+    'chad.png',
     'octopus.jpg',
     'oldWizard.jpg',
     'reaperOctopus.jpg',
@@ -44,7 +44,9 @@ function Create({ setRender }) {
     'turqoiseDragon.jpg',
     'warrior.jpg',
     'zombie.jpg',
-    'TargetDummy.jpg']);
+    'TargetDummy.jpg',
+    'zelroth.png',
+  ]);
   const [renderI, setRenderI] = useState(false);
   const [attackRerender, setAttackRerender] = useState(1);
   // hooks used for database
@@ -72,7 +74,7 @@ function Create({ setRender }) {
     return (
       <div className="iconContainer">
         <div className="iconSet">
-          {iconArr.map((e) => (<Icons style={{ border: '1px solid black' }} current={e} selected={icon} setIcon={setIcon} />))}
+          {iconArr.map((e, i) => (<Icons key={i} style={{ border: '1px solid black' }} current={e} selected={icon} setIcon={setIcon} />))}
         </div>
         <CSS.CharIcon type="button" onClick={() => setRenderI(false)}>Close</CSS.CharIcon>
       </div>
@@ -156,7 +158,7 @@ function Create({ setRender }) {
     <CSS.CreateContainer>
       <div className="attribute">
         <h4>Name</h4>
-        <CSS.Input type="text" id="nickname" maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
+        <CSS.Input type="text" id="nickname" autocomplete='off' maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="attribute">
         <h4>Description</h4>
@@ -198,6 +200,7 @@ function Create({ setRender }) {
             count += 1;
             return (
               <Attacks
+                key={i}
                 setAttack={(index, key, value) => setAttack(index, key, value)}
                 deleteAttack={(index) => deleteAttack(index)}
                 addAttack={() => addAttack()}

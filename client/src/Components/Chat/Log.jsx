@@ -17,10 +17,10 @@ function LogBox({ socket, setLogList, logList }) {
       </div>
       <div className="log-body">
         <ScrollToBottom className="message-container">
-          {logList.map((logContent) => {
+          {logList.map((logContent, i) => {
             if (logContent.message.slice(-9) === 'no damage') {
               return (
-                <div style={{ backgroundColor: '#444356' }} className="log-message">
+                <div key={i} style={{ backgroundColor: '#444356' }} className="log-message">
                   <p>
                     {logContent.message}
                   </p>
@@ -28,7 +28,7 @@ function LogBox({ socket, setLogList, logList }) {
               );
             } if (logContent.message.slice(-6) === 'damage') {
               return (
-                <div style={{ backgroundColor: '#740011' }} className="log-message">
+                <div key={i} style={{ backgroundColor: '#740011' }} className="log-message">
                   <p>
                     {logContent.message}
                   </p>
@@ -36,7 +36,7 @@ function LogBox({ socket, setLogList, logList }) {
               );
             }
             return (
-              <div style={{ backgroundColor: '#079800c3' }} className="log-message">
+              <div key={i} style={{ backgroundColor: '#079800c3' }} className="log-message">
                 <p>
                   {logContent.message}
                 </p>

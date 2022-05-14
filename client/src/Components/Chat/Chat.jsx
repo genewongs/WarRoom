@@ -89,6 +89,7 @@ function ChatBox({
             name="msg"
             id="msg"
             required
+            autocomplete='off'
             value={currentMessage}
             onKeyDown={(event) => handleKeypress(event)}
             onChange={(event) => {

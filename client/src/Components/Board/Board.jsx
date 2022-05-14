@@ -135,41 +135,42 @@ function Board({
     const fromY = from % dimension;
     const toX = Math.floor(to / dimension);
     const toY = to % dimension;
-    if (monster.onBoard && Math.abs(toX - fromX) + Math.abs(toY - fromY) > (monster.movement / 5)) {
+    if (currentUser.uid !== turn || turn.length < 1) {
+      setError('Its not your turn!');
+      setTimeout(() => { setError(false); }, 3000);
+    } else if (monster.userUID !== currentUser.uid) {
+      setError('Trying to move something that is not yours?');
+      setTimeout(() => { setError(false); }, 3000);
+    } else if (
+      monster.onBoard && Math.abs(toX - fromX) + Math.abs(toY - fromY) > (monster.movement / 5)
+    ) {
       setError('That is too far away!');
+      setTimeout(() => { setError(false); }, 3000);
     } else if (!onBoard[to]) {
-      if (monster.userUID !== currentUser.uid) {
-        setError('Trying to move something that is not yours?');
-        setTimeout(() => { setError(false); }, 3000);
-      } else if (currentUser.uid !== turn || turn.length < 1) {
-        setError('Its not your turn!');
-        setTimeout(() => { setError(false); }, 3000);
+      monster.locationX = toX;
+      monster.locationY = toY;
+      monster.onBoard = true;
+      setAttacker(null);
+      setDefender(null);
+      const tempBoard = onBoard;
+      delete tempBoard[from];
+      tempBoard[to] = monster;
+      await setOnBoard(tempBoard);
+      if (send) {
+        setSend(false);
       } else {
-        monster.locationX = toX;
-        monster.locationY = toY;
-        monster.onBoard = true;
-        setAttacker(null);
-        setDefender(null);
-        const tempBoard = onBoard;
-        delete tempBoard[from];
-        tempBoard[to] = monster;
-        await setOnBoard(tempBoard);
-        if (send) {
-          setSend(false);
-        } else {
-          setSend(true);
-        }
-        updateUserMonster(currentUser.displayName, monster.id, {
-          onBoard: true,
-          locationX: monster.locationX,
-          locationY: monster.locationY,
-        })
-          .then(() => {
-            if (reRender) {
-              reRender((previous) => previous + 1);
-            }
-          });
+        setSend(true);
       }
+      updateUserMonster(currentUser.displayName, monster.id, {
+        onBoard: true,
+        locationX: monster.locationX,
+        locationY: monster.locationY,
+      })
+        .then(() => {
+          if (reRender) {
+            reRender((previous) => previous + 1);
+          }
+        });
     } else {
       setError('You can not move there!');
       setTimeout(() => { setError(false); }, 3000);
@@ -180,78 +181,85 @@ function Board({
     function check(battleObj) {
       return battleObj.attacker && battleObj.defender && battleObj.attack;
     }
-    const newCoords = [];
+    const newCoords = {};
+    const oldCoords = {};
+    battleList.forEach((battle) => {
+      oldCoords[battle.attacker.id] = [battle.attacker.locationX, battle.attacker.locationY];
+    });
     if (battleList.every(check) && currentUser.uid === turn) {
       for (let i = 0; i < battleList.length; i += 1) {
         const battle = battleList[i];
         const tempBoard = { ...onBoard };
-        if (newCoords.length) {
-          newCoords.forEach((coord) => {
-            if (coord.length) {
-              const index = (coord[0] * dimension) + coord[1];
-              if (i > 0) {
-                const oldAttacker = battleList[i - 1].attacker;
-                const oldIndex = (oldAttacker.locationX * dimension) + oldAttacker.locationY;
-                delete tempBoard[oldIndex];
-              }
-              tempBoard[index] = true;
+        if (Object.keys(newCoords).length) {
+          Object.keys(newCoords).forEach((monsterId) => {
+            if (newCoords[battle.attacker.id] && newCoords[monsterId].length) {
+              const oldIndex = (newCoords[monsterId][0] * dimension) + newCoords[monsterId][1];
+              delete tempBoard[oldIndex];
             }
           });
+        }
+        if (newCoords[battle.attacker.id] && newCoords[battle.attacker.id].length) {
+          battle.attacker.locationX = newCoords[battle.attacker.id][0];
+          battle.attacker.locationY = newCoords[battle.attacker.id][1];
         }
         const path = aStar(dimension, tempBoard, battle.attacker, battle.defender);
         if (path.length
           && path.length - 1 < ((battle.attacker.movement / 5) + (battle.attack.range / 5))
-          ) {
-            newCoords.push(path[0]);
-          } else {
-            path.push(null);
-          }
+        ) {
+          newCoords[battle.attacker.id] = path[0];
+          delete oldCoords[battle.attacker.id];
+        } else {
+          newCoords[battle.attacker.id] = null;
         }
-        console.log(battleList, newCoords);
-        Promise.all(battleList.map((battle, index) => {
-          let newIndex = newCoords[index] ? newCoords[index] : null;
-          if (newIndex) {
-            newIndex = (newIndex[0] * dimension) + newIndex[1];
-            const oldIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
-            return (
-              move(oldIndex, newIndex, battle.attacker)
+      }
+      Promise.all(battleList.map((battle, index) => {
+        let newIndex = newCoords[battle.attacker.id] ? newCoords[battle.attacker.id] : null;
+        if (newIndex) {
+          newIndex = (newIndex[0] * dimension) + newIndex[1];
+          const oldIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
+          return (
+            move(oldIndex, newIndex, battle.attacker)
               .then(() => battle)
-              );
-            }
-            console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
-          }))
-          .then((results) => {
-            Promise.all(
-              results.map(async (battle) => {
-                console.log(battle);
-                let multiple = battle.attack.multiplier;
-                while (multiple > 0) {
-                  const message = await Battle(battle.attacker, battle.defender, battle.attack);
-                  const logMessageData = {
-                    message,
-                    board: room,
-                    id: uuidv4(),
-                  };
+          );
+        }
+        console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
+      }))
+        .then((results) => {
+          Promise.all(
+            results.map(async (battle) => {
+              console.log(battle);
+              let multiple = battle.attack.multiplier;
+              while (multiple > 0) {
+                const message = await Battle(battle.attacker, battle.defender, battle.attack);
+                const logMessageData = {
+                  message,
+                  board: room,
+                  id: uuidv4(),
+                };
                 socket.emit('send_log_message', logMessageData);
                 multiple -= 1;
               }
               if (battle.defender.currentHealth <= 0) {
-                return Promise.resolve((battle.defender.locationX * dimension) + battle.defender.locationY);
-                deadMonsters.push(index);
+                return Promise.resolve(
+                  (battle.defender.locationX * dimension) + battle.defender.locationY,
+                );
               }
-            })
+            }),
           )
             .then((data) => {
               const tempBoard = { ...onBoard };
+              console.log('old coords', oldCoords);
               data.forEach((deadInd) => {
                 delete tempBoard[deadInd];
-              })
+              });
               setOnBoard(tempBoard);
               sendNewBoard(tempBoard);
-            })
+            });
         });
-    } else {
+    } else if (currentUser.uid !== turn) {
       setError('Not your turn');
+    } else {
+      setError('Pick an attack');
     }
   }
   useEffect(() => {
@@ -432,6 +440,8 @@ function Board({
       <div
         style={{
           color: `${turn.length < 1 ? 'white' : userList.filter((e) => e.id === turn)[0].color}`,
+          textShadow: '2px 2px 2px black',
+          fontSize: '1.5em',
         }}
       >
         It's&nbsp;
