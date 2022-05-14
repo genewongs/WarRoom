@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import io from 'socket.io-client';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -10,65 +9,13 @@ import UserContext from '../UserContext';
 import { updateUserMonster } from '../../firebase-config';
 import aStar from './utils/aStar/aStar';
 import { Battle } from './utils/BattleFunc';
-
-const BoardStyled = styled.div`
-  display: grid;
-  align-content: center;
-  justify-content: center;
-  grid-template-columns: repeat(${(props) => props.dimension || 8}, ${(props) => 90 / props.dimension || 8}%);
-  grid-template-rows: repeat(${(props) => props.dimension || 8}, ${(props) => 90 / props.dimension || 8}%);
-  height: 100%;
-  width: 100%;
-  margin-top: -30px;
-`;
-
-const BoardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* height: 800px; */
-  /* width: 800px; */
-  /* min-height: 100%;
-  max-height: 100%;
-  max-width: 100%;
-  min-width: 100%; */
-  max-width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
-`;
-
-const ErrorMessage = styled.div`
-  display: flex;
-  text-align: center;
-  margin-top: 20px;
-  opacity: 0;
-  color: #ca0000;
-  transition: all ease-in-out 0.3s;
-  &.show {
-    opacity: 1 !important;
-    color: #ca0000;
-    transition: all ease-in-out 0.3s;
-  }
-`;
-
-const MenuContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 90%;
-`;
-
-const BattleCardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 95%;
-  height: 100%;
-  background-color: #1d1f25;
-  border-radius: 5px;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-`;
+import {
+  BoardStyled,
+  BoardContainer,
+  ErrorMessage,
+  MenuContainer,
+  BattleCardContainer,
+} from './StyledComps/BoardCSS';
 
 function Board({
   socket, room, dimension, onBoard, setOnBoard,

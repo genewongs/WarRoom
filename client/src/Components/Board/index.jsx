@@ -1,15 +1,9 @@
 import React, { useEffect, useContext, useState } from 'react';
-import styled from 'styled-components';
 import Board from './Board';
 import RoomContext from '../RoomContext';
 import UserContext from '../UserContext';
 import { getUsers } from '../../firebase-config';
-
-const BoardContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 56%;
-`;
+import BoardContainer from './StyledComps/indexCSS';
 
 function BoardComponent() {
   const { joinRoom, room, socket } = useContext(RoomContext);

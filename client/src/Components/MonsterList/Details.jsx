@@ -1,121 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
 import { updateUserMonster, deleteUsers } from '../../firebase-config';
 import UserContext from '../UserContext';
 import CSS from './create/css';
-
-const DetailsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: #131516;
-  width: 100%;
-  max-height: 100%;
-  min-height: 100%;
-  z-index: 5;
-  border-radius: 5px;
-
-  & .edit {
-    margin: 0 auto;
-  }
-  & .delete {
-    background-color: #ff0000;
-    margin: 0 auto;
-    margin-top: 20px;
-  }
-`;
-
-const TopContainer = styled.div`
-  display: flex;
-  margin: 15px;
-  font-family: "Macondo", cursive !important;
-`;
-
-const IconContainer = styled.img`
-  width: 33%;
-  height: auto;
-  display: flex;
-  overflow: hidden;
-  border-width: 2px;
-  border-style: solid;
-  border-image: linear-gradient(
-      -45deg,
-      #835d1a,
-      #bf953f,
-      #fbf5b7,
-      #bf953f,
-      #835d1a
-    )
-    1;
-`;
-
-const MonsterName = styled.div`
-  display: flex;
-  width: 100%;
-  background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #526e9f34);
-  border-radius: 3px;
-  font-size: x-large;
-  justify-content: center;
-  align-items: center;
-  text-transform: uppercase;
-  text-align: center;
-  color: #cad9eb;
-  text-shadow: 1px 1px 1px #000000;
-`;
-
-const Description = styled.div`
-  display: flex;
-  width: 100%
-  font-size: large;
-  justify-content: center;
-  align-items: center;
-  // border: solid 1px;
-  text-transform: uppercase;
-  font-style: italic;
-  color: #97b3d2;
-  background-color: #1a1d23c5;
-  text-shadow: 1px 1px 1px #000000;
-`;
-
-const StatsContainer = styled.div`
-  margin: 15px;
-`;
-
-const AttacksContainer = styled.div`
-  margin: 15px;
-  text-transform: uppercase;
-
-  tr:nth-last-child() {
-    border-bottom: none !important;
-  }
-
-  & .attackContainer {
-    padding-top: 10px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid white;
-    h4 {
-      background-image: linear-gradient(
-        to right,
-        rgba(255, 0, 0, 0),
-        #3e497a7d
-      );
-    }
-  }
-`;
-
-const AttackTitle = styled.div`
-  font-size: large;
-  text-align: center;
-  background-color: #25293e;
-  border-bottom: 1px solid white;
-`;
-
-const StyledLeftTD = styled.div`
-  width: 100px;
-`;
-
-const StyledAttackTable = styled.table`
-  margin-left: 1em;
-`;
+import {
+  DetailsContainer,
+  TopContainer,
+  IconContainer,
+  MonsterName,
+  Description,
+  StatsContainer,
+  AttacksContainer,
+  AttackTitle,
+  StyledLeftTD,
+  StyledAttackTable,
+} from './StyledComps/DetailsCSS';
 
 function Details({ monster, deleteMonster }) {
   // const [monster, setMonster] = useState(sampleArray.Zelroth[0]);

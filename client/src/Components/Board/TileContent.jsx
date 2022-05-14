@@ -1,31 +1,8 @@
 import React, { useState, useContext } from 'react';
-import styled from 'styled-components';
 import { useDrag } from 'react-dnd';
 import AttackCard from './AttackCard';
 import UserContext from '../UserContext';
-
-const MonsterDiv = styled.div`
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-`;
-
-const AttackCardStyled = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  top: 100%;
-  width: 285px;
-  height: 140px;
-  background-color: #1f1f23;
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px #00000076;
-  z-index: 10;
-  opacity: 1;
-`;
+import { MonsterDiv, AttackCardStyled } from './StyledComps/TileContentCSS';
 
 function TileContent({
   x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError, sendNewBoard
