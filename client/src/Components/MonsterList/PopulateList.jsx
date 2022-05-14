@@ -2,7 +2,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useContext } from 'react';
 import { useDrag } from 'react-dnd';
-import UserContext from '../UserContext';
 import {
   Icon,
   MonsterContainer,
@@ -10,7 +9,13 @@ import {
 } from './StyledComps/PopulateListCSS';
 // import sampleArray from '../../exampleData/data';
 
-function PopulateList({ index, monster, setMonster, setRender, setCount }) {
+function PopulateList({
+  index,
+  monster,
+  setMonster,
+  setRender,
+  setCount,
+}) {
   // eslint-disable-next-line no-unused-vars
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'image',

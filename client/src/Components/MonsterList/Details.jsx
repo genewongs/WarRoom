@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from 'react';
 import { updateUserMonster, deleteUsers } from '../../firebase-config';
 import UserContext from '../UserContext';
@@ -17,7 +18,7 @@ import {
 
 function Details({ monster, deleteMonster }) {
   // const [monster, setMonster] = useState(sampleArray.Zelroth[0]);
-  const { currentUser, userList } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [editName, setEditName] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
   const [editHealth, setEditHealth] = useState(false);
@@ -61,8 +62,8 @@ function Details({ monster, deleteMonster }) {
       alert(badDataMessage);
     } else {
       updateUserMonster(currentUser.displayName, monster.id, copiedMonster)
-        .then((data) => console.log("Monster had been updataed", data))
-        .catch((err) => console.log("Failed to update monster", err));
+        .then((data) => console.log('Monster had been updataed', data))
+        .catch((err) => console.log('Failed to update monster', err));
     }
   }
   return (
@@ -147,7 +148,8 @@ function Details({ monster, deleteMonster }) {
                 />
               ) : (
                 copiedMonster.maxHealth
-              )}{" "}
+              )}
+              {' '}
             </td>
           </tr>
           <tr>
@@ -196,10 +198,6 @@ function Details({ monster, deleteMonster }) {
             </td>
           </tr>
         </table>
-
-        {/* <div>HEALTH: {monster.currentHealth}/{monster.maxHealth} <progress value={monster.currentHealth} max={monster.maxHealth} /> </div>
-        <div>ARMOR: {monster.armor}</div>
-        <div>MOVEMENT: {monster.movement}</div> */}
       </StatsContainer>
       <AttacksContainer>
         <AttackTitle>Attacks</AttackTitle>
@@ -315,15 +313,6 @@ function Details({ monster, deleteMonster }) {
                 </td>
               </tr>
             </StyledAttackTable>
-            {/* <div>
-              Name: {e.attackName}
-            </div>
-            <div>
-              Attack: {e.multiplier > 1 ? `(` : ''}{e.attack}{e.multiplier > 1 ? `)* ${e.multiplier}` : ''}
-            </div>
-            <div>
-              Damage: {e.damage}
-            </div> */}
           </div>
         ))}
       </AttacksContainer>
@@ -356,12 +345,12 @@ function Details({ monster, deleteMonster }) {
           }
         }}
       >
-        {editName ||
-        editDescription ||
-        editArmor ||
-        editHealth ||
-        editMovement ||
-        editAttack
+        {editName
+        || editDescription
+        || editArmor
+        || editHealth
+        || editMovement
+        || editAttack
           ? 'Submit'
           : 'Edit'}
       </CSS.CharIcon>

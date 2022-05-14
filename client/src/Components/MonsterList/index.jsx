@@ -13,7 +13,7 @@ import {
 } from './StyledComps/indexCSS';
 
 function MonsterList() {
-  const { currentUser, userList } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const { socket } = useContext(RoomContext);
   const [monster, setMonster] = useState({});
   const [change, setChange] = useState(false);
@@ -23,7 +23,7 @@ function MonsterList() {
   const userName = currentUser.displayName;
   // add target dummy if user does not have any monsters
   useEffect(() => {
-    socket.on('recieve_log_message', (data) => {
+    socket.on('recieve_log_message', () => {
       setChange((previous) => !previous);
     });
   });
@@ -74,7 +74,7 @@ function MonsterList() {
         .catch((err) => console.log(err));
     }
   }, [render, userId, change]);
-  function deleteMonster(userID, monsterID) {
+  function deleteMonster() {
     setRender('List');
     setMonster(monsterArr[0]);
   }
@@ -98,7 +98,7 @@ function MonsterList() {
         </Overflow>
       );
     }
-    return <Details deleteMonster={deleteMonster} monster={monster} />;
+    return <Details deleteMonster={() => deleteMonster()} monster={monster} />;
   }
   return (
     <MonsterListContainer>

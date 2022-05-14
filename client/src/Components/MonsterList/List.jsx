@@ -26,17 +26,17 @@ function List({ setMonster, setRender, monsterArr }) {
               display: 'inline-block',
               backgroundColor: `${
                 userList.filter(
-                  (e) => e.name === currentUser.displayName
+                  (e) => e.name === currentUser.displayName,
                 ).length > 0
                   ? (userList.filter(
-                    (e) => e.name === currentUser.displayName
+                    (e) => e.name === currentUser.displayName,
                   )[0].color)
                   : null
               }`,
-              borderRadius: "100px",
-              width: "10px",
-              height: "10px",
-              marginLeft: "10px",
+              borderRadius: '100px',
+              width: '10px',
+              height: '10px',
+              marginLeft: '10px',
             }}
           />
         </Header>

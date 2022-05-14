@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useState, useContext } from 'react';
 // import TextField from '@mui/material/TextField';
 import Icons from './create/Icons';
@@ -154,7 +155,7 @@ function Create({ setRender }) {
     <CSS.CreateContainer>
       <div className="attribute">
         <h4>Name</h4>
-        <CSS.Input type="text" id="nickname" autocomplete='off' maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
+        <CSS.Input type="text" id="nickname" autocomplete="off" maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="attribute">
         <h4>Description</h4>
