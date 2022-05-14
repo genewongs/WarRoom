@@ -38,9 +38,6 @@ function Board({
   const [battleList, setBattleList] = useState([{}]);
 
   const [turn, setTurn] = useState(userList.length > 0 ? userList[0].id : '');
-  console.log('userList in monster list', userList);
-  console.log('turn', turn);
-
 
   const sendNewBoard = (newBoard = onBoard) => {
     const newBoardSend = {
@@ -57,11 +54,9 @@ function Board({
     socket.emit('send_new_turn', newTurnSend);
   };
   function endTurn() {
-    console.log('---------endTurn is called--------', turn);
     // create for loop to go though userList and get the index of the user whos turn it is.
     // increament the currnet index by 1 or go back to 0 if we are at the end of the array of users.
     if (currentUser.uid === turn) {
-      console.log('----if statement is working---');
       for (let i = 0; i < userList.length; i += 1) {
         if (userList[i].id === turn) {
           if (i + 1 < userList.length) {
@@ -75,7 +70,6 @@ function Board({
     if (turn.length < 1) {
       setTurn(userList[0].id);
     }
-    console.log('current turn ID', turn);
   }
   async function move(from, to, monster, reRender) {
     const fromX = Math.floor(from / dimension);
@@ -169,12 +163,10 @@ function Board({
               .then(() => battle)
           );
         }
-        console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
       }))
         .then((results) => {
           Promise.all(
             results.map(async (battle) => {
-              console.log(battle);
               let multiple = battle.attack.multiplier;
               while (multiple > 0) {
                 const message = await Battle(battle.attacker, battle.defender, battle.attack);
@@ -195,7 +187,6 @@ function Board({
           )
             .then((data) => {
               const tempBoard = { ...onBoard };
-              console.log('old coords', oldCoords);
               data.forEach((deadInd) => {
                 delete tempBoard[deadInd];
               });
@@ -210,10 +201,6 @@ function Board({
     }
   }
   useEffect(() => {
-    // console.log('userList', userList);
-    // if (turn.length < 1 && !(userList.length > 0)) {
-    //   setTurn(userList[0].id);
-    // }
     sendNewTurn();
   }, [turn]);
 

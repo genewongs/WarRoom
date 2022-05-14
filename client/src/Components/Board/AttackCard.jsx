@@ -33,7 +33,6 @@ function AttackCard({
     let multiple = chosenAttack.multiplier;
     while (multiple > 0) {
       const message = await Battle(attacker, defender, chosenAttack);
-      // console.log(Battle(attacker, defender, chosenAttack));
       const logMessageData = {
         message,
         board: room,

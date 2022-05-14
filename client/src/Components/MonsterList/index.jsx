@@ -30,9 +30,6 @@ function MonsterList() {
 
   useEffect(() => {
     if (userName !== undefined) {
-      // getUsers(userName)
-      //   .then((data) => console.log('get data in monster get request', data))
-      //   .catch((err) => console.log('ERROR get data in monster get request', err));
       const example = {
         userUID: currentUser.uid,
         userName: currentUser.displayName,
@@ -68,7 +65,6 @@ function MonsterList() {
           if (data.length === 0) {
             addUserMonster(userName, example)
               .then(console.log('data has been added'));
-            console.log('add monster');
           }
           if (Object.keys(monster).length === 0) {
             setMonster(data[0]);
@@ -77,7 +73,6 @@ function MonsterList() {
         })
         .catch((err) => console.log(err));
     }
-    console.log(userList);
   }, [render, userId, change]);
   function deleteMonster(userID, monsterID) {
     setRender('List');

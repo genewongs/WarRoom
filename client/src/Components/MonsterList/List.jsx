@@ -23,7 +23,7 @@ function List({ setMonster, setRender, monsterArr }) {
           On Board
           <div
             style={{
-              display: "inline-block",
+              display: 'inline-block',
               backgroundColor: `${
                 userList.filter(
                   (e) => e.name === currentUser.displayName

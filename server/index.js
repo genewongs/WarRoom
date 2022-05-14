@@ -38,10 +38,8 @@ io.on('connection', (socket) => {
         color: colorsArray.pop(),
       };
       users.push(user);
-      console.log('the second if statement', users);
       socket.to(data.room).emit('got_users', users);
     } else {
-      console.log('here', users);
       socket.to(data.room).emit('got_users', users);
     }
   });
@@ -71,8 +69,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    // console.log("User Disconnected", socket.id);
-    // console.log(socket);
   });
 
   socket.on('logout', (data) => {
@@ -96,12 +92,6 @@ io.on('connection', (socket) => {
 app.use(express.json());
 app.use(expressStaticGzip(`${__dirname}/../client/dist`));
 app.use(cors());
-// // app.use('/', Routers);
-
-// app.get('/users', (req, res) => {
-//   console.log('users in app.get', users);
-//   res.send(users);
-// });
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));

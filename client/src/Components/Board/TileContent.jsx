@@ -33,7 +33,6 @@ function TileContent({
       }
     } else if (attacker && attacker !== monster && !defender) {
       const maxRange = Math.max(...attacker.attacks.map((each)=> each.range));
-      console.log('maxRange in handleAttack', maxRange);
       if (
         (Math.abs(attacker.locationX - monster.locationX)
         + Math.abs(attacker.locationY - monster.locationY)) <= Math.floor(maxRange / 5)
@@ -84,7 +83,7 @@ function TileContent({
               transition: 'all ease-in-out 1s',
             }}
             className={isDying ? 'dying' : ''}
-          /> {console.log(monster !== undefined ? userList.filter((e) => e.name === monster.userName)[0].color : 'white')}
+          />
           {(attacker && defender && defender === monster)
             ? (
               <AttackCardStyled>

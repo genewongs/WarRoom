@@ -12,10 +12,7 @@ function BoardComponent() {
   const [onBoard, setOnBoard] = useState({});
   const dimension = 6 || 8;
   useEffect(() => {
-    // console.log('userRoomList', userRoomList);
-    // setUserRoomList(userList.filter((each) => each.room === room));
     const inSameRoom = userList.filter((user) => user.room === room);
-    console.log('same room', inSameRoom);
     if (inSameRoom.length === 1) {
       setOnBoard({});
     } else if (inSameRoom.length) {

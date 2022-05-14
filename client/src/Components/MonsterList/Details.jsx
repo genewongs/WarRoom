@@ -29,7 +29,6 @@ function Details({ monster, deleteMonster }) {
   );
   useEffect(() => {
     setCopiedMonster(JSON.parse(JSON.stringify(monster)));
-    console.log(monster);
   }, [monster]);
   // Need to check if monsterID is accessible
   function change() {
@@ -332,14 +331,13 @@ function Details({ monster, deleteMonster }) {
         type="button"
         className="edit"
         onClick={() => {
-          console.log(userList);
           if (
-            editName ||
-            editDescription ||
-            editArmor ||
-            editHealth ||
-            editMovement ||
-            editAttack
+            editName
+            || editDescription
+            || editArmor
+            || editHealth
+            || editMovement
+            || editAttack
           ) {
             setEditName(false);
             setEditDescription(false);

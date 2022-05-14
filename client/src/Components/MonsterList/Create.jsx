@@ -65,11 +65,7 @@ function Create({ setRender }) {
   }]);
   const [quantity, setQuantity] = useState(1);
   // access current user
-
-  // console.log('userName in monster list', currentUser.displayName);
-  // console.log('all users', getUsers());
-  // console.log('currentUser in monster list', currentUser.uid);
-  // // renders all icons for user to click from
+  // renders all icons for user to click from
   const renderIcons = function renderIcons() {
     return (
       <div className="iconContainer">
