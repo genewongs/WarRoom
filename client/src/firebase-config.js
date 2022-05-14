@@ -34,14 +34,6 @@ const getUsers = (userName) => {
   const colRef = collection(db, userName);
   return (
     getDocs(colRef)
-    // .then((snapshot) => {
-    //   let books = [];
-    //   snapshot.docs.forEach((doc) => {
-    //     books.push({ ...doc.data(), id: doc.id });
-    //   });
-    //   return (books);
-    // })
-    // .catch(() => console.log('no such document'))
   );
 };
 
@@ -55,6 +47,7 @@ const updateUserMonster = (userName, monsterId, updatedArea) => {
   return updateDoc(docRef, updatedArea);
 };
 
+// this is delete user monster
 const deleteUsers = (userName, monsterId) => {
   const docRef = doc(db, userName, monsterId);
   return deleteDoc(docRef);

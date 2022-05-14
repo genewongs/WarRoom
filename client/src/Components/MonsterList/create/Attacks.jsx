@@ -22,6 +22,7 @@ const Attacks = function Attacks({
             fontSize="small"
             className="icon"
             onClick={() => {
+              // eslint-disable-next-line no-unused-expressions
               count !== 1 ? deleteAttack(count - 1)
                 : null;
             }}

@@ -2,10 +2,7 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { auth } from '../../firebase-config.js';
 
-const useAuth = () => auth.currentUser !== null
-// console.log('protected route is being called')
-// return false;
-;
+const useAuth = () => auth.currentUser !== null;
 
 function ProtectedRoute() {
   const isAuth = useAuth();

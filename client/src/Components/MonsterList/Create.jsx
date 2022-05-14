@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useState, useContext } from 'react';
 // import TextField from '@mui/material/TextField';
 import Icons from './create/Icons';
@@ -65,11 +66,7 @@ function Create({ setRender }) {
   }]);
   const [quantity, setQuantity] = useState(1);
   // access current user
-
-  // console.log('userName in monster list', currentUser.displayName);
-  // console.log('all users', getUsers());
-  // console.log('currentUser in monster list', currentUser.uid);
-  // // renders all icons for user to click from
+  // renders all icons for user to click from
   const renderIcons = function renderIcons() {
     return (
       <div className="iconContainer">
@@ -158,7 +155,7 @@ function Create({ setRender }) {
     <CSS.CreateContainer>
       <div className="attribute">
         <h4>Name</h4>
-        <CSS.Input type="text" id="nickname" autocomplete='off' maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
+        <CSS.Input type="text" id="nickname" autocomplete="off" maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="attribute">
         <h4>Description</h4>

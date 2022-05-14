@@ -21,24 +21,14 @@ function index() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPW, setLoginPW] = useState('');
   const [error, setError] = useState('');
-  // console.log('registerEmail', registerEmail, typeof(registerEmail));
-  // console.log('registerPW', registerPW);
-  // console.log('loginEmail', loginEmail);
-  // console.log('loginPW', loginPW);
-  // console.log('currentUser in authentication', currentUser);
-  // console.log('existing user', exisitingUser);
-  // console.log(userName);
-  // console.log('auth', auth);
 
   onAuthStateChanged(auth, (User) => {
-    // console.log('user changed in authentication', User);
     setCurrentUser(User);
   });
 
   const register = async () => {
     try {
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPW);
-      // console.log('authCurrentUser', auth.currentUser);
       updateProfile(auth.currentUser, {
         displayName: userName,
       })
@@ -53,7 +43,6 @@ function index() {
     try {
       const user = await signInWithEmailAndPassword(auth, loginEmail, loginPW);
       setCurrentUser(user);
-      // console.log('login Button is working');
       navigate('/');
     } catch (err) {
       errorHandling(err.code, setError);
