@@ -57,7 +57,9 @@ export default function SignIn({
           </div>
           <input className="login-check" type="checkbox" className="check-box" />
           <span> Remember Password</span>
-          <button className="submit-btn">Log in</button>
+          <div className="submit-btn-div">
+            <button className="submit-btn">Log in</button>
+          </div>
           <div className="signUp">
             Don't have account?
             {' '}

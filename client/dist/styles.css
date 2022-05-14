@@ -35,7 +35,7 @@ html, body {
 .SignForm {
   min-height: 100vh;
   min-width: 100%;
-  background-image: url('./assets/bg.jpg');
+  background-image: url('./assets/bg-logo.jpg');
   background-position: center;
   background-size: cover;
   display: flex;
@@ -147,7 +147,8 @@ html, body {
   padding: 10px 30px;
   cursor: pointer;
   display: block;
-  margin-top: 20px;
+  margin:auto;
+  margin-top: 10px;
   background:linear-gradient(to right, #ff105f);
   border:0;
   outline: none;
@@ -157,10 +158,6 @@ html, body {
 /* For the check box of terms and conditions */
 .check-box {
   margin: 30px 10px 30px;
-}
-
-.login-check {
-
 }
 
 span {
@@ -325,13 +322,13 @@ span {
 }
 
 [type="checkbox"]:checked,
-[type="checkbox"]:not(:checked){
+[type="checkbox"]:not(:checked) {
   position: absolute;
   left: -9999px;
 }
 
 .modal-btn:checked + label,
-.modal-btn:not(:checked) + label{
+.modal-btn:not(:checked) + label {
   position: relative;
   font-family: 'Poppins', sans-serif;
   font-size: .7em;

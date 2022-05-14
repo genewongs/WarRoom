@@ -13,7 +13,6 @@ function Create({ setRender }) {
     'Blob.jpg',
     'Hunter.jpg',
     'SkullLord.jpg',
-    'chad.png',
     'amethystDragon.jpg',
     'boneWarrior.png',
     'chomp.jpg',
@@ -24,7 +23,7 @@ function Create({ setRender }) {
     'ghoul.png',
     'greenDragon.jpg',
     'iceBug.jpg',
-    'iceDragon.jpg',
+    'pug.png',
     'iceMage.jpg',
     'iceQueen.jpg',
     'impBoi.png',
@@ -36,6 +35,7 @@ function Create({ setRender }) {
     'mage.jpg',
     'minotaur.png',
     'octoman.jpg',
+    'chad.png',
     'octopus.jpg',
     'oldWizard.jpg',
     'reaperOctopus.jpg',
@@ -45,7 +45,7 @@ function Create({ setRender }) {
     'warrior.jpg',
     'zombie.jpg',
     'TargetDummy.jpg',
-    'EricLie.png',
+    'zelroth.png',
   ]);
   const [renderI, setRenderI] = useState(false);
   const [attackRerender, setAttackRerender] = useState(1);
