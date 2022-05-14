@@ -74,7 +74,6 @@ function Board({
   socket, room, dimension, onBoard, setOnBoard,
 }) {
   const { currentUser, userList } = useContext(UserContext);
-
   const [randomNumbers] = useState(
     Array.from({ length: dimension * dimension }, () => Math.ceil(Math.random() * 4)),
   );
@@ -89,12 +88,11 @@ function Board({
   const [monsterList, setMonsterList] = useState([]);
   const [monsterListCounter, setMonsterListCounter] = useState([]);
   const [battleList, setBattleList] = useState([{}]);
-
   const [turn, setTurn] = useState(userList.length > 0 ? userList[0].id : '');
   console.log('userList in monster list', userList);
   console.log('turn', turn);
 
-
+  //UTIL FUNCTIONS
   const sendNewBoard = (newBoard = onBoard) => {
     const newBoardSend = {
       new_board: newBoard,
@@ -180,75 +178,95 @@ function Board({
   function handleAutoBattle() {
     function check(battleObj) {
       return battleObj.attacker && battleObj.defender && battleObj.attack;
+      //  this creates a storage of all the old coordinates to use later on
+      // this checks if every battle is valid and is users turn
     }
-    const newCoords = {};
-    const oldCoords = {};
-    battleList.forEach((battle) => {
-      oldCoords[battle.attacker.id] = [battle.attacker.locationX, battle.attacker.locationY];
-    });
     if (battleList.every(check) && currentUser.uid === turn) {
+      // each time a battle occurs, the new coordinates get stored in an object
+      const oldCoords = {};
+      const successful =  Array.from({ length: battleList.length }, () => false);
+      battleList.forEach((battle) => {
+        oldCoords[battle.attacker.id] = [battle.attacker.locationX, battle.attacker.locationY];
+      });
+      // this for loop finds paths for each battle in a sequential order
+      // this matters because the result of one path might place an obstacle in the following battle
+      const newCoords = {};
+      const tempBoard = { ...onBoard };
       for (let i = 0; i < battleList.length; i += 1) {
         const battle = battleList[i];
-        const tempBoard = { ...onBoard };
-        if (Object.keys(newCoords).length) {
-          Object.keys(newCoords).forEach((monsterId) => {
-            if (newCoords[battle.attacker.id] && newCoords[monsterId].length) {
-              const oldIndex = (newCoords[monsterId][0] * dimension) + newCoords[monsterId][1];
-              delete tempBoard[oldIndex];
-            }
-          });
+        const oldIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
+        console.log('this is the attacker', battle.attacker);
+        if (newCoords[battle.attacker.id]) {
+          battle.attacker.locationX = newCoords[battle.attacker.id][0]
+          battle.attacker.locationY = newCoords[battle.attacker.id][1]
         }
-        if (newCoords[battle.attacker.id] && newCoords[battle.attacker.id].length) {
-          battle.attacker.locationX = newCoords[battle.attacker.id][0];
-          battle.attacker.locationY = newCoords[battle.attacker.id][1];
-        }
+        // this finds the path
         const path = aStar(dimension, tempBoard, battle.attacker, battle.defender);
+        console.log('HI I AM PATH', path);
+        // if the path is not too long, store the path in the new coords
+        // then delete the old coords as it has moved after this battle
         if (path.length
-          && path.length - 1 < ((battle.attacker.movement / 5) + (battle.attack.range / 5))
+          && path.length - 1 <= ((battle.attacker.movement / 5) + (battle.attack.range / 5))
         ) {
-          newCoords[battle.attacker.id] = path[0];
-          delete oldCoords[battle.attacker.id];
+          if (newCoords[battle.attacker.id]) {
+            console.log('I HAVE MOVED BEFORE', newCoords[battle.attacker.id][0], newCoords[battle.attacker.id][0] );
+            const previousCoord = (newCoords[battle.attacker.id][0] * dimension) + newCoords[battle.attacker.id][1];
+            delete tempBoard[previousCoord];
+          }
+          let newLocation = path[Math.floor((battle.attack.range / 5) - 1)] || path[path.length - 1];
+          newCoords[battle.attacker.id] = newLocation;
+          newLocation = (newLocation[0] * dimension) + newLocation[1];
+          tempBoard[newLocation] = battle.attacker;
+          successful[i] = true;
+          if (newLocation !== oldIndex) {
+            delete tempBoard[oldIndex];
+          }
         } else {
-          newCoords[battle.attacker.id] = null;
+          break;
         }
       }
-      Promise.all(battleList.map((battle, index) => {
-        let newIndex = newCoords[battle.attacker.id] ? newCoords[battle.attacker.id] : null;
-        if (newIndex) {
-          newIndex = (newIndex[0] * dimension) + newIndex[1];
-          const oldIndex = (battle.attacker.locationX * dimension) + battle.attacker.locationY;
-          return (
-            move(oldIndex, newIndex, battle.attacker)
-              .then(() => battle)
-          );
-        }
-        console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
+      console.log('SUCCESSFUL', successful);
+      // once all the new coords are set, move the pieces accordingly
+      Promise.all(Object.keys(newCoords).map((monsterID) => {
+        const coords = newCoords[monsterID];
+        return updateUserMonster(currentUser.displayName, monsterID, {
+          onBoard: true,
+          locationX: coords[0],
+          locationY: coords[1],
+        });
       }))
-        .then((results) => {
+      // by now all the pieces should be in the right position
+        .then(() => {
           Promise.all(
-            results.map(async (battle) => {
-              console.log(battle);
-              let multiple = battle.attack.multiplier;
-              while (multiple > 0) {
-                const message = await Battle(battle.attacker, battle.defender, battle.attack);
-                const logMessageData = {
-                  message,
-                  board: room,
-                  id: uuidv4(),
-                };
-                socket.emit('send_log_message', logMessageData);
-                multiple -= 1;
-              }
-              if (battle.defender.currentHealth <= 0) {
-                return Promise.resolve(
-                  (battle.defender.locationX * dimension) + battle.defender.locationY,
-                );
+            // since the battles update the db, it needs to be async
+            battleList.map(async (battle, index) => {
+              // commences battle a multiple amount of times
+              if (successful[index]) {
+                let multiple = battle.attack.multiplier;
+                while (multiple > 0) {
+                  // updates the battle log with events that occured
+                  const message = await Battle(battle.attacker, battle.defender, battle.attack);
+                  const logMessageData = {
+                    message,
+                    board: room,
+                    id: uuidv4(),
+                  };
+                  socket.emit('send_log_message', logMessageData);
+                  multiple -= 1;
+                }
+                if (battle.defender.currentHealth <= 0) {
+                  // my shoddy attempt to make sure each location is right
+                  // this def needs changing
+                  return Promise.resolve(
+                    (battle.defender.locationX * dimension) + battle.defender.locationY,
+                  );
+                }
               }
             }),
           )
+          // after all the battle commences
             .then((data) => {
-              const tempBoard = { ...onBoard };
-              console.log('old coords', oldCoords);
+              // create a tempboard and update it with new coords
               data.forEach((deadInd) => {
                 delete tempBoard[deadInd];
               });
@@ -258,10 +276,13 @@ function Board({
         });
     } else if (currentUser.uid !== turn) {
       setError('Not your turn');
+      setTimeout(() => { setError(false); }, 3000);
     } else {
       setError('Pick an attack');
+      setTimeout(() => { setError(false); }, 3000);
     }
   }
+  //USE EFFECTS
   useEffect(() => {
     // console.log('userList', userList);
     // if (turn.length < 1 && !(userList.length > 0)) {
@@ -301,6 +322,7 @@ function Board({
     setMonsterList([myTemp, oppTemp]);
   }, [onBoard]);
 
+  //RENDER
   return (
     <BoardContainer>
       <MenuContainer>
@@ -407,6 +429,7 @@ function Board({
               index={index}
               number={randomNumbers[index]}
               monster={onBoard[index]}
+              turn={turn}
             />
           )
           : (
@@ -426,6 +449,7 @@ function Board({
               className="tile"
               index={index}
               number={randomNumbers[index]}
+              turn={turn}
             />
           )
         ))}

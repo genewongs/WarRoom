@@ -28,7 +28,7 @@ const AttackCardStyled = styled.div`
 `;
 
 function TileContent({
-  x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError, sendNewBoard
+  x, y, index, monster, attacker, setAttacker, defender, setDefender, dimension, onBoard, setOnBoard, setError, sendNewBoard, turn
 }) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'image',
@@ -47,33 +47,38 @@ function TileContent({
   const { currentUser, userList } = useContext(UserContext);
 
   function handleAttack() {
-    if (!attacker) {
-      if (monster.userUID !== currentUser.uid) {
-        setError('You do not own that monster');
-        setTimeout(() => {setError(false); }, 3000);
-      } else {
-        setAttacker(monster);
-      }
-    } else if (attacker && attacker !== monster && !defender) {
-      const maxRange = Math.max(...attacker.attacks.map((each)=> each.range));
-      console.log('maxRange in handleAttack', maxRange);
-      if (
-        (Math.abs(attacker.locationX - monster.locationX)
-        + Math.abs(attacker.locationY - monster.locationY)) <= Math.floor(maxRange / 5)
-      ) {
-        if (monster.userUID === currentUser.uid) {
-          setError('Trying to attack your own monster?');
-          setTimeout(() => { setError(false); }, 3000);
+    if (currentUser.uid === turn) {
+      if (!attacker) {
+        if (monster.userUID !== currentUser.uid) {
+          setError('You do not own that monster');
+          setTimeout(() => {setError(false); }, 3000);
         } else {
-          setDefender(monster);
+          setAttacker(monster);
         }
-      } else {
-        setError('Opponent is too far away');
-        setTimeout(() => { setError(false); }, 3000);
+      } else if (attacker && attacker !== monster && !defender) {
+        const maxRange = Math.max(...attacker.attacks.map((each)=> each.range));
+        console.log('maxRange in handleAttack', maxRange);
+        if (
+          (Math.abs(attacker.locationX - monster.locationX)
+          + Math.abs(attacker.locationY - monster.locationY)) <= Math.floor(maxRange / 5)
+        ) {
+          if (monster.userUID === currentUser.uid) {
+            setError('Trying to attack your own monster?');
+            setTimeout(() => { setError(false); }, 3000);
+          } else {
+            setDefender(monster);
+          }
+        } else {
+          setError('Opponent is too far away');
+          setTimeout(() => { setError(false); }, 3000);
+        }
+      } else if (attacker === monster) {
+        setAttacker(null);
+        setDefender(null);
       }
-    } else if (attacker === monster) {
-      setAttacker(null);
-      setDefender(null);
+    } else {
+      setError('Not your turn');
+      setTimeout(() => { setError(false); }, 3000);
     }
   }
 
