@@ -64,6 +64,9 @@ The monster list component consists of three sub-components: list, create, and d
 
 The list section will show which of the user's monsters are on the board and which of the user's monsters are off the board. There is also a color indicator next to the "On Board" heading showing which color belongs to the user. This color should be consistent with the border colors on the monster icons on the board as well as the turn indicator text shown at the very bottom of the screen.
 
+![image](https://user-images.githubusercontent.com/6219171/168444406-24bfd5e4-c699-4a43-848d-d37720e8873a.png)
+
+
 #### Create
 
 The create section will allows the user to create a new monster. The user may choose an avatar for the monster from a predetermined set of icons and add an arbitrarily large number of attacks. The user may also specify that multiples of the monster should be created.
