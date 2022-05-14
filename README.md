@@ -57,11 +57,11 @@ We have an implemented an "Auto Battle" feature wherein the user may create a li
 
 ##### A * Algorithm for Path Selection
 
-An A* pathfinding logic, implemented by Alex Shiao, is utilized by the "auto battle" feature. Based on the order of attacks specified by the user in the Auto Battle modal, the application will calculate the best available path to take to get to each opponent in the specified order. The final position of the user's monster upon completion of a series of "Auto Battle" attacks should be a tile adjacent to the final opponent selected. The pathfinding logic avoids any obstacles (e.g., other monsters, either the user's or an opponent's) that may be present on the board.
+An A* pathfinding logic is utilized by the "auto battle" feature. Based on the order of attacks specified by the user in the Auto Battle modal, the application will calculate the best available path to take to get to each opponent in the specified order. The final position of the user's monster upon completion of a series of "Auto Battle" attacks should be a tile adjacent to the final opponent selected. The pathfinding logic avoids any obstacles (e.g., other monsters, either the user's or an opponent's) that may be present on the board.
 
 ### Live Information
 
-Elliot Langdon has designed the live information sections shown on the right side of the application. This section includes two sub-sections: (1) Battle Chat; and (2) Battle Log.
+The live information section is shown on the right side of the application. This section includes two sub-sections: (1) Battle Chat; and (2) Battle Log.
 #### Battle Chat
 
 To the top right of the application is a battle chat window in which the user may view messages that they as well as other users in the same battle room have written. The messages are distinguished by different colors as well text alignment. The user's own messages are aligned to the right, in conformity with what is commonly seen in text message applications on mobile phones. The other users' messages will be aligned to the left. A time stamp is also included in the battle chat.
@@ -96,12 +96,19 @@ The fields on the detail page become editable if the user clicks on the edit but
 
 ## Team
 * Project Manager: Dora Xia
+[![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/doraxia/)](https://www.linkedin.com/in/doraxia/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/Dora821)](https://github.com/Dora821)
 * UI Owner: Gene Wong
+[![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/genehwong/)](https://www.linkedin.com/in/genehwong/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/genewongs)](https://github.com/genewongs)
 * Backend Architect: Alex Shiao
+[![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/alexander-shiao/)](https://www.linkedin.com/in/alexander-shiao/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/alexshiao99)](https://github.com/alexshiao99)
 * Software Engineer: Adarsh Ravindra
+[![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/adarshraj-ravindran-75832a183/)](https://www.linkedin.com/in/adarshraj-ravindran-75832a183/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/AdarshrajRav)](https://github.com/AdarshrajRav)
 * Software Engineer: David Estephanian
+[![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/david-estephanian-738039160)](https://www.linkedin.com/in/david-estephanian-738039160) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/bootdme)](https://github.com/bootdme)
 * Software Engineer: Elbert Chan
+[![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/elbertchan/)](https://www.linkedin.com/in/elbertchan/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=github.com/gaolbreaker)](https://github.com/gaolbreaker)
 * Software Engineer: Elliot Landon
+[![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/elliot-landon/)](https://www.linkedin.com/in/elliot-landon/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/ElliotLandon)](https://github.com/ElliotLandon)
 
 
 ## Technologies
