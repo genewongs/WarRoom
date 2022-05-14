@@ -29,6 +29,8 @@ The application contains a myriad of components that work together in unison to 
 
 ### Sign in
 The user can register an account if being to the game for the first time or sign in with an existing account. User is required to fill in all the required fields before clicking the sign up/sign in button. After user signs in, page will be redirected to the main room and user can start playing the game.
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/81209759/168443727-3cc02b59-d30e-4f8d-8c15-67af5803f6b2.gif)
+
 ### Board
 
 The user may select an arbitrary n x n board size. During development, the application was most commonly tested with a 6x6 board size. If it is the user's turn, they may place any monster that is currently in the off-board section of their monster list onto the board may dragging that monster's icon or card from the monster list directly on to the board. When the monster is dropped onto the board, ownership of that particular monster will be signified by a change in the border color of that monster's icon, which will change from gold to whatever specific color has been assigned to the user (visible next to the heading "On Board" on the top left).
