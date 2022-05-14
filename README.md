@@ -3,7 +3,10 @@
 ## Introduction
 War Room is a multi-user interactive board game visualizer that integrates live chat, auto batttle, customized monster creation feature, providing an online space for friends to hang out.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1a1f23ca8f93b6f11c6c378e9e895c4552d8feb8
 ## Installation
 This application is run based on Node.js. To intsall, run
 
@@ -31,6 +34,9 @@ The application contains a myriad of components that work together in unison to 
 
 ### Sign in
 The user can register an account if being to the game for the first time or sign in with an existing account. User is required to fill in all the required fields before clicking the sign up/sign in button. After user signs in, page will be redirected to the main room and user can start playing the game.
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/81209759/168443727-3cc02b59-d30e-4f8d-8c15-67af5803f6b2.gif)
+
 ### Board
 
 The user may select an arbitrary n x n board size. During development, the application was most commonly tested with a 6x6 board size. If it is the user's turn, they may place any monster that is currently in the off-board section of their monster list onto the board may dragging that monster's icon or card from the monster list directly on to the board. When the monster is dropped onto the board, ownership of that particular monster will be signified by a change in the border color of that monster's icon, which will change from gold to whatever specific color has been assigned to the user (visible next to the heading "On Board" on the top left).
@@ -65,6 +71,10 @@ Elliot Langdon has designed the live information sections shown on the right sid
 To the top right of the application is a battle chat window in which the user may view messages that they as well as other users in the same battle room have written. The messages are distinguished by different colors as well text alignment. The user's own messages are aligned to the right, in conformity with what is commonly seen in text message applications on mobile phones. The other users' messages will be aligned to the left. A time stamp is also included in the battle chat.
 
 Chat messages are not stored anywhere in a central database and are simply epehemeral data objects sent via socket connection amongst any users connected to the same room.
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/81209759/168444335-14ea3013-2881-4917-9ba7-5294e7500853.gif)
+
+
 #### Battle Log
 
 The battle events log component of the app will display battle events that have transpired on the board, i.e., the results of various users' attacks. The text description of events are enclosed in colored bubbles, with different colored bubbles implying different results. A successful attack will be green in color, while an unsuccessful attack will be gray in color. If the user's attack is so successful that they are able to vanquish the enemy monster, the enemy's monster will not only fade from view on the board but also produce a red event bubble on the Battle Events log.
@@ -75,6 +85,9 @@ The monster list component consists of three sub-components: list, create, and d
 #### List
 
 The list section will show which of the user's monsters are on the board and which of the user's monsters are off the board. There is also a color indicator next to the "On Board" heading showing which color belongs to the user. This color should be consistent with the border colors on the monster icons on the board as well as the turn indicator text shown at the very bottom of the screen.
+
+![image](https://user-images.githubusercontent.com/6219171/168444406-24bfd5e4-c699-4a43-848d-d37720e8873a.png)
+
 
 #### Create
 
@@ -96,8 +109,13 @@ The fields on the detail page become editable if the user clicks on the edit but
 
 ## Technologies
 
-* React 17
-* Firebase 9
-* Socket.io 4
-* Babel 7
-* Webpack 5
+* ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+* ![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
+* ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white)
+* ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
+* ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+* ![Babel](https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black)
+* ![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
+* ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+* ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
+* ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
