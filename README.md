@@ -99,9 +99,10 @@ The fields on the detail page become editable if the user clicks on the edit but
 * UI Owner: Gene Wong
 * Backend Architect: Alex Shiao
 * Software Engineer: Adarsh Ravindra
+* Software Engineer: David Estephanian
 * Software Engineer: Elbert Chan
 * Software Engineer: Elliot Landon
-* Software Engineer: David Estephanian
+
 
 ## Technologies
 
