@@ -3,10 +3,6 @@
 ## Introduction
 War Room is a multi-user interactive board game visualizer that integrates live chat, auto batttle, customized monster creation feature, providing an online space for friends to hang out.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 1a1f23ca8f93b6f11c6c378e9e895c4552d8feb8
 ## Installation
 This application is run based on Node.js. To intsall, run
 
