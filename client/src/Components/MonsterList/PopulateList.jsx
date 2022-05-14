@@ -14,6 +14,7 @@ const Icon = styled.img`
   border-width: 2px;
   border-style: solid;
   border-image: linear-gradient(-45deg, #835d1a, #BF953F, #FBF5B7 ,#BF953F, #835d1a) 1;
+  cursor: pointer;
 `;
 const MonsterContainer = styled.div`
   display: flex;

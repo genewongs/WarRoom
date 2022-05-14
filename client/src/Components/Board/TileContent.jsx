@@ -55,7 +55,7 @@ function TileContent({
         setAttacker(monster);
       }
     } else if (attacker && attacker !== monster && !defender) {
-      const maxRange = Math.max(attacker.attacks.map((each)=> each.range));
+      const maxRange = Math.max(...attacker.attacks.map((each)=> each.range));
       console.log('maxRange in handleAttack', maxRange);
       if (
         (Math.abs(attacker.locationX - monster.locationX)
