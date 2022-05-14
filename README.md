@@ -3,7 +3,7 @@
 ## Introduction
 War Room is a multi-user interactive board game visualizer that integrates live chat, auto batttle, customized monster creation feature, providing an online space for friends to hang out.
 
-## Installtation
+## Installation
 This application is run based on Node.js. To intsall, run
 
 `
@@ -48,6 +48,10 @@ Elliot Langdon has designed the live information sections shown on the right sid
 To the top right of the application is a battle chat window in which the user may view messages that they as well as other users in the same battle room have written. The messages are distinguished by different colors as well text alignment. The user's own messages are aligned to the right, in conformity with what is commonly seen in text message applications on mobile phones. The other users' messages will be aligned to the left. A time stamp is also included in the battle chat.
 
 Chat messages are not stored anywhere in a central database and are simply epehemeral data objects sent via socket connection amongst any users connected to the same room.
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/81209759/168444335-14ea3013-2881-4917-9ba7-5294e7500853.gif)
+
+
 #### Battle Log
 
 The battle events log component of the app will display battle events that have transpired on the board, i.e., the results of various users' attacks. The text description of events are enclosed in colored bubbles, with different colored bubbles implying different results. A successful attack will be green in color, while an unsuccessful attack will be gray in color. If the user's attack is so successful that they are able to vanquish the enemy monster, the enemy's monster will not only fade from view on the board but also produce a red event bubble on the Battle Events log.
