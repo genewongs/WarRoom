@@ -3,12 +3,14 @@
 ## Introduction
 War Room is a multi-user interactive board game visualizer that integrates live chat, auto batttle, customized monster creation feature, providing an online space for friends to hang out.
 
-## Installtation
+
+## Installation
 This application is run based on Node.js. To intsall, run
 
 `
  npm install
 `
+
 To start the webpack, run
 
 `
@@ -37,6 +39,24 @@ Assuming that it is the user's turn, they may moving any on-board user to any ti
 
 Once the attack has been completed, there should be one or several messages appearing in the battle event log section of the application, showing whether the attack was successful. Additionally, the enemy monster will fade from view if it has been vanquished by the user's own monster.
 
+#### Ranged Attacks
+
+Monsters are allowed to have ranged attacks in addition to melee attacks.
+
+#### Ending a Turn
+
+Upon initial login the user will be unable to take any action relating to the board until they click on the red "Connect to Game" icon above the board to the right of the "Auto Battle" button. Once "Connect to Game" has been clicked, the button changes into either an "End Turn" button or a "Waiting" button depending on whose turn it is. The current turn holder is indicated by a string of colored text to the bottom of the screen, reading "It's NAME's turn"--the color of said text corresponding to the color assigned to each specific user.
+
+If it is not the user's turn, a warning alert will be displayed above the turn indicator, telling them that it is not their turn.
+
+#### Auto Battle Feature
+
+We have an implemented an "Auto Battle" feature wherein the user may create a list of attacks that they wish to execute. Each item of the list is comprised of a user monster selection, a monster attack selection, and an opponent selection. Once the user has finalized their choice of attacks, they must click the exit icon at the top right and click on "Auto Battle." Assuming that it is the user's turn, the board and the battle events log should then display the final result of the executed attacks.
+
+##### A * Algorithm for Path Selection
+
+An A* pathfinding logic, implemented by Alex Shiao, is utilized by the "auto battle" feature. Based on the order of attacks specified by the user in the Auto Battle modal, the application will calculate the best available path to take to get to each opponent in the specified order. The final position of the user's monster upon completion of a series of "Auto Battle" attacks should be a tile adjacent to the final opponent selected. The pathfinding logic avoids any obstacles (e.g., other monsters, either the user's or an opponent's) that may be present on the board.
+
 ### Live Information
 
 Elliot Langdon has designed the live information sections shown on the right side of the application. This section includes two sub-sections: (1) Battle Chat; and (2) Battle Log.
@@ -63,7 +83,8 @@ The create section will allows the user to create a new monster. The user may ch
 
 The details section is triggered when the user clicks on a specific monster's card in the list section of the application. Whereas the list section will only show the monster's name, health, armor, and movement, the details section shows those plus all other relevant details including: description, attacks, attack stats. There is also the option to delete a monster from the user's bestiary if the user so desires.
 
-The fields on the detail page become editable
+The fields on the detail page become editable if the user clicks on the edit button at the very bottom or if the user double clicks on any editable field. Then click on the submit button to confirm the changes.
+
 ## Team
 * Project Manager: Dora Xia
 * UI Owner: Gene Wong
