@@ -5,16 +5,18 @@ War Room is a multi-user interactive board game visualizer that integrates live 
 
 ## Installtation
 This application is run based on Node.js. To intsall, run
+
 `
  npm install
-
 `
 To start the webpack, run
-`
-npm run build
 
 `
+npm run build
+`
+
 start the server, run
+
 `
 npm start
 `
