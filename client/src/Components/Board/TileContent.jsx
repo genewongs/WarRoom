@@ -24,36 +24,16 @@ function TileContent({
   const { currentUser, userList } = useContext(UserContext);
 
   function handleAttack() {
-<<<<<<< HEAD
     if (currentUser.uid === turn) {
       if (!attacker) {
         if (monster.userUID !== currentUser.uid) {
           setError('You do not own that monster');
           setTimeout(() => {setError(false); }, 3000);
-=======
-    if (!attacker) {
-      if (monster.userUID !== currentUser.uid) {
-        setError('You do not own that monster');
-        setTimeout(() => {setError(false); }, 3000);
-      } else {
-        setAttacker(monster);
-      }
-    } else if (attacker && attacker !== monster && !defender) {
-      const maxRange = Math.max(...attacker.attacks.map((each)=> each.range));
-      if (
-        (Math.abs(attacker.locationX - monster.locationX)
-        + Math.abs(attacker.locationY - monster.locationY)) <= Math.floor(maxRange / 5)
-      ) {
-        if (monster.userUID === currentUser.uid) {
-          setError('Trying to attack your own monster?');
-          setTimeout(() => { setError(false); }, 3000);
->>>>>>> main
         } else {
           setAttacker(monster);
         }
       } else if (attacker && attacker !== monster && !defender) {
         const maxRange = Math.max(...attacker.attacks.map((each)=> each.range));
-        console.log('maxRange in handleAttack', maxRange);
         if (
           (Math.abs(attacker.locationX - monster.locationX)
           + Math.abs(attacker.locationY - monster.locationY)) <= Math.floor(maxRange / 5)
