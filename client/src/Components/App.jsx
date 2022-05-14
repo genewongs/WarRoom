@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import {
   BrowserRouter as Router, Route, Routes, Link,
 } from 'react-router-dom';
@@ -16,41 +15,12 @@ import Authentication from './Authentication/index';
 import UserContext from './UserContext';
 import ProtectedRoute from './Authentication/ProtectedRoute';
 import RoomContext from './RoomContext';
-
-const AppContainer = styled.div`
-  margin: 0px 100px 0px 100px;
-  display: flex;
-  flex-direction: row;
-  height: 80vh;
-`;
-
-const Title = styled.div`
-  padding-top: 12px;
-  font-size: 2em;
-  float: left;
-  img {
-    width: 23%;
-  }
-`;
-
-const MasterContainer = styled.div`
-  min-height: 100%;
-  max-height: 100%;
-  min-width: 100%;
-`;
-
-const HeaderStyled = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  max-height: 60px;
-  min-height: 60px;
-  margin-bottom: 20px;
-  padding-left: 3%;
-  padding-right: 5%;
-  background-color: #000000c2;
-`;
+import {
+  AppContainer,
+  Title,
+  MasterContainer,
+  HeaderStyled,
+} from './StyledComps/AppCSS';
 
 function MainHome(logout) {
   return (
@@ -77,9 +47,7 @@ function App() {
   const [userList, setUserList] = useState([]);
   const [room, setRoom] = useState(27);
   const [changeRoom, setChangeRoom] = useState(false);
-  console.log('currentUser in app', currentUser);
   const socket = io.connect('http://localhost:3000');
-  // console.log('currentUser !== {}', currentUser !== {});
 
   const data = {
     room,
@@ -87,7 +55,6 @@ function App() {
     changeRoom,
   };
   const joinRoom = async () => {
-    // console.log('join data', data)
     await socket.emit('join_room', data);
     setChangeRoom(false);
   };
@@ -97,14 +64,6 @@ function App() {
     setChangeRoom(true);
     joinRoom();
   };
-
-  // const getAllActiveUsers = () => {
-  //   return axios.get('http://localhost:3000/users')
-  //     .then((data) => {
-  //       console.log(data.data)
-  //       setUserList(data.data)
-  //     })
-  // }
 
   useEffect(() => {
     socket.on('got_users', (dataList) => {

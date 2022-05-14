@@ -25,7 +25,6 @@ export default function SignIn({
   ));
 
   const handleSubmit = async (e) => {
-    console.log('room to join', room);
     e.preventDefault();
     await login();
     selectRoom(room);

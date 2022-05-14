@@ -1,5 +1,4 @@
 const errorHandling = (err, setError) => {
-  // console.log('err in error handling', err);
   if (err === 'auth/user-disabled') {
     setError('Account is disabled');
   } else if (err === 'auth/user-not-found') {
@@ -9,7 +8,6 @@ const errorHandling = (err, setError) => {
   } else if (err === 'auth/invalid-email') {
     setError('Email is invalid');
   } else if (err === 'auth/wrong-password') {
-    // console.log('wrong password is printing out')
     setError('Wrong password');
   } else if (err === 'auth/too-many-requests') {
     setError(`You've tried too many times`);

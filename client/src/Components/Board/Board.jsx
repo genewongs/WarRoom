@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import io from 'socket.io-client';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -10,65 +9,13 @@ import UserContext from '../UserContext';
 import { updateUserMonster } from '../../firebase-config';
 import aStar from './utils/aStar/aStar';
 import { Battle } from './utils/BattleFunc';
-
-const BoardStyled = styled.div`
-  display: grid;
-  align-content: center;
-  justify-content: center;
-  grid-template-columns: repeat(${(props) => props.dimension || 8}, ${(props) => 90 / props.dimension || 8}%);
-  grid-template-rows: repeat(${(props) => props.dimension || 8}, ${(props) => 90 / props.dimension || 8}%);
-  height: 100%;
-  width: 100%;
-  margin-top: -30px;
-`;
-
-const BoardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* height: 800px; */
-  /* width: 800px; */
-  /* min-height: 100%;
-  max-height: 100%;
-  max-width: 100%;
-  min-width: 100%; */
-  max-width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
-`;
-
-const ErrorMessage = styled.div`
-  display: flex;
-  text-align: center;
-  margin-top: 20px;
-  opacity: 0;
-  color: #ca0000;
-  transition: all ease-in-out 0.3s;
-  &.show {
-    opacity: 1 !important;
-    color: #ca0000;
-    transition: all ease-in-out 0.3s;
-  }
-`;
-
-const MenuContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 90%;
-`;
-
-const BattleCardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 95%;
-  height: 100%;
-  background-color: #1d1f25;
-  border-radius: 5px;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-`;
+import {
+  BoardStyled,
+  BoardContainer,
+  ErrorMessage,
+  MenuContainer,
+  BattleCardContainer,
+} from './StyledComps/BoardCSS';
 
 function Board({
   socket, room, dimension, onBoard, setOnBoard,
@@ -91,9 +38,6 @@ function Board({
   const [battleList, setBattleList] = useState([{}]);
 
   const [turn, setTurn] = useState(userList.length > 0 ? userList[0].id : '');
-  console.log('userList in monster list', userList);
-  console.log('turn', turn);
-
 
   const sendNewBoard = (newBoard = onBoard) => {
     const newBoardSend = {
@@ -110,11 +54,9 @@ function Board({
     socket.emit('send_new_turn', newTurnSend);
   };
   function endTurn() {
-    console.log('---------endTurn is called--------', turn);
     // create for loop to go though userList and get the index of the user whos turn it is.
     // increament the currnet index by 1 or go back to 0 if we are at the end of the array of users.
     if (currentUser.uid === turn) {
-      console.log('----if statement is working---');
       for (let i = 0; i < userList.length; i += 1) {
         if (userList[i].id === turn) {
           if (i + 1 < userList.length) {
@@ -128,7 +70,6 @@ function Board({
     if (turn.length < 1) {
       setTurn(userList[0].id);
     }
-    console.log('current turn ID', turn);
   }
   async function move(from, to, monster, reRender) {
     const fromX = Math.floor(from / dimension);
@@ -222,12 +163,10 @@ function Board({
               .then(() => battle)
           );
         }
-        console.log(`${currentUser.displayName}'s ${battle.attacker.name} could not find a valid path.`);
       }))
         .then((results) => {
           Promise.all(
             results.map(async (battle) => {
-              console.log(battle);
               let multiple = battle.attack.multiplier;
               while (multiple > 0) {
                 const message = await Battle(battle.attacker, battle.defender, battle.attack);
@@ -248,7 +187,6 @@ function Board({
           )
             .then((data) => {
               const tempBoard = { ...onBoard };
-              console.log('old coords', oldCoords);
               data.forEach((deadInd) => {
                 delete tempBoard[deadInd];
               });
@@ -263,10 +201,6 @@ function Board({
     }
   }
   useEffect(() => {
-    // console.log('userList', userList);
-    // if (turn.length < 1 && !(userList.length > 0)) {
-    //   setTurn(userList[0].id);
-    // }
     sendNewTurn();
   }, [turn]);
 
