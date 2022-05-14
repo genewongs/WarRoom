@@ -29,6 +29,7 @@ The application contains a myriad of components that work together in unison to 
 
 ### Sign in
 The user can register an account if being to the game for the first time or sign in with an existing account. User is required to fill in all the required fields before clicking the sign up/sign in button. After user signs in, page will be redirected to the main room and user can start playing the game.
+
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/81209759/168443727-3cc02b59-d30e-4f8d-8c15-67af5803f6b2.gif)
 
 ### Board
