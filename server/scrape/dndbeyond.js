@@ -59,9 +59,6 @@ module.exports.getMonsterInfo = async (url) => {
       total += parseInt(monster.movement[i]);
     }
     monster.movement = total.toString();
-
-    console.log(monster);
-
     return monster;
   } catch (err) {
     console.log(err);

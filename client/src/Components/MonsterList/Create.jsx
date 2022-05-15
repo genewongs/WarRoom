@@ -165,6 +165,7 @@ function Create({ setRender }) {
         url,
       },
     });
+    console.log(result);
   }
 
   return (

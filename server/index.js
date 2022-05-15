@@ -108,9 +108,13 @@ app.get('*.js', (req, res, next) => {
 
 const { getMonsterInfo } = require('./scrape/dndbeyond');
 
-app.get('/dnd', (req, res) => {
-  const result = getMonsterInfo(req.query.url);
-  res.send(result);
+app.get('/dnd', async (req, res) => {
+  try {
+    const result = await getMonsterInfo(req.query.url);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 server.listen(PORT, () => {
