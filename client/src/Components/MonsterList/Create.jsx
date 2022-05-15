@@ -166,9 +166,13 @@ function Create({ setRender }) {
         url,
       },
     });
-    console.log(result.data);
     // TODO: Mad buggy with wrong url. Pls do a correct url pls for now lol
     setdndMonster(result.data);
+    setName(result.data.name);
+    setDescription(result.data.level);
+    setArmor(result.data.armor);
+    setHealth(result.data.health);
+    setMovement(result.data.movement);
   }
 
   return (
@@ -182,11 +186,11 @@ function Create({ setRender }) {
             <CSS.CharIcon type="button" onClick={() => { getDnDBeyond(dndBeyondURL); setdndBeyondURL(''); setModalClicked(false); }}>Submit</CSS.CharIcon>
           </>
         )}
-        <CSS.Input type="text" id="nickname" autocomplete="off" maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
+        <CSS.Input type="text" id="nickname" autocomplete="off" maxLength="60" placeholder="Ex: Skeleton" value={name || ''} onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="attribute">
         <h4>Description</h4>
-        <CSS.Input type="text" id="Description" maxLength="1000" placeholder="Ex: Level 3 Fighter" onChange={(e) => setDescription(e.target.value)} />
+        <CSS.Input type="text" id="Description" maxLength="1000" placeholder="Ex: Level 3 Fighter" value={description || ''} onChange={(e) => setDescription(e.target.value)} />
       </div>
       <div className="attribute">
         <h4>Icon</h4>
@@ -207,15 +211,15 @@ function Create({ setRender }) {
       </div>
       <div className="attribute">
         <h4>Armor</h4>
-        <CSS.Input type="number" id="Armor" maxLength="60" placeholder="0" onChange={(e) => setArmor(e.target.value)} />
+        <CSS.Input type="number" id="Armor" maxLength="60" placeholder="0" value={armor || ''} onChange={(e) => setArmor(e.target.value)} />
       </div>
       <div className="attribute">
         <h4>Health</h4>
-        <CSS.Input type="number" id="Health" maxLength="60" placeholder="0" onChange={(e) => setHealth(e.target.value)} />
+        <CSS.Input type="number" id="Health" maxLength="60" placeholder="0" value={health || ''} onChange={(e) => setHealth(e.target.value)} />
       </div>
       <div className="attribute">
         <h4>Movement</h4>
-        <CSS.Input type="number" id="Movement" step="5" maxLength="60" placeholder="0" onChange={(e) => setMovement(e.target.value)} />
+        <CSS.Input type="number" id="Movement" step="5" maxLength="60" placeholder="0" value={movement || ''} onChange={(e) => setMovement(e.target.value)} />
       </div>
       <div className="attribute-attack">
         <h4>Attacks</h4>
