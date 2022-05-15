@@ -173,6 +173,13 @@ function Create({ setRender }) {
     setArmor(result.data.armor);
     setHealth(result.data.health);
     setMovement(result.data.movement);
+
+    for (let i = 0; i < result.data.actions.length; i += 1) {
+      attackArr[i].attackName = result.data.actions[i].name;
+      attackArr[i].damage = result.data.actions[i].damage;
+      // TODO: Fix why it adds one more attack state.
+      addAttack();
+    }
   }
 
   return (
