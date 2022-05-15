@@ -27,7 +27,7 @@ function aStar(dimension, onBoard, attacker, defender) {
     const node = openList.pop();
     node.closed = true;
     if (node === endNode) {
-      const path = [];
+      const path = [[node.x, node.y]];
       while (endNode.parent) {
         endNode = endNode.parent;
         path.push([endNode.x, endNode.y]);
