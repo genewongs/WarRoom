@@ -10,6 +10,15 @@ const monster = {
   actions: [],
 };
 
+const initMonster = () => {
+  monster.name = '';
+  monster.level = '';
+  monster.armor = '';
+  monster.health = '';
+  monster.movement = '';
+  monster.actions = [];
+};
+
 module.exports.getMonsterInfo = async (url) => {
   try {
     const html = await axios.get(url, {
@@ -18,6 +27,8 @@ module.exports.getMonsterInfo = async (url) => {
       },
     });
     const $ = await cheerio.load(html.data);
+
+    initMonster();
 
     const monsterInfo = $('.mon-stat-block');
     monster.name = monsterInfo.find('.mon-stat-block__name > a').text().trim();
