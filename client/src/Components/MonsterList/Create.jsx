@@ -177,8 +177,10 @@ function Create({ setRender }) {
     for (let i = 0; i < result.data.actions.length; i += 1) {
       attackArr[i].attackName = result.data.actions[i].name;
       attackArr[i].damage = result.data.actions[i].damage;
-      // TODO: Fix why it adds one more attack state.
-      addAttack();
+      attackArr[i].multiplier = parseInt(result.data.actions[i].strike, 10) || 1;
+      if (i !== result.data.actions.length - 1) {
+        addAttack();
+      }
     }
   }
 
