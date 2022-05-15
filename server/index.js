@@ -1,5 +1,8 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable max-len */
+// const Routers = require('./router');
+// const db = require('../database');
+
 const express = require('express');
 const path = require('path');
 const expressStaticGzip = require('express-static-gzip');
@@ -7,8 +10,6 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 const { getUsers, updateUserMonster } = require('../client/src/firebase-config');
-// const Routers = require('./router');
-// const db = require('../database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,7 +24,7 @@ const io = new Server(server, {
   },
 });
 
-let colorsArray = ['#5e0300', '#55005e', '#5e5a00', '#355e00', '#00355e', '#005e47', '#02005e', '#5e3500', '#fc8686', '#fcbd86', '#fcf886', '#bdfc86', '#f70707', '#86fcf8', '#9e86fc', '#86b1fc', '#c180d1', '#86fca7', '#fc869c', '#5b8bb0', '#00fffb', '#f58700', '#8502d6', '#ff08e6', '#09eb58', '#0400ff', '#d40000'];
+const colorsArray = ['#5e0300', '#55005e', '#5e5a00', '#355e00', '#00355e', '#005e47', '#02005e', '#5e3500', '#fc8686', '#fcbd86', '#fcf886', '#bdfc86', '#f70707', '#86fcf8', '#9e86fc', '#86b1fc', '#c180d1', '#86fca7', '#fc869c', '#5b8bb0', '#00fffb', '#f58700', '#8502d6', '#ff08e6', '#09eb58', '#0400ff', '#d40000'];
 io.on('connection', (socket) => {
   socket.on('join_room', (data) => {
     socket.join(data.room);
@@ -93,7 +94,7 @@ app.use(express.json());
 app.use(expressStaticGzip(`${__dirname}/../client/dist`));
 app.use(cors());
 
-app.get('/*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 app.get('*.js', (req, res, next) => {
@@ -103,6 +104,13 @@ app.get('*.js', (req, res, next) => {
     res.set('Content-Type', 'application/javascript; charset=UTF-8');
   }
   next();
+});
+
+const { getMonsterInfo } = require('./scrape/dndbeyond');
+
+app.get('/dnd', (req, res) => {
+  const result = getMonsterInfo(req.query.url);
+  res.send(result);
 });
 
 server.listen(PORT, () => {

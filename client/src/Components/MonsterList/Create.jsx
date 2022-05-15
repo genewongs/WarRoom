@@ -7,6 +7,8 @@ import { addUserMonster } from '../../firebase-config';
 import UserContext from '../UserContext';
 import CSS from './create/css';
 
+const axios = require('axios');
+
 // eslint-disable-next-line react/prop-types
 function Create({ setRender }) {
   const { currentUser } = useContext(UserContext);
@@ -68,6 +70,7 @@ function Create({ setRender }) {
 
   const [modalClicked, setModalClicked] = useState(false);
   const [dndBeyondURL, setdndBeyondURL] = useState('');
+  const [dndMonster, setdndMonster] = useState({});
 
   // access current user
   // renders all icons for user to click from
@@ -155,6 +158,15 @@ function Create({ setRender }) {
       return Promise.all().then((data) => console.log(data)).catch((err) => console.log(err));
     }
   }
+
+  async function getDnDBeyond(url) {
+    const result = await axios.get('/dnd', {
+      params: {
+        url,
+      },
+    });
+  }
+
   return (
     <CSS.CreateContainer>
       <div className="attribute">
@@ -163,7 +175,7 @@ function Create({ setRender }) {
         { modalClicked && (
           <>
             <CSS.Input type="text" id="url" placeholder="Enter URL" onChange={(e) => setdndBeyondURL(e.target.value)} />
-            <CSS.CharIcon type="button" onClick={() => { setModalClicked(false); }}>Submit</CSS.CharIcon>
+            <CSS.CharIcon type="button" onClick={() => { getDnDBeyond(dndBeyondURL); setdndBeyondURL(''); setModalClicked(false); }}>Submit</CSS.CharIcon>
           </>
         )}
         <CSS.Input type="text" id="nickname" autocomplete="off" maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />

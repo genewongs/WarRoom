@@ -10,11 +10,13 @@ const monster = {
   actions: [],
 };
 
-const getMonsterInfo = async (url) => {
+module.exports.getMonsterInfo = async (url) => {
   try {
     const html = await axios.get(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET',
       },
     });
     const $ = await cheerio.load(html.data);
@@ -53,17 +55,16 @@ const getMonsterInfo = async (url) => {
     monster.movement = monsterInfo.find('.mon-stat-block__attributes div:nth-child(3) .mon-stat-block__attribute-data .mon-stat-block__attribute-data-value').text().split(/[^0-9]+/);
     monster.movement = monster.movement.filter((str) => /\S/.test(str));
     let total = 0;
-    for (let i = 0; i < monster.movement.length; i++) {
+    for (let i = 0; i < monster.movement.length; i += 1) {
       total += parseInt(monster.movement[i]);
     }
     monster.movement = total.toString();
 
     console.log(monster);
+
+    return monster;
   } catch (err) {
     console.log(err);
     return err;
   }
 };
-
-// url for scraping
-getMonsterInfo('https://www.dndbeyond.com/monsters/16810-blood-hawk');
