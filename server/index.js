@@ -113,7 +113,7 @@ app.get('/dnd', async (req, res) => {
     const result = await getMonsterInfo(req.query.url);
     res.send(result);
   } catch (err) {
-    res.send(err);
+    res.sendStatus(404).send(err);
   }
 });
 

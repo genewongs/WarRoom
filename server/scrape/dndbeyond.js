@@ -15,8 +15,6 @@ module.exports.getMonsterInfo = async (url) => {
     const html = await axios.get(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
       },
     });
     const $ = await cheerio.load(html.data);
@@ -61,7 +59,6 @@ module.exports.getMonsterInfo = async (url) => {
     monster.movement = total.toString();
     return monster;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };

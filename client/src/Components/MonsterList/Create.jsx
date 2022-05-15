@@ -160,12 +160,15 @@ function Create({ setRender }) {
   }
 
   async function getDnDBeyond(url) {
+    setdndMonster({});
     const result = await axios.get('/dnd', {
       params: {
         url,
       },
     });
-    console.log(result);
+    console.log(result.data);
+    // TODO: Mad buggy with wrong url. Pls do a correct url pls for now lol
+    setdndMonster(result.data);
   }
 
   return (
