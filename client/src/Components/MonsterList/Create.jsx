@@ -65,6 +65,10 @@ function Create({ setRender }) {
     range: 5,
   }]);
   const [quantity, setQuantity] = useState(1);
+
+  const [modalClicked, setModalClicked] = useState(false);
+  const [dndBeyondURL, setdndBeyondURL] = useState('');
+
   // access current user
   // renders all icons for user to click from
   const renderIcons = function renderIcons() {
@@ -155,7 +159,13 @@ function Create({ setRender }) {
     <CSS.CreateContainer>
       <div className="attribute">
         <h4>Name</h4>
-        <CSS.CharIcon type="button">DnDBeyond</CSS.CharIcon>
+        <CSS.CharIcon type="button" onClick={() => { setModalClicked(true); }}>DnDBeyond</CSS.CharIcon>
+        { modalClicked && (
+          <>
+            <CSS.Input type="text" id="url" placeholder="Enter URL" onChange={(e) => setdndBeyondURL(e.target.value)} />
+            <CSS.CharIcon type="button" onClick={() => { setModalClicked(false); }}>Submit</CSS.CharIcon>
+          </>
+        )}
         <CSS.Input type="text" id="nickname" autocomplete="off" maxLength="60" placeholder="Ex: Skeleton" onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="attribute">
