@@ -31,7 +31,8 @@ The application contains a myriad of components that work together in unison to 
 ### Sign in
 The user can register an account if being to the game for the first time or sign in with an existing account. User is required to fill in all the required fields before clicking the sign up/sign in button. After user signs in, page will be redirected to the main room and user can start playing the game.
 
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/81209759/168443727-3cc02b59-d30e-4f8d-8c15-67af5803f6b2.gif)
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/81209759/168527870-0fc190b6-b96d-4abf-a619-f220a05d5df8.gif)
+
 
 ### Board
 
@@ -40,6 +41,9 @@ The user may select an arbitrary n x n board size. During development, the appli
 Assuming that it is the user's turn, they may moving any on-board user to any tile on the board. The user may also choose to attack monsters owned by another player my clicking on their own monster. The border color of the selected monster will then change, and the user should click on the enemy monster that they wish to attack next. An attack card should pop up next to where the user has clicked showing the attacks available, along with various stats. The user can then choose a specific attack by clicking on the name of an attack, and confirm their selection by clicking on the "Attack" button, which should change to a red color to signify to the user that the application is ready for their final attack decision.
 
 Once the attack has been completed, there should be one or several messages appearing in the battle event log section of the application, showing whether the attack was successful. Additionally, the enemy monster will fade from view if it has been vanquished by the user's own monster.
+
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/81209759/168528186-8585c447-559f-4d3a-abcd-4fce883241db.gif)
+
 
 #### Ranged Attacks
 
@@ -55,9 +59,16 @@ If it is not the user's turn, a warning alert will be displayed above the turn i
 
 We have an implemented an "Auto Battle" feature wherein the user may create a list of attacks that they wish to execute. Each item of the list is comprised of a user monster selection, a monster attack selection, and an opponent selection. Once the user has finalized their choice of attacks, they must click the exit icon at the top right and click on "Auto Battle." Assuming that it is the user's turn, the board and the battle events log should then display the final result of the executed attacks.
 
-##### A * Algorithm for Path Selection
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/81209759/168528306-6c0fb00f-cd2b-400f-8837-bfb47e637e41.gif)
+
+
+#### A * Algorithm for Path Selection
 
 An A* pathfinding logic is utilized by the "auto battle" feature. Based on the order of attacks specified by the user in the Auto Battle modal, the application will calculate the best available path to take to get to each opponent in the specified order. The final position of the user's monster upon completion of a series of "Auto Battle" attacks should be a tile adjacent to the final opponent selected. The pathfinding logic avoids any obstacles (e.g., other monsters, either the user's or an opponent's) that may be present on the board.
+
+
+![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/81209759/168528424-04fef870-26e3-4810-aeee-fb82b4492683.gif)
+
 
 ### Live Information
 
@@ -68,7 +79,8 @@ To the top right of the application is a battle chat window in which the user ma
 
 Chat messages are not stored anywhere in a central database and are simply epehemeral data objects sent via socket connection amongst any users connected to the same room.
 
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/81209759/168444335-14ea3013-2881-4917-9ba7-5294e7500853.gif)
+![ezgif com-gif-maker (4)](https://user-images.githubusercontent.com/81209759/168528535-9e7855f8-f70d-4d76-9c3c-5df104e9d701.gif)
+
 
 
 #### Battle Log
@@ -78,12 +90,12 @@ The battle events log component of the app will display battle events that have 
 
 The monster list component consists of three sub-components: list, create, and details.
 
+![ezgif com-gif-maker (5)](https://user-images.githubusercontent.com/81209759/168528765-061de5ae-1502-4bad-91fa-04223434241b.gif)
+
+
 #### List
 
 The list section will show which of the user's monsters are on the board and which of the user's monsters are off the board. There is also a color indicator next to the "On Board" heading showing which color belongs to the user. This color should be consistent with the border colors on the monster icons on the board as well as the turn indicator text shown at the very bottom of the screen.
-
-![image](https://user-images.githubusercontent.com/6219171/168444406-24bfd5e4-c699-4a43-848d-d37720e8873a.png)
-
 
 #### Create
 
