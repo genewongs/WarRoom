@@ -178,6 +178,8 @@ function Create({ setRender }) {
       attackArr[i].attackName = result.data.actions[i].name;
       attackArr[i].damage = result.data.actions[i].damage;
       attackArr[i].multiplier = parseInt(result.data.actions[i].strike, 10) || 1;
+      attackArr[i].attack = result.data.actions[i].attack || '1d20 + 6';
+      attackArr[i].range = result.data.actions[i].range || 5;
       if (i !== result.data.actions.length - 1) {
         addAttack();
       }
@@ -242,6 +244,7 @@ function Create({ setRender }) {
                 deleteAttack={(index) => deleteAttack(index)}
                 addAttack={() => addAttack()}
                 count={count}
+                attackArr={attackArr[i]}
               />
             );
           })}
