@@ -109,7 +109,7 @@ The fields on the detail page become editable if the user clicks on the edit but
 ## Team
 * Project Manager: Dora Xia
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/doraxia/)](https://www.linkedin.com/in/doraxia/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/Dora821)](https://github.com/Dora821)
-* Software Engineer + UI Owner: Gene Wong
+* Software Engineer + UI Lead: Gene Wong
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/genehwong/)](https://www.linkedin.com/in/genehwong/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/genewongs)](https://github.com/genewongs)
 * Backend Architect: Alex Shiao
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/alexander-shiao/)](https://www.linkedin.com/in/alexander-shiao/) &emsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/alexshiao99)](https://github.com/alexshiao99)
